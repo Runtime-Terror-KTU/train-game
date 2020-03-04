@@ -52,13 +52,13 @@ public class PlayerControls : MonoBehaviour
         {
             //Cancels out each other
             if (Input.GetKey(controls.right))
-                inputs.y = 0;
+                inputs.x = 0;
             else
-                inputs.y = -1;
+                inputs.x = -1;
         }
 
         //LR idle
         if (!Input.GetKey(controls.left) && !Input.GetKey(controls.right))
-            inputs.y = 0;
+            inputs.x = 0;
     }
 }
