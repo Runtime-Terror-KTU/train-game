@@ -5,5 +5,5 @@ using UnityEngine;
 [System.Serializable]
 public class Controls
 {
-    public KeyCode forwards, backwards, left, right;
+    public KeyCode forwards, backwards, left, right, fire;
 }
