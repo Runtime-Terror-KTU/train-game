@@ -6,19 +6,37 @@ public class PlayerControls : MonoBehaviour
 {
     public Controls controls;
 
-    [SerializeField]
     Vector2 inputs;
+    Vector3 velocity;
+    Vector3 axisX;
+    Vector3 axisZ;
+
+    CharacterController controller;
+
+    // Might add running later
+    public float movSpeed = 0.025f;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        axisX.x = 1;
+        axisZ.z = 1;
+        controller = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void Update()
     {
         GetInputs();
+        Movement();
+    }
+
+    void Movement()
+    {
+        Vector2 inputNormalized = inputs;
+        velocity = (axisZ * inputNormalized.y + axisX * inputNormalized.x) * movSpeed;
+
+        controller.Move(velocity);
     }
 
     void GetInputs()
