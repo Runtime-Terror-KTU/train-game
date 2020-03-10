@@ -243,10 +243,8 @@ GameObject:
   - component: {fileID: 341786692}
   - component: {fileID: 341786691}
   - component: {fileID: 341786690}
-  - component: {fileID: 341786695}
   - component: {fileID: 341786696}
   - component: {fileID: 341786697}
-  - component: {fileID: 341786698}
   m_Layer: 0
   m_Name: Kapsulinas
   m_TagString: Untagged
@@ -271,8 +269,10 @@ MonoBehaviour:
     backwards: 115
     left: 97
     right: 100
-    fire: 0
-  movSpeed: 0.025
+    fire: 323
+  rigidbody: {fileID: 341786696}
+  movSpeed: 3
+  gunLogic: {fileID: 2113495988}
 --- !u!136 &341786691
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -350,21 +350,6 @@ Transform:
   m_Father: {fileID: 2055190956}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &341786695
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 341786689}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff8b1637bced5c14e81444d311ae3e2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 3
-  rigidbody: {fileID: 341786696}
-  gun: {fileID: 2113495988}
 --- !u!54 &341786696
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -394,24 +379,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 963194227}
---- !u!143 &341786698
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 341786689}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.50000155
-  m_SlopeLimit: 0
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &384021647
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,7 +421,7 @@ BoxCollider:
   m_GameObject: {fileID: 384021647}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -1850,7 +1817,7 @@ BoxCollider:
   m_GameObject: {fileID: 2113495983}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -1916,7 +1883,7 @@ MonoBehaviour:
   isFiring: 0
   bullet: {fileID: -6984884515886729104, guid: 32a006d4c756ad441bc497a90adc23ee, type: 3}
   bulletSpeed: 10
-  shootDelay: 0.02
+  shootDelay: 0.25
   firePoint: {fileID: 1336475951}
 --- !u!1 &2118351602
 GameObject:

@@ -5,38 +5,35 @@ using UnityEngine;
 public class PlayerControls : MonoBehaviour
 {
     public Controls controls;
-
     Vector2 inputs;
-    Vector3 velocity;
-    Vector3 axisX;
-    Vector3 axisZ;
+    public Rigidbody rigidbody;
 
-    CharacterController controller;
-
-    // Might add running later
-    public float movSpeed = 0.025f;
+    // Might add running speed later
+    public float movSpeed = 3f;
+    public GunLogic gunLogic;
 
     // Start is called before the first frame update
     void Start()
     {
-        axisX.x = 1;
-        axisZ.z = 1;
-        controller = GetComponent<CharacterController>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
         GetInputs();
+    }
+
+    void FixedUpdate()
+    {
         Movement();
     }
 
     void Movement()
     {
-        Vector2 inputNormalized = inputs;
-        velocity = (axisZ * inputNormalized.y + axisX * inputNormalized.x) * movSpeed;
-
-        controller.Move(velocity);
+        Vector3 inputNormalized = new Vector3(inputs.x, 0, inputs.y);
+        inputNormalized.Normalize();
+        rigidbody.MovePosition(rigidbody.position + inputNormalized * movSpeed * Time.fixedDeltaTime);
     }
 
     void GetInputs()
@@ -78,5 +75,11 @@ public class PlayerControls : MonoBehaviour
         //LR idle
         if (!Input.GetKey(controls.left) && !Input.GetKey(controls.right))
             inputs.x = 0;
+
+        //Left click
+        if (Input.GetKey(controls.fire))
+            gunLogic.isFiring = true;
+        else
+            gunLogic.isFiring = false;
     }
 }
