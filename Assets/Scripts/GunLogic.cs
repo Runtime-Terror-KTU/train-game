@@ -33,8 +33,9 @@ public class GunLogic : MonoBehaviour
                 shotTimer = shootDelay;
                 BulletLogic newBullet = Instantiate(bullet, firePoint.position, firePoint.rotation) as BulletLogic;
                 newBullet.speed = bulletSpeed;
-                Destroy(bullet, 1.0f);
-                Destroy(newBullet, 1.0f);
+                //Destroy(bullet, 1.0f);
+                //Destroy(newBullet, 1.0f);
+                DestroyObject(newBullet, 1.0f);
             }
         }
         else
