@@ -7,9 +7,10 @@ public class PlayerControls : MonoBehaviour
     public Controls controls;
     Vector2 inputs;
     public Rigidbody rigidbody;
+    public Animator animator;
 
     // Might add running speed later
-    public float movSpeed = 3f;
+    public float movSpeed = 0f;
     public GunLogic gunLogic;
 
     // Start is called before the first frame update
@@ -33,6 +34,8 @@ public class PlayerControls : MonoBehaviour
     {
         Vector3 inputNormalized = new Vector3(inputs.x, 0, inputs.y);
         inputNormalized.Normalize();
+        float test =  Mathf.Abs(inputs.x) + Mathf.Abs(inputs.y);
+        animator.SetFloat("Movement", test);   
         rigidbody.MovePosition(rigidbody.position + inputNormalized * movSpeed * Time.fixedDeltaTime);
     }
 
