@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerControls : MonoBehaviour
 {
     public Controls controls;
+    public Interaction interaction;
     Vector2 inputs;
     public Rigidbody rigidbody;
     public Animator animator;
@@ -89,7 +90,25 @@ public class PlayerControls : MonoBehaviour
         if (Input.GetKey(controls.reload))
         {
             gunLogic.currentAmmo = 0;
+        }       
+
+        //Interaction e
+        if (Input.GetKey(controls.use))
+        {
+            RaycastHit hit;
+            Vector3 fwd = transform.TransformDirection(Vector3.forward);
+            if (Physics.Raycast(transform.position, fwd, out hit, interaction.radius, interaction.LayerInteract.value))
+            {
+                if (hit.collider.CompareTag("InteractableObj"))
+                {
+                    interaction.interactableObj = hit.collider.gameObject;
+                   
+                    Debug.Log("Succes");
+                    interaction.interactableObj.SetActive(false);
+                 
+                }
+            }
         }
-          
+
     }
 }
