@@ -84,5 +84,12 @@ public class PlayerControls : MonoBehaviour
             gunLogic.isFiring = true;
         else
             gunLogic.isFiring = false;
+
+        //Reload
+        if (Input.GetKey(controls.reload))
+        {
+            gunLogic.currentAmmo = 0;
+        }
+          
     }
 }

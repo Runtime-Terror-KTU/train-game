@@ -664,6 +664,10 @@ MonoBehaviour:
   bulletSpeed: 10
   shootDelay: 0.25
   firePoint: {fileID: 868822832}
+  maxAmmo: 10
+  currentAmmo: 0
+  reloadTime: 1
+  isReloading: 0
 --- !u!1 &718085113
 GameObject:
   m_ObjectHideFlags: 0
@@ -1462,6 +1466,7 @@ MonoBehaviour:
     left: 97
     right: 100
     fire: 323
+    reload: 114
   rigidbody: {fileID: 1217440018}
   animator: {fileID: 1217440016}
   movSpeed: 6
