@@ -13,7 +13,15 @@ public class MouseLook : MonoBehaviour
 
     void Update()
     {
-        LookAt();
+        if (PauseMenu.OnPause)
+        {
+
+        }
+        else
+        {
+            LookAt();
+        }
+        
     }
 
     void LookAt()

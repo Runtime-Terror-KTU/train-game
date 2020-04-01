@@ -36,7 +36,7 @@ public class BulletLogic : MonoBehaviour
             enemy.TakeDamage(damage);
         }
 
-        if(other.tag == "Object")
+        if(other.tag == "Object" || other.tag == "InteractableObj")
         {
             Destroy(gameObject);
         }

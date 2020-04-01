@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    private Transform player;
+    public Transform player;
     public float maxRadius = 7;
     public float maxFov = 45;
     public float reach = 2;
@@ -16,32 +16,6 @@ public class EnemyAI : MonoBehaviour
     public float checkRate = 0.01f;
     float nextCehck;
     private float time;
-
-    public void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, maxRadius);
-
-        Vector3 fovLine1 = Quaternion.AngleAxis(maxFov, transform.up) * transform.forward * maxRadius;
-        Vector3 fovLine2 = Quaternion.AngleAxis(-maxFov, transform.up) * transform.forward * maxRadius;
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, fovLine1);
-        Gizmos.DrawRay(transform.position, fovLine2);
-
-        if (!isInFov)
-            Gizmos.color = Color.blue;
-        else
-            Gizmos.color = Color.green;
-
-        Gizmos.DrawRay(transform.position, (player.position - transform.position).normalized * maxRadius);
-
-        Gizmos.color = Color.black;
-        Gizmos.DrawRay(transform.position, transform.forward * maxRadius);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, transform.forward * reach);
-    }
 
     void Start()
     {
@@ -147,5 +121,31 @@ public class EnemyAI : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, maxRadius);
+
+        Vector3 fovLine1 = Quaternion.AngleAxis(maxFov, transform.up) * transform.forward * maxRadius;
+        Vector3 fovLine2 = Quaternion.AngleAxis(-maxFov, transform.up) * transform.forward * maxRadius;
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, fovLine1);
+        Gizmos.DrawRay(transform.position, fovLine2);
+
+        if (!isInFov)
+            Gizmos.color = Color.blue;
+        else
+            Gizmos.color = Color.green;
+
+        Gizmos.DrawRay(transform.position, (player.position - transform.position).normalized * maxRadius);
+
+        Gizmos.color = Color.black;
+        Gizmos.DrawRay(transform.position, transform.forward * maxRadius);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, transform.forward * reach);
     }
 }

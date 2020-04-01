@@ -23,7 +23,15 @@ public class PlayerControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetInputs();
+        if(PauseMenu.OnPause)
+        {
+
+        }
+        else
+        {
+            GetInputs();
+        }
+        
     }
 
     void FixedUpdate()
