@@ -7,10 +7,13 @@ public class GunLogic : MonoBehaviour
 
     public bool isFiring;
     public BulletLogic bullet;
-    public float bulletSpeed;
     public float shootDelay;
     private float shotTimer;
     public Transform firePoint;
+
+    public float bulletSpeed;
+    public float bulletDamage;
+    public float bulletLifeTime = 1.1f;
 
     public int maxAmmo = 10;
     public int currentAmmo;
@@ -49,9 +52,8 @@ public class GunLogic : MonoBehaviour
                 shotTimer = shootDelay;
                 BulletLogic newBullet = Instantiate(bullet, firePoint.position, firePoint.rotation) as BulletLogic;
                 newBullet.speed = bulletSpeed;
-                //Destroy(bullet, 1.0f);
-                //Destroy(newBullet, 1.0f);
-                DestroyObject(newBullet, 1.0f);
+                newBullet.damage = bulletDamage;
+                newBullet.lifeTime = bulletLifeTime;
                 currentAmmo--;
             }
         }

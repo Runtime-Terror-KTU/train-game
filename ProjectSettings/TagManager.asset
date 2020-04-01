@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - InteractableObj
+  - Bullet
+  - Enemy
   layers:
   - Default
   - TransparentFX

@@ -6,7 +6,9 @@ public class BulletLogic : MonoBehaviour
 {
 
     public float speed = 5f;
-    public float lifeTime = 0.9f;
+    public float lifeTime = 1.3f;
+    public float damage = 10f;
+    private Enemy enemy;
 
     void Start()
     {
@@ -22,6 +24,16 @@ public class BulletLogic : MonoBehaviour
         if (lifeTime <= 0)
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Enemy")
+        {
+            Destroy(gameObject);
+            enemy = other.gameObject.GetComponent<Enemy>();
+            enemy.TakeDamage(damage);
         }
     }
 }
