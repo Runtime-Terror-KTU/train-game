@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GunLogic : MonoBehaviour
 {
@@ -15,35 +16,39 @@ public class GunLogic : MonoBehaviour
     public float bulletDamage;
     public float bulletLifeTime = 1.1f;
 
-    public int maxAmmo = 10;
+    public int magazineSize = 10;
     public int currentAmmo;
+    public int reserveAmmo;
+
     public float reloadTime = 1f;
     public bool isReloading = false;
+    public bool manualReload = false;
 
 
     void Start()
     {
-        currentAmmo = maxAmmo;
+        currentAmmo = magazineSize;
+        reserveAmmo = magazineSize * 5;   
     }
-
 
     void Update()
     {
         if (isReloading)
             return;
 
-        if(currentAmmo <= 0)
+        if (manualReload && reserveAmmo != 0 && currentAmmo != magazineSize)
         {
             StartCoroutine(Reload());
             return;
         }
-        
+
         Fire();
+
     }
 
     void Fire()
     {
-        if (isFiring)
+        if (isFiring && currentAmmo != 0)
         {
             
             shotTimer -= Time.deltaTime;
@@ -54,7 +59,8 @@ public class GunLogic : MonoBehaviour
                 newBullet.speed = bulletSpeed;
                 newBullet.damage = bulletDamage;
                 newBullet.lifeTime = bulletLifeTime;
-                currentAmmo--;
+
+                currentAmmo--;                
             }
         }
         else
@@ -70,7 +76,16 @@ public class GunLogic : MonoBehaviour
 
         yield return new WaitForSeconds(reloadTime);
 
-        currentAmmo = maxAmmo;
+        if(reserveAmmo - (magazineSize - currentAmmo) > 0)
+        {   
+            reserveAmmo = reserveAmmo - (magazineSize - currentAmmo);
+            currentAmmo = magazineSize;
+        }
+        else 
+        {
+            currentAmmo += reserveAmmo;
+            reserveAmmo = 0;
+        }
 
         isReloading = false;
     }
