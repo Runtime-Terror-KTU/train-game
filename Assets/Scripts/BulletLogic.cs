@@ -35,5 +35,10 @@ public class BulletLogic : MonoBehaviour
             enemy = other.gameObject.GetComponent<Enemy>();
             enemy.TakeDamage(damage);
         }
+
+        if(other.tag == "Object")
+        {
+            Destroy(gameObject);
+        }
     }
 }

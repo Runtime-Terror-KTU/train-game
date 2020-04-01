@@ -7,12 +7,15 @@ public class EnemyAI : MonoBehaviour
     public Transform player;
     public float maxRadius = 7;
     public float maxFov = 45;
+    public float reach = 2;
 
     public bool isInFov = false;
+    public bool isInRange = false;
 
     UnityEngine.AI.NavMeshAgent myNavMesh;
     public float checkRate = 0.01f;
     float nextCehck;
+    private float time;
 
     public void OnDrawGizmos()
     {
@@ -43,6 +46,9 @@ public class EnemyAI : MonoBehaviour
             player = GameObject.FindGameObjectWithTag("Player").transform;
 
         myNavMesh = gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>();
+
+        time = GetComponent<Enemy>().MeleeSpeed;
+
     }
 
 
@@ -53,7 +59,10 @@ public class EnemyAI : MonoBehaviour
 
     private void FixedUpdate()
     {
+        RaycastHit hit;
         isInFov = inFOV(transform, player, maxFov, maxRadius);
+        isInRange = inRange(transform, out hit);
+        
 
         if (isInFov)
         {
@@ -61,6 +70,21 @@ public class EnemyAI : MonoBehaviour
             {
                 nextCehck = Time.time + checkRate;
                 FollowPlayer();
+            }
+
+            if(isInRange)
+            {
+                time -= Time.deltaTime;
+                if(time <= 0)
+                {
+                    hit.collider.GetComponent<Player>().TakeDamage(GetComponent<Enemy>().MeleeDamage);
+                    time = GetComponent<Enemy>().MeleeSpeed;
+                }
+
+            }
+            else
+            {
+                time = GetComponent<Enemy>().MeleeSpeed;
             }
 
         }
@@ -101,6 +125,21 @@ public class EnemyAI : MonoBehaviour
 
             }
 
+        }
+
+        return false;
+    }
+
+    public bool inRange(Transform checkingObject, out RaycastHit hit)
+    {
+        Ray ray = new Ray(checkingObject.position, checkingObject.forward);
+
+        if(Physics.Raycast(ray, out hit, reach))
+        {
+            if(hit.collider.tag == "Player")
+            {
+                return true;
+            }
         }
 
         return false;
