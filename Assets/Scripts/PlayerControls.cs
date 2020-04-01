@@ -97,8 +97,12 @@ public class PlayerControls : MonoBehaviour
         //Reload
         if (Input.GetKey(controls.reload))
         {
-            gunLogic.currentAmmo = 0;
-        }       
+            gunLogic.manualReload = true;
+        }
+        else
+        {
+            gunLogic.manualReload = false;
+        }
 
         //Interaction e
         if (Input.GetKey(controls.use))
