@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour
 {
     public Transform player;
+    public Animator enemyAnimator;
     public float maxRadius = 7;
     public float maxFov = 45;
     public float reach = 2;
@@ -44,6 +45,7 @@ public class EnemyAI : MonoBehaviour
 
         if (isInFov)
         {
+            enemyAnimator.SetBool("Moving", true);
             if (Time.time > nextCehck)
             {
                 nextCehck = Time.time + checkRate;
@@ -66,6 +68,7 @@ public class EnemyAI : MonoBehaviour
             }
 
         }
+        enemyAnimator.SetBool("Moving", false);
     }
 
     void FollowPlayer()
@@ -76,7 +79,6 @@ public class EnemyAI : MonoBehaviour
 
     public static bool inFOV(Transform checkingObject, Transform target, float maxFov, float maxRadius)
     {
-
         Collider[] overlaps = new Collider[10];
         int count = Physics.OverlapSphereNonAlloc(checkingObject.position, maxRadius, overlaps);
 
