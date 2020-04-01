@@ -95,19 +95,7 @@ public class PlayerControls : MonoBehaviour
         //Interaction e
         if (Input.GetKey(controls.use))
         {
-            RaycastHit hit;
-            Vector3 fwd = transform.TransformDirection(Vector3.forward);
-            if (Physics.Raycast(transform.position, fwd, out hit, interaction.radius, interaction.LayerInteract.value))
-            {
-                if (hit.collider.CompareTag("InteractableObj"))
-                {
-                    interaction.interactableObj = hit.collider.gameObject;
-                   
-                    Debug.Log("Succes");
-                    interaction.interactableObj.SetActive(false);
-                 
-                }
-            }
+            interaction.Interact();
         }
 
     }
