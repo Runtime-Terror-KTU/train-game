@@ -33,7 +33,14 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-
+        if(Mathf.Round(myNavMesh.remainingDistance) <= 0)
+        {
+            isMoving = false;
+        }
+        else
+        {
+            isMoving = true;
+        }
     }
 
     private void FixedUpdate()
