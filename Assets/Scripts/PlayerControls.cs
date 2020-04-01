@@ -7,7 +7,7 @@ public class PlayerControls : MonoBehaviour
     public Controls controls;
     public Interaction interaction;
     Vector2 inputs;
-    public Rigidbody rigidbody;
+    public Rigidbody rbody;
     public Animator animator;
 
     // Might add running speed later
@@ -37,7 +37,7 @@ public class PlayerControls : MonoBehaviour
         inputNormalized.Normalize();
         float test =  Mathf.Abs(inputs.x) + Mathf.Abs(inputs.y);
         animator.SetFloat("Movement", test);   
-        rigidbody.MovePosition(rigidbody.position + inputNormalized * movSpeed * Time.fixedDeltaTime);
+        rbody.MovePosition(rbody.position + inputNormalized * movSpeed * Time.fixedDeltaTime);
     }
 
     void GetInputs()
