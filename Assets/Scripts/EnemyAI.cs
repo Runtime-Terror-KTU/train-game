@@ -5,13 +5,13 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour
 {
     public Transform player;
+    public Animator anim;
     public float maxRadius = 7;
     public float maxFov = 45;
     public float reach = 2;
 
     public bool isInFov = false;
     public bool isInRange = false;
-    public bool isMoving = false;
 
     UnityEngine.AI.NavMeshAgent myNavMesh;
     public float checkRate = 0.01f;
@@ -33,14 +33,14 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        if(Mathf.Round(myNavMesh.remainingDistance) <= 0)
-        {
-            isMoving = false;
-        }
-        else
-        {
-            isMoving = true;
-        }
+        //if(Mathf.Round(myNavMesh.remainingDistance) <= 0)
+        //{
+        //    isMoving = false;
+        //}
+        //else
+        //{
+        //    isMoving = true;
+        //}
     }
 
     private void FixedUpdate()
@@ -52,7 +52,7 @@ public class EnemyAI : MonoBehaviour
 
         if (isInFov)
         {
-            isMoving = true;
+            anim.SetBool("Moving", true);
 
             if (Time.time > nextCehck)
             {
@@ -77,7 +77,7 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            isMoving = false;
+            anim.SetBool("Moving", false);
         }
     }
 
