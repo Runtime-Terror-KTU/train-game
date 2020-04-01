@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    public Transform player;
+    private Transform player;
     public float maxRadius = 7;
     public float maxFov = 45;
     public float reach = 2;
@@ -38,6 +38,9 @@ public class EnemyAI : MonoBehaviour
 
         Gizmos.color = Color.black;
         Gizmos.DrawRay(transform.position, transform.forward * maxRadius);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, transform.forward * reach);
     }
 
     void Start()
@@ -46,6 +49,7 @@ public class EnemyAI : MonoBehaviour
             player = GameObject.FindGameObjectWithTag("Player").transform;
 
         myNavMesh = gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>();
+        myNavMesh.speed = GetComponent<Enemy>().MovementSpeed;
 
         time = GetComponent<Enemy>().MeleeSpeed;
 

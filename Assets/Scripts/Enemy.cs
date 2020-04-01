@@ -5,6 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public float Health = 100;
+    public float MovementSpeed = 4f;
     public float MeleeDamage = 25f;
     public float MeleeSpeed = 0.5f;
 
