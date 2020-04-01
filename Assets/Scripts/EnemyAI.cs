@@ -5,13 +5,13 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour
 {
     public Transform player;
-    public Animator enemyAnimator;
     public float maxRadius = 7;
     public float maxFov = 45;
     public float reach = 2;
 
     public bool isInFov = false;
     public bool isInRange = false;
+    public bool isMoving = false;
 
     UnityEngine.AI.NavMeshAgent myNavMesh;
     public float checkRate = 0.01f;
@@ -45,7 +45,8 @@ public class EnemyAI : MonoBehaviour
 
         if (isInFov)
         {
-            enemyAnimator.SetBool("Moving", true);
+            isMoving = true;
+
             if (Time.time > nextCehck)
             {
                 nextCehck = Time.time + checkRate;
@@ -66,9 +67,11 @@ public class EnemyAI : MonoBehaviour
             {
                 time = GetComponent<Enemy>().MeleeSpeed;
             }
-
         }
-        enemyAnimator.SetBool("Moving", false);
+        else
+        {
+            isMoving = false;
+        }
     }
 
     void FollowPlayer()
