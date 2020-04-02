@@ -16,7 +16,7 @@ public class GunLogic : MonoBehaviour
     public float bulletDamage;
     public float bulletLifeTime = 1.1f;
 
-    public int magazineSize = 10;
+    public int magazineSize;
     public int currentAmmo;
     public int reserveAmmo;
 
@@ -27,8 +27,7 @@ public class GunLogic : MonoBehaviour
 
     void Start()
     {
-        currentAmmo = magazineSize;
-        reserveAmmo = magazineSize * 5;   
+
     }
 
     void Update()
@@ -36,7 +35,7 @@ public class GunLogic : MonoBehaviour
         if (isReloading)
             return;
 
-        if (manualReload && reserveAmmo != 0 && currentAmmo != magazineSize)
+        if (manualReload && reserveAmmo != 0 && currentAmmo != magazineSize || currentAmmo == 0)
         {
             StartCoroutine(Reload());
             return;

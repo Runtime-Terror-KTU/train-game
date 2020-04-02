@@ -781,9 +781,9 @@ MonoBehaviour:
   bulletSpeed: 10
   bulletDamage: 25
   bulletLifeTime: 1.1
-  magazineSize: 10
-  currentAmmo: 0
-  reserveAmmo: 0
+  magazineSize: 20
+  currentAmmo: 20
+  reserveAmmo: 80
   reloadTime: 1
   isReloading: 0
   manualReload: 0
@@ -3092,7 +3092,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 10
+  m_Text: 
 --- !u!224 &565012863383973879
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3143,7 +3143,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 20
+  m_Text: 
 --- !u!224 &565012864571791757
 RectTransform:
   m_ObjectHideFlags: 0
