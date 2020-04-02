@@ -3208,6 +3208,10 @@ PrefabInstance:
       propertyPath: MovementSpeed
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1426213037, guid: f2bc4233337166b45a54ecf37c1a5cca, type: 3}
+      propertyPath: anim
+      value: 
+      objectReference: {fileID: 1645766673}
     - target: {fileID: 1426213038, guid: f2bc4233337166b45a54ecf37c1a5cca, type: 3}
       propertyPath: m_Size.y
       value: 1.9628636

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public Animator anim;
+
     public float Health = 100;
     public float MovementSpeed = 4f;
     public float MeleeDamage = 25f;
@@ -17,6 +19,13 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+        if (GetComponent<EnemyAI>().isMoving)
+        {
+            anim.SetBool("Moving", true);
+        }
+        else
+            anim.SetBool("Moving", false);
+
         if(Health <= 0)
         {
             Destroy(gameObject);
