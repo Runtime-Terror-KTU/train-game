@@ -10,7 +10,7 @@ public class TriggerScript : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            train.GetComponent<TrainController>().ChangeLevel("TempScene");
+            train.GetComponent<TrainController>().ChangeLevel("Level1");
         }
     }
 }
