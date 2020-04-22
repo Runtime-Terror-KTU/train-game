@@ -9,12 +9,6 @@ public class BulletLogic : MonoBehaviour
     public float lifeTime = 1.3f;
     public float damage = 10f;
     private Enemy enemy;
-
-    void Start()
-    {
-        
-    }
-
     
     void Update()
     {
