@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (GetComponent<EnemyAI>().isMoving)
+        if (GetComponent<EnemyAI>().isMoving && !GetComponent<EnemyAI>().isInRange)
         {
             anim.SetBool("Moving", true);
         }
