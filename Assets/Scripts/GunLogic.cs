@@ -32,6 +32,22 @@ public class GunLogic : MonoBehaviour
 
     void Update()
     {
+
+        if (Input.GetKey(KeyCode.Mouse0))
+            isFiring = true;
+        else
+            isFiring = false;
+
+        //Reload
+        if (Input.GetKey(KeyCode.R))
+        {
+            manualReload = true;
+        }
+        else
+        {
+            manualReload = false;
+        }
+
         if (isReloading)
             return;
 
