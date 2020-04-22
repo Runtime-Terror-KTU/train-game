@@ -14,6 +14,7 @@ public class EnemyAI : MonoBehaviour
     public bool isInRange = false;
 
     UnityEngine.AI.NavMeshAgent myNavMesh;
+
     public float checkRate = 0.01f;
     float nextCehck;
     private float time;
@@ -57,11 +58,17 @@ public class EnemyAI : MonoBehaviour
             if (Time.time > nextCehck)
             {
                 nextCehck = Time.time + checkRate;
-                FollowPlayer();
+                if(!isInRange)
+                {
+                    FollowPlayer();
+                }
+                
+                
             }
 
             if(isInRange)
             {
+                StopFollowing();
                 time -= Time.deltaTime;
                 if(time <= 0)
                 {
@@ -83,8 +90,14 @@ public class EnemyAI : MonoBehaviour
 
     void FollowPlayer()
     {
+        myNavMesh.isStopped = false;
         myNavMesh.transform.LookAt(player);
         myNavMesh.destination = player.position;
+    }
+
+    void StopFollowing()
+    {
+        myNavMesh.isStopped = true;
     }
 
     public static bool inFOV(Transform checkingObject, Transform target, float maxFov, float maxRadius)
