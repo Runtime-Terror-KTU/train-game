@@ -8,6 +8,7 @@ public class PlayerControls : MonoBehaviour
     public Interaction interaction;
     Vector2 inputs;
     float angle;
+    bool walking;
     public Rigidbody rigidbody;
     public Animator animator;
     public float movSpeed = 6f;
@@ -43,6 +44,16 @@ public class PlayerControls : MonoBehaviour
 
     void Movement()
     {
+        if (walking)
+        {
+            movSpeed = 3f;
+            backSpeed = 1.5f;
+        }
+        else
+        {
+            movSpeed = 6f;
+            backSpeed = 3f;
+        }
         Vector3 inputNormalized = new Vector3(inputs.x, 0, inputs.y);
         inputNormalized.Normalize();
         float test = Mathf.Abs(inputs.x) + Mathf.Abs(inputs.y);
@@ -126,11 +137,15 @@ public class PlayerControls : MonoBehaviour
 
     void GetInputs()
     {
+        if (Input.GetKey(controls.walk))
+            walking = true;
+        else
+            walking = false;
         //Forwards Backwards controls
         //Forwards
         if (Input.GetKey(controls.forwards))
             inputs.y = 1;
-        
+       
         //Backwards
         if (Input.GetKey(controls.backwards))
         {
