@@ -14,7 +14,6 @@ public class PlayerControls : MonoBehaviour
     public float movSpeed = 6f;
     public float backSpeed = 3f;
     public GunLogic gunLogic;
-    Camera camera = Camera.main;
     string direction;
 
     // Start is called before the first frame update
