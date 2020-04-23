@@ -46,7 +46,7 @@ MonoBehaviour:
   bullet: {fileID: 5778172813514934067, guid: 35342d95d46db054fa993bfb33a17d5c, type: 3}
   shootDelay: 0.25
   firePoint: {fileID: 868822832}
-  bulletSpeed: 10
+  bulletSpeed: 40
   bulletDamage: 25
   bulletLifeTime: 1.1
   magazineSize: 30
