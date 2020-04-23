@@ -6,13 +6,15 @@ public class PlayerControls : MonoBehaviour
 {
     public Controls controls;
     public Interaction interaction;
-    Vector2 inputs;
+    [SerializeField]
+    public Vector2 inputs;
     public Rigidbody rigidbody;
     public Animator animator;
-
-    // Might add running speed later
-    public float movSpeed = 0f;
+    public float movSpeed = 6f;
+    public float backSpeed = 3f;
     public GunLogic gunLogic;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -39,13 +41,28 @@ public class PlayerControls : MonoBehaviour
         Movement();
     }
 
+    //void Movement()
+    //{
+    //    Vector3 inputNormalized = new Vector3(inputs.x, 0, inputs.y);
+    //    inputNormalized.Normalize();
+    //    float test =  Mathf.Abs(inputs.x) + Mathf.Abs(inputs.y);
+    //    animator.SetFloat("Movement", test);   
+    //    rigidbody.MovePosition(rigidbody.position + inputNormalized * movSpeed * Time.fixedDeltaTime);
+    //}
+
     void Movement()
     {
         Vector3 inputNormalized = new Vector3(inputs.x, 0, inputs.y);
         inputNormalized.Normalize();
-        float test =  Mathf.Abs(inputs.x) + Mathf.Abs(inputs.y);
-        animator.SetFloat("Movement", test);   
-        rigidbody.MovePosition(rigidbody.position + inputNormalized * movSpeed * Time.fixedDeltaTime);
+        float test = Mathf.Abs(inputs.x) + Mathf.Abs(inputs.y);
+        animator.SetFloat("Movement", test);
+
+
+        //relative quarter to mouse
+        if(inputNormalized.z < 0)
+            rigidbody.MovePosition(rigidbody.position + inputNormalized * backSpeed * Time.fixedDeltaTime);
+        else
+            rigidbody.MovePosition(rigidbody.position + inputNormalized * movSpeed * Time.fixedDeltaTime);
     }
 
     void GetInputs()
