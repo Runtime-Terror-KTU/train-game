@@ -8,12 +8,16 @@ public class PlayerControls : MonoBehaviour
     public Interaction interaction;
     [SerializeField]
     public Vector2 inputs;
+    //temp
+    [SerializeField]
+    public Vector3 temp;
+    //
     public Rigidbody rigidbody;
     public Animator animator;
     public float movSpeed = 6f;
     public float backSpeed = 3f;
     public GunLogic gunLogic;
-
+    Camera camera = Camera.main;
 
 
     // Start is called before the first frame update
@@ -41,6 +45,7 @@ public class PlayerControls : MonoBehaviour
         Movement();
     }
 
+    //Original
     //void Movement()
     //{
     //    Vector3 inputNormalized = new Vector3(inputs.x, 0, inputs.y);
@@ -57,9 +62,9 @@ public class PlayerControls : MonoBehaviour
         float test = Mathf.Abs(inputs.x) + Mathf.Abs(inputs.y);
         animator.SetFloat("Movement", test);
 
-
+        temp = new Vector3(Input.mousePosition.x - Screen.width/2, Input.mousePosition.y - Screen.height/2);
         //relative quarter to mouse
-        if(inputNormalized.z < 0)
+        if (inputNormalized.z < 0)
             rigidbody.MovePosition(rigidbody.position + inputNormalized * backSpeed * Time.fixedDeltaTime);
         else
             rigidbody.MovePosition(rigidbody.position + inputNormalized * movSpeed * Time.fixedDeltaTime);
