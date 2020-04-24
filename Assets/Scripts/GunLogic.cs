@@ -61,6 +61,7 @@ public class GunLogic : MonoBehaviour
         }
 
         UpdateAmmo();
+        UpdateReserveAmmo();
     }
 
     void Fire()
@@ -96,7 +97,7 @@ public class GunLogic : MonoBehaviour
             reserveAmmo = 0;
         }
 
-        UpdateAmmo();
+        UpdateReserveAmmo();
         isReloading = false;
     }
 
@@ -112,7 +113,7 @@ public class GunLogic : MonoBehaviour
             reserveAmmo = weaponSystem.svd_ammo;
     }
 
-    void UpdateAmmo()
+    void UpdateReserveAmmo()
     {
         if (isPistol)
             weaponSystem.pistol_ammo = reserveAmmo;
@@ -122,5 +123,11 @@ public class GunLogic : MonoBehaviour
 
         if (isSvd)
             weaponSystem.svd_ammo = reserveAmmo;
+    }
+
+    void UpdateAmmo()
+    {
+        weaponSystem.currentAmmo = currentAmmo;
+        weaponSystem.currentReserve = reserveAmmo;
     }
 }

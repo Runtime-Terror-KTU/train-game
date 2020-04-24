@@ -7,12 +7,12 @@ public class AmmoUI : MonoBehaviour
 {
     public Text currentAmmoText;
     public Text reserveAmmoText;
-    public GunLogic gunLogic;
+    public WeaponSystem weaponSystem;
 
     // Update is called once per frame
     void Update()
     {
-        currentAmmoText.text = gunLogic.currentAmmo.ToString();
-        reserveAmmoText.text = gunLogic.reserveAmmo.ToString();
+        currentAmmoText.text = weaponSystem.currentAmmo.ToString();
+        reserveAmmoText.text = weaponSystem.currentReserve.ToString();
     }
 }

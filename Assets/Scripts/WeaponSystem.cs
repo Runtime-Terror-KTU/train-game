@@ -11,6 +11,9 @@ public class WeaponSystem : MonoBehaviour
     public int svd_ammo = 15;
     public int pistol_ammo = 25;
 
+    public int currentAmmo = 0;
+    public int currentReserve = 0;
+
     void Start()
     {
         SelectWeapon();
