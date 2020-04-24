@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
+    Rigidbody rigidbody;
     CharacterController controller;
     public Controls controls;
     public Interaction interaction;
@@ -17,7 +18,7 @@ public class PlayerControls : MonoBehaviour
     bool isJumping;
     Vector3 jumpDirection;
     Vector3 groundNormal;
-    Vector3 m_CharacterVelocity;
+    Vector3 characterVelocity;
 
 
     public Animator animator;
@@ -73,45 +74,22 @@ public class PlayerControls : MonoBehaviour
         inputNormalized.Normalize();
         float test = Mathf.Abs(inputs.x) + Mathf.Abs(inputs.z);
         animator.SetFloat("Movement", test);
-        Vector3 move = new Vector3(inputNormalized.x, 0f, inputNormalized.z);
-        Vector3 worldInput = transform.TransformVector(move);
+
+        //Vector3 move = new Vector3(inputNormalized.x, 0f, inputNormalized.z);
+        //Vector3 worldInput = transform.TransformVector(move);
+
+        //controller.SimpleMove(inputNormalized * movSpeed);
+        float vertInput = Input.GetAxis("Vertical");
+        float horizInput = Input.GetAxis("Horizontal");
+
+        Vector3 forwardMovement = transform.forward * vertInput;
+        Vector3 sideMovement = transform.right * horizInput;
+
+        controller.SimpleMove(Vector3.ClampMagnitude(forwardMovement + sideMovement, 1.0f) * movSpeed);
+
         
     }
 
-    void GroundCheck()
-    {
-        // Make sure that the ground check distance while already in air is very small, to prevent suddenly snapping to ground
-        float chosenGroundCheckDistance = isGrounded ? (m_Controller.skinWidth + groundCheckDistance) : k_GroundCheckDistanceInAir;
-
-        // reset values before the ground check
-        isGrounded = false;
-        groundNormal = Vector3.up;
-
-        // only try to detect ground if it's been a short amount of time since last jump; otherwise we may snap to the ground instantly after we try jumping
-        if (Time.time >= m_LastTimeJumped + k_JumpGroundingPreventionTime)
-        {
-            // if we're grounded, collect info about the ground normal with a downward capsule cast representing our character capsule
-            if (Physics.CapsuleCast(GetCapsuleBottomHemisphere(), GetCapsuleTopHemisphere(m_Controller.height), m_Controller.radius, Vector3.down, out RaycastHit hit, chosenGroundCheckDistance, groundCheckLayers, QueryTriggerInteraction.Ignore))
-            {
-                // storing the upward direction for the surface found
-                m_GroundNormal = hit.normal;
-
-                // Only consider this a valid ground hit if the ground normal goes in the same direction as the character up
-                // and if the slope angle is lower than the character controller's limit
-                if (Vector3.Dot(hit.normal, transform.up) > 0f &&
-                    IsNormalUnderSlopeLimit(m_GroundNormal))
-                {
-                    isGrounded = true;
-
-                    // handle snapping to the ground
-                    if (hit.distance > m_Controller.skinWidth)
-                    {
-                        m_Controller.Move(Vector3.down * hit.distance);
-                    }
-                }
-            }
-        }
-    }
 
     void GetInputs()
     {
