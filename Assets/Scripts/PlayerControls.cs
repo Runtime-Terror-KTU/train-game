@@ -12,6 +12,7 @@ public class PlayerControls : MonoBehaviour
     public Rigidbody rigidbody;
     public Animator animator;
     public float movSpeed = 6f;
+    public float sideSpeed = 5f;
     public float backSpeed = 3f;
     public GunLogic gunLogic;
     string direction;
@@ -49,11 +50,13 @@ public class PlayerControls : MonoBehaviour
         if (walking)
         {
             movSpeed = 3f;
-            backSpeed = 1.5f;
+            sideSpeed = 3f;
+            backSpeed = 3f;
         }
         else
         {
-            movSpeed = 6f;
+            movSpeed = 6;
+            sideSpeed = 5f;
             backSpeed = 3f;
         }
         Vector3 inputNormalized = new Vector3(inputs.x, 0, inputs.y);
@@ -61,80 +64,12 @@ public class PlayerControls : MonoBehaviour
         float test = Mathf.Abs(inputs.x) + Mathf.Abs(inputs.y);
         animator.SetFloat("Movement", test);
 
-        Vector3 rot = transform.rotation.eulerAngles;
-        rot = new Vector3(rot.x, rot.y, rot.z);
-        var rotation = Quaternion.Euler(rot);
-        Vector3 axis;
-        rotation.ToAngleAxis(out angle, out axis);
-        if (angle > 22.5 && angle <= 67.5)
-            direction = "UpRight";
-        else if (angle > 67.5 && angle <= 112.5)
-            direction = "Right";
-        else if (angle > 112.5 && angle <= 157.5)
-            direction = "DownRight";
-        else if (angle > 157.5 && angle <= 202.5)
-            direction = "Down";
-        else if (angle > 202.5 && angle <= 247.5)
-            direction = "DownLeft";
-        else if (angle > 247.5 && angle <= 292.5)
-            direction = "Left";
-        else if (angle > 292.5 && angle <= 337.5)
-            direction = "UpLeft";
+        if(inputNormalized.z < 0)
+            rigidbody.MovePosition(rigidbody.position + inputNormalized * backSpeed * Time.fixedDeltaTime);
+        else if(inputNormalized.z > 0)
+            rigidbody.MovePosition(rigidbody.position + inputNormalized * movSpeed * Time.fixedDeltaTime);
         else
-            direction = "Up";
-
-        switch (direction)
-        {
-            case "Right":
-                if(inputNormalized.x >= 0)
-                    rigidbody.MovePosition(rigidbody.position + inputNormalized * movSpeed * Time.fixedDeltaTime);
-                else
-                    rigidbody.MovePosition(rigidbody.position + inputNormalized * backSpeed * Time.fixedDeltaTime);
-                break;
-            case "Down":
-                if (inputNormalized.z <= 0)
-                    rigidbody.MovePosition(rigidbody.position + inputNormalized * movSpeed * Time.fixedDeltaTime);
-                else
-                    rigidbody.MovePosition(rigidbody.position + inputNormalized * backSpeed * Time.fixedDeltaTime);
-                break;
-            case "Left":
-                if (inputNormalized.x <= 0)
-                    rigidbody.MovePosition(rigidbody.position + inputNormalized * movSpeed * Time.fixedDeltaTime);
-                else
-                    rigidbody.MovePosition(rigidbody.position + inputNormalized * backSpeed * Time.fixedDeltaTime);
-                break;
-            case "Up":
-                if (inputNormalized.z >= 0)
-                    rigidbody.MovePosition(rigidbody.position + inputNormalized * movSpeed * Time.fixedDeltaTime);
-                else
-                    rigidbody.MovePosition(rigidbody.position + inputNormalized * backSpeed * Time.fixedDeltaTime);
-                break;
-                //
-            case "DownRight":
-                if (inputNormalized.x >= 0 && inputNormalized.z <= 0)
-                    rigidbody.MovePosition(rigidbody.position + inputNormalized * movSpeed * Time.fixedDeltaTime);
-                else
-                    rigidbody.MovePosition(rigidbody.position + inputNormalized * backSpeed * Time.fixedDeltaTime);
-                break;
-            case "DownLeft":
-                if (inputNormalized.x <= 0 && inputNormalized.z <= 0)
-                    rigidbody.MovePosition(rigidbody.position + inputNormalized * movSpeed * Time.fixedDeltaTime);
-                else
-                    rigidbody.MovePosition(rigidbody.position + inputNormalized * backSpeed * Time.fixedDeltaTime);
-                break;
-            case "UpRight":
-                if (inputNormalized.x >= 0 && inputNormalized.z >= 0)
-                    rigidbody.MovePosition(rigidbody.position + inputNormalized * movSpeed * Time.fixedDeltaTime);
-                else
-                    rigidbody.MovePosition(rigidbody.position + inputNormalized * backSpeed * Time.fixedDeltaTime);
-                break;
-            case "UpLeft":
-                if (inputNormalized.x <= 0 && inputNormalized.z >= 0)
-                    rigidbody.MovePosition(rigidbody.position + inputNormalized * movSpeed * Time.fixedDeltaTime);
-                else
-                    rigidbody.MovePosition(rigidbody.position + inputNormalized * backSpeed * Time.fixedDeltaTime);
-                break;
-        }
+            rigidbody.MovePosition(rigidbody.position + inputNormalized * sideSpeed * Time.fixedDeltaTime);
     }
 
     void GetInputs()
