@@ -36,20 +36,23 @@ public class GunLogic : MonoBehaviour
     }
 
     void Update()
-    {
-        if(reserveAmmo==0)
-        {
-            GetAmmo();
-            isReloading = false;
-        }        
-
+    {   
         if(!isReloading)
         {
-            if (PlayerControls.isReloading && reserveAmmo != 0 && currentAmmo != magazineSize || currentAmmo == 0)
+            if(reserveAmmo != 0)
             {
-                StartCoroutine(Reload());
-                return;
+                if (PlayerControls.isReloading && reserveAmmo != 0 && currentAmmo != magazineSize || currentAmmo == 0)
+                {
+                    StartCoroutine(Reload());
+                    return;
+                }
             }
+            else
+            {
+                GetAmmo();
+                isReloading = false;
+            }
+            
         }
         
         if(!isReloading)
