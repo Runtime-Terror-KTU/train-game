@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class GunLogic : MonoBehaviour
 {
 
-    public bool isFiring;
+    public bool isReloading = false;
+    public PlayerControls PlayerControls;
     public BulletLogic bullet;
     public float shootDelay;
     private float shotTimer;
@@ -21,8 +22,8 @@ public class GunLogic : MonoBehaviour
     public int reserveAmmo;
 
     public float reloadTime = 1f;
-    public bool isReloading = false;
-    public bool manualReload = false;
+
+    
 
 
     void Start()
@@ -33,54 +34,40 @@ public class GunLogic : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKey(KeyCode.Mouse0))
-            isFiring = true;
-        else
-            isFiring = false;
-
-        //Reload
-        if (Input.GetKey(KeyCode.R))
-        {
-            manualReload = true;
-        }
-        else
-        {
-            manualReload = false;
-        }
-
         if (isReloading)
             return;
 
-        if (manualReload && reserveAmmo != 0 && currentAmmo != magazineSize || currentAmmo == 0)
+        if (PlayerControls.isReloading && reserveAmmo != 0 && currentAmmo != magazineSize || currentAmmo == 0)
         {
             StartCoroutine(Reload());
             return;
         }
 
-        Fire();
-
-    }
-
-    void Fire()
-    {
-        if (isFiring && currentAmmo != 0)
+        if(PlayerControls.isFiring && currentAmmo != 0)
         {
-            
-            shotTimer -= Time.deltaTime;
-            if (shotTimer <= 0)
-            {
-                shotTimer = shootDelay;
-                BulletLogic newBullet = Instantiate(bullet, firePoint.position, firePoint.rotation) as BulletLogic;
-                newBullet.speed = bulletSpeed;
-                newBullet.damage = bulletDamage;
-                newBullet.lifeTime = bulletLifeTime;
-
-                currentAmmo--;                
-            }
+            Fire();
         }
         else
         {
             shotTimer = 0;
+        }
+
+        
+
+    }
+
+    void Fire()
+    {            
+        shotTimer -= Time.deltaTime;
+        if (shotTimer <= 0)
+        {
+            shotTimer = shootDelay;
+            BulletLogic newBullet = Instantiate(bullet, firePoint.position, firePoint.rotation) as BulletLogic;
+            newBullet.speed = bulletSpeed;
+            newBullet.damage = bulletDamage;
+            newBullet.lifeTime = bulletLifeTime;
+
+            currentAmmo--;                
         }
     }
 

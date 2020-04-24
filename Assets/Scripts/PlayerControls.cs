@@ -16,6 +16,9 @@ public class PlayerControls : MonoBehaviour
     public GunLogic gunLogic;
     string direction;
 
+    public bool isFiring;
+    public bool isReloading;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -180,18 +183,18 @@ public class PlayerControls : MonoBehaviour
 
         //Left click
         if (Input.GetKey(controls.fire))
-            gunLogic.isFiring = true;
+            isFiring = true;
         else
-            gunLogic.isFiring = false;
+            isFiring = false;
 
         //Reload
         if (Input.GetKey(controls.reload))
         {
-            gunLogic.manualReload = true;
+            isReloading = true;
         }
         else
         {
-            gunLogic.manualReload = false;
+            isReloading = false;
         }
 
         //Interaction e
