@@ -32,18 +32,15 @@ public class GunLogic : MonoBehaviour
 
     void Start()
     {
-        if (isPistol)
-            reserveAmmo = weaponSystem.pistol_ammo;
         
-        if (isAk)
-            reserveAmmo = weaponSystem.ak_ammo;
-        
-        if (isSvd)
-            reserveAmmo = weaponSystem.svd_ammo;
     }
 
     void Update()
-    {   
+    {
+        if(reserveAmmo==0)
+        {
+            GetAmmo();
+        }        
 
         if (isReloading)
             return;
@@ -99,7 +96,20 @@ public class GunLogic : MonoBehaviour
             reserveAmmo = 0;
         }
 
+        UpdateAmmo();
         isReloading = false;
+    }
+
+    void GetAmmo()
+    {
+        if (isPistol)
+            reserveAmmo = weaponSystem.pistol_ammo;
+
+        if (isAk)
+            reserveAmmo = weaponSystem.ak_ammo;
+
+        if (isSvd)
+            reserveAmmo = weaponSystem.svd_ammo;
     }
 
     void UpdateAmmo()
