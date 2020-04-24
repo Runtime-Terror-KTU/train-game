@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class WeaponSystem : MonoBehaviour
 {
-
+    public PlayerControls playerControls;
     public int selectedWeapon = 0;
+
+    public int ak_ammo = 60;
+    public int svd_ammo = 15;
+    public int pistol_ammo = 25;
 
     void Start()
     {

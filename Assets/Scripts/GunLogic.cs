@@ -8,6 +8,7 @@ public class GunLogic : MonoBehaviour
 
     public bool isReloading = false;
     public PlayerControls PlayerControls;
+    public WeaponSystem weaponSystem;
     public BulletLogic bullet;
     public float shootDelay;
     private float shotTimer;
@@ -23,16 +24,26 @@ public class GunLogic : MonoBehaviour
 
     public float reloadTime = 1f;
 
+    public bool isPistol;
+    public bool isAk;
+    public bool isSvd;
     
 
 
     void Start()
     {
-
+        if (isPistol)
+            reserveAmmo = weaponSystem.pistol_ammo;
+        
+        if (isAk)
+            reserveAmmo = weaponSystem.ak_ammo;
+        
+        if (isSvd)
+            reserveAmmo = weaponSystem.svd_ammo;
     }
 
     void Update()
-    {
+    {   
 
         if (isReloading)
             return;
@@ -52,8 +63,7 @@ public class GunLogic : MonoBehaviour
             shotTimer = 0;
         }
 
-        
-
+        UpdateAmmo();
     }
 
     void Fire()
@@ -90,5 +100,17 @@ public class GunLogic : MonoBehaviour
         }
 
         isReloading = false;
+    }
+
+    void UpdateAmmo()
+    {
+        if (isPistol)
+            weaponSystem.pistol_ammo = reserveAmmo;
+
+        if (isAk)
+            weaponSystem.ak_ammo = reserveAmmo;
+
+        if (isSvd)
+            weaponSystem.svd_ammo = reserveAmmo;
     }
 }
