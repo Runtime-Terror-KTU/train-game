@@ -23,4 +23,13 @@ public class Player : MonoBehaviour
     {
         Health -= dmg;
     }
+
+    public void GiveHealth(float health)
+    {
+        //if(Health < 100)
+        //{
+            Health += health;
+        //}
+        
+    }
 }
