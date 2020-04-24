@@ -6,7 +6,8 @@ public class PlayerControls : MonoBehaviour
 {
     public Controls controls;
     public Interaction interaction;
-    Vector2 inputs;
+    [SerializeField]
+    public Vector3 inputs;
     float angle;
     bool walking;
     public Rigidbody rigidbody;
@@ -59,9 +60,9 @@ public class PlayerControls : MonoBehaviour
             sideSpeed = 5f;
             backSpeed = 3f;
         }
-        Vector3 inputNormalized = new Vector3(inputs.x, 0, inputs.y);
+        Vector3 inputNormalized = new Vector3(inputs.x, 0, inputs.z);
         inputNormalized.Normalize();
-        float test = Mathf.Abs(inputs.x) + Mathf.Abs(inputs.y);
+        float test = Mathf.Abs(inputs.x) + Mathf.Abs(inputs.z);
         animator.SetFloat("Movement", test);
 
         if(inputNormalized.z < 0)
@@ -74,55 +75,49 @@ public class PlayerControls : MonoBehaviour
 
     void GetInputs()
     {
+        if (Input.GetKey(controls.jump))
+            inputs.y = 1;
+        else
+            inputs.y = 0;
+
         if (Input.GetKey(controls.walk))
             walking = true;
         else
             walking = false;
-        //Forwards Backwards controls
-        //Forwards
+
         if (Input.GetKey(controls.forwards))
-            inputs.y = 1;
+            inputs.z = 1;
        
-        //Backwards
         if (Input.GetKey(controls.backwards))
         {
-            //Cancels out each other
             if (Input.GetKey(controls.forwards))
-                inputs.y = 0;
+                inputs.z = 0;
             else
-                inputs.y = -1;
+                inputs.z = -1;
         }
 
-        //FB idle
         if (!Input.GetKey(controls.forwards) && !Input.GetKey(controls.backwards))
-            inputs.y = 0;
+            inputs.z = 0;
 
-        //Right Left controls
-        //Right
         if (Input.GetKey(controls.right))
             inputs.x = 1;
 
-        //Left
         if (Input.GetKey(controls.left))
         {
-            //Cancels out each other
             if (Input.GetKey(controls.right))
                 inputs.x = 0;
             else
                 inputs.x = -1;
         }
 
-        //LR idle
         if (!Input.GetKey(controls.left) && !Input.GetKey(controls.right))
             inputs.x = 0;
 
-        //Left click
         if (Input.GetKey(controls.fire))
             isFiring = true;
         else
             isFiring = false;
 
-        //Reload
         if (Input.GetKey(controls.reload))
         {
             isReloading = true;
@@ -132,7 +127,6 @@ public class PlayerControls : MonoBehaviour
             isReloading = false;
         }
 
-        //Interaction e
         if (Input.GetKey(controls.use))
         {
             interaction.Interact();
