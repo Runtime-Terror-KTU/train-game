@@ -36,31 +36,44 @@ public class GunLogic : MonoBehaviour
     }
 
     void Update()
-    {
-        if(reserveAmmo==0)
+    {   
+        if(!isReloading)
         {
-            GetAmmo();
-        }        
-
-        if (isReloading)
-            return;
-
-        if (PlayerControls.isReloading && reserveAmmo != 0 && currentAmmo != magazineSize || currentAmmo == 0)
+            if(reserveAmmo != 0)
+            {
+                if (PlayerControls.isReloading && reserveAmmo != 0 && currentAmmo != magazineSize || currentAmmo == 0)
+                {
+                    StartCoroutine(Reload());
+                    return;
+                }
+            }
+            else
+            {
+                GetAmmo();
+                isReloading = false;
+            }
+            
+        }
+        
+        if(!isReloading)
         {
-            StartCoroutine(Reload());
-            return;
+            if (PlayerControls.isFiring && currentAmmo != 0)
+            {
+                Fire();
+            }
+            else
+            {
+                shotTimer = 0;
+            }
         }
 
-        if(PlayerControls.isFiring && currentAmmo != 0)
+        
+        if(!isReloading)
         {
-            Fire();
+            UpdateAmmo();
+            UpdateReserveAmmo();
         }
-        else
-        {
-            shotTimer = 0;
-        }
-
-        UpdateAmmo();
+        
     }
 
     void Fire()
@@ -96,7 +109,7 @@ public class GunLogic : MonoBehaviour
             reserveAmmo = 0;
         }
 
-        UpdateAmmo();
+        UpdateReserveAmmo();
         isReloading = false;
     }
 
@@ -112,7 +125,7 @@ public class GunLogic : MonoBehaviour
             reserveAmmo = weaponSystem.svd_ammo;
     }
 
-    void UpdateAmmo()
+    void UpdateReserveAmmo()
     {
         if (isPistol)
             weaponSystem.pistol_ammo = reserveAmmo;
@@ -122,5 +135,11 @@ public class GunLogic : MonoBehaviour
 
         if (isSvd)
             weaponSystem.svd_ammo = reserveAmmo;
+    }
+
+    void UpdateAmmo()
+    {
+        weaponSystem.currentAmmo = currentAmmo;
+        weaponSystem.currentReserve = reserveAmmo;
     }
 }
