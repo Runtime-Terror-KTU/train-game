@@ -3,7 +3,27 @@ guid: b22d4ff41ab345a418f917df61eeef88
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Main Floor
+    second: {fileID: 2100000, guid: 6fa8e80acfd3237419b110f5523edae6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rock
+    second: {fileID: 2100000, guid: 2557f0a4189bc284abaf5a7b89e5cf20, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Sand
+    second: {fileID: 2100000, guid: fdf97abb48ae4a14684d86862cb41189, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Snow
+    second: {fileID: 2100000, guid: 52375627f37020045b139e0752a48c87, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
