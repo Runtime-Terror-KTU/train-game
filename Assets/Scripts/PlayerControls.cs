@@ -27,7 +27,7 @@ public class PlayerControls : MonoBehaviour
     public float movSpeed = 6f;
     public float sideSpeed = 5f;
     public float backSpeed = 3f;
-    public float LastTimeJumped = 0f;
+    float LastTimeJumped = 0f;
 
     public bool isFiring;
     public bool isReloading;
@@ -39,7 +39,7 @@ public class PlayerControls : MonoBehaviour
     public float airAcceleration = 20f;
     public float jumpForce = 5f;
     const float JumpPreventionTime = 0.2f;
-    const float GroundCheckDist = 0.07f;
+    public float GroundCheckDist = 0.07f;
     // Start is called before the first frame update
     void Start()
     {
@@ -63,10 +63,8 @@ public class PlayerControls : MonoBehaviour
         GroundCheck();
 
         //if (isGrounded && !wasGrounded)
-        //{
         //    // fall damage?
         //    // land audio
-        //}
 
         Movement();
 
@@ -87,7 +85,8 @@ public class PlayerControls : MonoBehaviour
         //    sideSpeed = 5f;
         //    backSpeed = 3f;
 
-        Vector3 inputsNormalized = new Vector3(inputs.x, 0, inputs.z);
+        //Vector3 inputsNormalized = new Vector3(inputs.x, inputs.y, inputs.z);
+        Vector3 inputsNormalized = new Vector3(inputs.x, 0f, inputs.z);
         inputsNormalized.Normalize();
 
         Vector3 worldMoveInput = transform.TransformVector(inputsNormalized);
@@ -101,7 +100,8 @@ public class PlayerControls : MonoBehaviour
             //smooth interpolation
             characterVelocity = Vector3.Lerp(characterVelocity, targetVelocity, movementAcceleration * Time.deltaTime);
 
-            if (isGrounded && inputsNormalized.y > 0)
+            //jumping
+            if (isGrounded && Input.GetKeyDown(controls.jump))
             {
                 characterVelocity = new Vector3(characterVelocity.x, 0f, characterVelocity.z);
                 characterVelocity += Vector3.up * jumpForce;
@@ -176,9 +176,9 @@ public class PlayerControls : MonoBehaviour
 
     void GetInputs()
     {
-        if (Input.GetKey(controls.jump))
-            inputs.y = 1;
-        else inputs.y = 0;
+        //if (Input.GetKey(controls.jump))
+        //    inputs.y = 1;
+        //else inputs.y = 0;
 
 
         if (Input.GetKey(controls.walk))

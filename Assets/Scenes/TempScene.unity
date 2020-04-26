@@ -6542,10 +6542,44 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1443094021, guid: 7cd3810459d9eeb4f8cb6d3dc740f420, type: 3}
+      propertyPath: field of view
+      value: 85
+      objectReference: {fileID: 0}
     - target: {fileID: 2656746159122125864, guid: 7cd3810459d9eeb4f8cb6d3dc740f420,
         type: 3}
       propertyPath: jumpForce
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2656746159122125864, guid: 7cd3810459d9eeb4f8cb6d3dc740f420,
+        type: 3}
+      propertyPath: movementAcceleration
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2656746159122125864, guid: 7cd3810459d9eeb4f8cb6d3dc740f420,
+        type: 3}
+      propertyPath: maxSpeedGrounded
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2656746159122125864, guid: 7cd3810459d9eeb4f8cb6d3dc740f420,
+        type: 3}
+      propertyPath: maxSpeedAir
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2656746159122125864, guid: 7cd3810459d9eeb4f8cb6d3dc740f420,
+        type: 3}
+      propertyPath: GroundCheckDist
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2656746159122125864, guid: 7cd3810459d9eeb4f8cb6d3dc740f420,
+        type: 3}
+      propertyPath: gravityForce
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2656746159122125864, guid: 7cd3810459d9eeb4f8cb6d3dc740f420,
+        type: 3}
+      propertyPath: airAcceleration
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2656746159717972759, guid: 7cd3810459d9eeb4f8cb6d3dc740f420,
         type: 3}
