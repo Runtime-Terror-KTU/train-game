@@ -57,31 +57,35 @@ public class PlayerControls : MonoBehaviour
         {
             GetInputs();
         }
-        
+        hasJumpedThisFrame = false;
+
+        //bool wasGrounded = isGrounded;
+        GroundCheck();
+
+        //if (isGrounded && !wasGrounded)
+        //{
+        //    // fall damage?
+        //    // land audio
+        //}
+
+        Movement();
+
     }
 
     void FixedUpdate()
     {
-        Movement();
     }
 
     void Movement()
     {
-
-
-
         //if (walking)
-        //{
         //    movSpeed = 3f;
         //    sideSpeed = 3f;
         //    backSpeed = 3f;
-        //}
         //else
-        //{
         //    movSpeed = 6;
         //    sideSpeed = 5f;
         //    backSpeed = 3f;
-        //}
 
         Vector3 inputsNormalized = new Vector3(inputs.x, 0, inputs.z);
         inputsNormalized.Normalize();
