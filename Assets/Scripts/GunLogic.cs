@@ -37,6 +37,8 @@ public class GunLogic : MonoBehaviour
 
     void Update()
     {
+        GetAmmo();
+
         isFiring = PlayerControls.isFiring;
         if(!isReloading)
         {
@@ -68,13 +70,7 @@ public class GunLogic : MonoBehaviour
             }
         }
 
-        
-        if(!isReloading)
-        {
-            UpdateAmmo();
-            UpdateReserveAmmo();
-        }
-        
+        UpdateAmmo();
     }
 
     void Fire()
@@ -88,7 +84,8 @@ public class GunLogic : MonoBehaviour
             newBullet.damage = bulletDamage;
             newBullet.lifeTime = bulletLifeTime;
 
-            currentAmmo--;                
+            currentAmmo--;
+            UpdateAmmo();
         }
     }
 
