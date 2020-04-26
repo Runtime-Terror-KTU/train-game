@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.26184076, g: 0.4306895, b: 0.8583674, a: 1}
+  m_IndirectSpecularColor: {r: 0.20364541, g: 0.400028, b: 0.8850421, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1075,7 +1075,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthText: {fileID: 326682614}
-  player: {fileID: 0}
+  player: {fileID: 5309222255788510586}
 --- !u!4 &346800230 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 407526, guid: d4f06407f06d8cf41b643015132cafca,
@@ -4738,8 +4738,7 @@ PrefabInstance:
         type: 3}
       propertyPath: PlayerControls
       value: 
-      objectReference: {fileID: 2656746159122125864, guid: 7cd3810459d9eeb4f8cb6d3dc740f420,
-        type: 3}
+      objectReference: {fileID: 5309222255788510587}
     - target: {fileID: -5447597341196740173, guid: a3f4e5eb2a365e54190142e38b6b3dce,
         type: 3}
       propertyPath: isSvd
@@ -4749,8 +4748,7 @@ PrefabInstance:
         type: 3}
       propertyPath: weaponSystem
       value: 
-      objectReference: {fileID: 2656746158913661513, guid: 7cd3810459d9eeb4f8cb6d3dc740f420,
-        type: 3}
+      objectReference: {fileID: 5309222256822805417}
     - target: {fileID: -5447597341196740173, guid: a3f4e5eb2a365e54190142e38b6b3dce,
         type: 3}
       propertyPath: firePoint
@@ -6649,8 +6647,7 @@ PrefabInstance:
         type: 3}
       propertyPath: PlayerControls
       value: 
-      objectReference: {fileID: 2656746159122125864, guid: 7cd3810459d9eeb4f8cb6d3dc740f420,
-        type: 3}
+      objectReference: {fileID: 5309222255788510587}
     - target: {fileID: 2910136874464626457, guid: 8ecd92395dbd18f458f73706c5d86d9c,
         type: 3}
       propertyPath: isPistol
@@ -6660,8 +6657,7 @@ PrefabInstance:
         type: 3}
       propertyPath: weaponSystem
       value: 
-      objectReference: {fileID: 2656746158913661513, guid: 7cd3810459d9eeb4f8cb6d3dc740f420,
-        type: 3}
+      objectReference: {fileID: 5309222256822805417}
     - target: {fileID: 5102199749045108110, guid: 8ecd92395dbd18f458f73706c5d86d9c,
         type: 3}
       propertyPath: m_Name
@@ -6734,8 +6730,7 @@ PrefabInstance:
     - target: {fileID: 569214179, guid: ff8e8b99f98dcd94b99e35f0fd2a7518, type: 3}
       propertyPath: PlayerControls
       value: 
-      objectReference: {fileID: 2656746159122125864, guid: 7cd3810459d9eeb4f8cb6d3dc740f420,
-        type: 3}
+      objectReference: {fileID: 5309222255788510587}
     - target: {fileID: 569214179, guid: ff8e8b99f98dcd94b99e35f0fd2a7518, type: 3}
       propertyPath: isAk
       value: 1
@@ -6743,8 +6738,7 @@ PrefabInstance:
     - target: {fileID: 569214179, guid: ff8e8b99f98dcd94b99e35f0fd2a7518, type: 3}
       propertyPath: weaponSystem
       value: 
-      objectReference: {fileID: 2656746158913661513, guid: 7cd3810459d9eeb4f8cb6d3dc740f420,
-        type: 3}
+      objectReference: {fileID: 5309222256822805417}
     - target: {fileID: 590243980761314300, guid: ff8e8b99f98dcd94b99e35f0fd2a7518,
         type: 3}
       propertyPath: m_Enabled
