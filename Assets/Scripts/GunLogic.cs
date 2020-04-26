@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GunLogic : MonoBehaviour
 {
-    public bool isFiring = false;
+
     public bool isReloading = false;
     public PlayerControls PlayerControls;
     public WeaponSystem weaponSystem;
@@ -36,8 +36,7 @@ public class GunLogic : MonoBehaviour
     }
 
     void Update()
-    {
-        isFiring = PlayerControls.isFiring;
+    {   
         if(!isReloading)
         {
             if(reserveAmmo != 0)
