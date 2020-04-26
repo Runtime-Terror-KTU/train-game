@@ -8,27 +8,21 @@ public class PlayerLook : MonoBehaviour
     [SerializeField] private string mouseYInputName = default;
     [SerializeField] private float mouseSensitivity = default;
 
-    [SerializeField] private Transform playerBody = default;
+    [SerializeField] private Transform playerBody;
+    [SerializeField] private Transform lookRoot;
 
-    private float xAxisClamp;
+    private Vector2 currentMousePosition;
+    private Vector3 lookAngles;
 
 
-    private void Awake()
-    {
-        LockCursor();
-        xAxisClamp = 0.0f;
-    }
-
-    // Start is called before the first frame update
     void Start()
     {
-        
+        LockCursor();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        CameraRotation();
+        LookAround();
     }
 
     private void LockCursor()
@@ -36,35 +30,16 @@ public class PlayerLook : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    private void CameraRotation()
+    private void LookAround()
     {
-        float mouseX = Input.GetAxis(mouseXInputName) * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis(mouseYInputName) * mouseSensitivity * Time.deltaTime;
+        currentMousePosition = new Vector2(Input.GetAxis(mouseYInputName), Input.GetAxis(mouseXInputName));
 
-        xAxisClamp += mouseY;
+        lookAngles.x += currentMousePosition.x * mouseSensitivity * -1f;
+        lookAngles.y += currentMousePosition.y * mouseSensitivity;
 
-        if(xAxisClamp > 90.0f)
-        {
-            xAxisClamp = 90.0f;
-            mouseY = 0.0f;
-            ClampXAxisRotation(270.0f);
-        }
+        lookAngles.x = Mathf.Clamp(lookAngles.x, -80, 80);
 
-        if (xAxisClamp < -90.0f)
-        {
-            xAxisClamp = -90.0f;
-            mouseY = 0.0f;
-            ClampXAxisRotation(90.0f);
-        }
-
-        transform.Rotate(Vector3.left * mouseY);
-        playerBody.Rotate(Vector3.up * mouseX);
-    }
-
-    private void ClampXAxisRotation(float value)
-    {
-        Vector3 eulerRotation = transform.eulerAngles;
-        eulerRotation.x = value;
-        transform.eulerAngles = eulerRotation;
+        lookRoot.localRotation = Quaternion.Euler(lookAngles.x, 0f, 0f);
+        playerBody.localRotation = Quaternion.Euler(0f, lookAngles.y, 0f);
     }
 }
