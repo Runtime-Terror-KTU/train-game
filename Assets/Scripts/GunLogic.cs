@@ -5,18 +5,17 @@ using UnityEngine.UI;
 
 public class GunLogic : MonoBehaviour
 {
-
+    public bool isFiring = false;
     public bool isReloading = false;
     public PlayerControls PlayerControls;
     public WeaponSystem weaponSystem;
-    public BulletLogic bullet;
     public float shootDelay;
     private float shotTimer;
     public Transform firePoint;
 
-    public float bulletSpeed;
     public float bulletDamage;
-    public float bulletLifeTime = 1.1f;
+    public float bulletRange = 150f;
+    public float bulletForce = 100f;
 
     public int magazineSize;
     public int currentAmmo;
@@ -27,19 +26,22 @@ public class GunLogic : MonoBehaviour
     public bool isPistol;
     public bool isAk;
     public bool isSvd;
-    
+
 
 
     void Start()
     {
-        
+
     }
 
     void Update()
-    {   
-        if(!isReloading)
+    {
+        GetAmmo();
+
+        isFiring = PlayerControls.isFiring;
+        if (!isReloading)
         {
-            if(reserveAmmo != 0)
+            if (reserveAmmo != 0)
             {
                 if (PlayerControls.isReloading && reserveAmmo != 0 && currentAmmo != magazineSize || currentAmmo == 0)
                 {
@@ -52,10 +54,10 @@ public class GunLogic : MonoBehaviour
                 GetAmmo();
                 isReloading = false;
             }
-            
+
         }
-        
-        if(!isReloading)
+
+        if (!isReloading)
         {
             if (PlayerControls.isFiring && currentAmmo != 0)
             {
@@ -67,28 +69,32 @@ public class GunLogic : MonoBehaviour
             }
         }
 
-        
-        if(!isReloading)
-        {
-            UpdateAmmo();
-            UpdateReserveAmmo();
-        }
-        
+        UpdateAmmo();
     }
 
     void Fire()
-    {            
+    {
         shotTimer -= Time.deltaTime;
-        if (shotTimer <= 0)
+        if(shotTimer <=0)
         {
             shotTimer = shootDelay;
-            BulletLogic newBullet = Instantiate(bullet, firePoint.position, firePoint.rotation) as BulletLogic;
-            newBullet.speed = bulletSpeed;
-            newBullet.damage = bulletDamage;
-            newBullet.lifeTime = bulletLifeTime;
 
-            currentAmmo--;                
-        }
+            RaycastHit hit;
+            Physics.Raycast(firePoint.transform.position, firePoint.transform.forward, out hit, bulletRange);
+
+            Enemy enemy = hit.transform.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(bulletDamage);
+            }
+            if (hit.rigidbody != null)
+            {
+                hit.rigidbody.AddForce(-hit.normal * bulletForce);
+            }
+
+            currentAmmo--;
+            UpdateAmmo();
+        }       
     }
 
     public IEnumerator Reload()
@@ -98,12 +104,12 @@ public class GunLogic : MonoBehaviour
 
         yield return new WaitForSeconds(reloadTime);
 
-        if(reserveAmmo - (magazineSize - currentAmmo) > 0)
-        {   
+        if (reserveAmmo - (magazineSize - currentAmmo) > 0)
+        {
             reserveAmmo = reserveAmmo - (magazineSize - currentAmmo);
             currentAmmo = magazineSize;
         }
-        else 
+        else
         {
             currentAmmo += reserveAmmo;
             reserveAmmo = 0;
