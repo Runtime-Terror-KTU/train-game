@@ -4,22 +4,27 @@ using UnityEngine;
 
 public class MeleeLogic : MonoBehaviour
 {
-    public bool isHitting = false;
-    public PlayerControls PlayerControls;
+    public PlayerControls playerControls;
     public WeaponSystem weaponSystem;
     public float hitDelay;
     private float hitTimer;
     public Transform hitPoint;
 
+    public bool isHitting = false;
     public float hitDamage;
     public float hitRange = 150f;
     public float hitForce = 100f;
 
+    void Start()
+    {
+
+    }
+
     void Update()
     {
-        isHitting = PlayerControls.isFiring;
+        isHitting = playerControls.isFiring;
 
-        if (PlayerControls.isFiring)
+        if (playerControls.isFiring)
         {
             Hit();
         }
