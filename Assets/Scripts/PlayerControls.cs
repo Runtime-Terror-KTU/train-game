@@ -1,52 +1,87 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerControls : MonoBehaviour
 {
-    Rigidbody rigidbody;
-    CharacterController controller;
-    public Controls controls;
-    public Interaction interaction;
+    [Header("References")]
+    [Tooltip("Main camera used by the player")]
+    public Camera playerCamera;
 
-    [SerializeField]
-    public Vector3 inputs;
-    //walking
-    
-    bool walking, jump;
-    public bool isGrounded { get; private set; }
-    public bool hasJumpedThisFrame { get; private set; }
-    bool isJumping;
-    Vector3 jumpDirection;
-    Vector3 groundNormal;
-    Vector3 characterVelocity;
+    [Header("General")]
+    [Tooltip("Force applied down when in the air")]
+    public float gravityDownForce = 20f;
+    [Tooltip("Physic layers to check if player is grounded")]
+    public LayerMask groundCheckLayers = -1;
+    [Tooltip("Distance from the bottom of the character controller to test if grounded")]
+    public float groundCheckDist = 0.05f;
 
-    LayerMask groundCheckLayers = -1;
-
-    public Animator animator;
-    public float movSpeed = 6f;
-    public float sideSpeed = 5f;
-    public float backSpeed = 3f;
-    float LastTimeJumped = 0f;
-
-    public bool isFiring;
-    public bool isReloading;
-
-    public float gravityForce = 20f;
+    [Header("Movement")]
+    [Tooltip("Max movement speed when grounded")]
     public float maxSpeedGrounded = 10f;
-    public float maxSpeedAir = 10f;
-    public float movementAcceleration = 15;
-    public float airAcceleration = 20f;
-    public float jumpForce = 5f;
-    const float JumpPreventionTime = 0.2f;
-    public float GroundCheckDist = 0.07f;
-    // Start is called before the first frame update
+    [Tooltip("Ground movement acceleration speed")]
+    public float movementAcceleration = 15f;
+    [Tooltip("Max movement speed when crouching")]
+    [Range(0, 1)]
+    public float maxSpeedCrouchedRatio = 0.5f;
+    [Tooltip("Max movement speed when not grounded")]
+    public float maxSpeedAir = 15f;
+    [Tooltip("Air movement acceleration speed")]
+    public float airAcceleration = 25f;
+
+    [Header("Rotation")]
+    [Tooltip("Rotation speed for moving the camera")]
+    public float rotationSpeed = 200f;
+
+    [Header("Jump")]
+    [Tooltip("Force applied upward when jumping")]
+    public float jumpForce = 9f;
+
+    [Header("Stance")]
+    [Range(0.1f, 1f)]
+    [Tooltip("Ratio (0-1) of the character height where the camera will be at")]
+    public float cameraHeightRatio = 0.9f;
+    [Tooltip("Height of character when standing")]
+    public float capsuleHeightStanding = 1.8f;
+    [Tooltip("Height of character when crouching")]
+    public float capsuleHeightCrouching = 0.9f;
+    [Tooltip("Speed of crouching transitions")]
+    public float crouchingSharpness = 10f;
+
+    public UnityAction<bool> onStanceChanged;
+
+    public Vector3 CharacterVelocity { get; set; }
+    public bool IsGrounded { get; private set; }
+    public bool HasJumpedThisFrame { get; private set; }
+    public bool IsCrouching { get; private set; }
+    public float rotationMultiplier = 1f;
+    Vector3 groundNormal;
+
+
+    CharacterController controller;
+    InputHandler inputHandler;
+    Player player;
+    float lastTimeJumped = 0f;
+    float cameraVerticalAngle = 0f;
+    float targetCharacterHeight;
+
+    const float jumpPreventionTime = 0.2f;
+    const float groundCheckDistAir = 0.07f;
+
+    //TEMPORARY
+    public bool isFiring = false;
+    public bool isReloading = false;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        inputHandler = GetComponent<InputHandler>();
+        player = GetComponent<Player>();
+
+        controller.enableOverlapRecovery = true;
+        SetCrouchingState(false, true);
+        UpdateCharacterHeight(true);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(PauseMenu.OnPause)
@@ -55,108 +90,131 @@ public class PlayerControls : MonoBehaviour
         }
         else
         {
-            GetInputs();
-        }
-        hasJumpedThisFrame = false;
+            HasJumpedThisFrame = false;
 
-        //bool wasGrounded = isGrounded;
-        GroundCheck();
+            //bool wasGrounded = isGrounded;
+            GroundCheck();
 
-        //if (isGrounded && !wasGrounded)
-        //    // fall damage?
-        //    // land audio
-
-        Movement();
-
-    }
-
-    void FixedUpdate()
-    {
-    }
-
-    void Movement()
-    {
-        //if (walking)
-        //    movSpeed = 3f;
-        //    sideSpeed = 3f;
-        //    backSpeed = 3f;
-        //else
-        //    movSpeed = 6;
-        //    sideSpeed = 5f;
-        //    backSpeed = 3f;
-
-        //Vector3 inputsNormalized = new Vector3(inputs.x, inputs.y, inputs.z);
-        Vector3 inputsNormalized = new Vector3(inputs.x, 0f, inputs.z);
-        inputsNormalized.Normalize();
-
-        Vector3 worldMoveInput = transform.TransformVector(inputsNormalized);
-
-        //ground movement
-        if (isGrounded)
-        {
-            Vector3 targetVelocity = worldMoveInput * maxSpeedGrounded;
-
-            //if crouched?
-            //smooth interpolation
-            characterVelocity = Vector3.Lerp(characterVelocity, targetVelocity, movementAcceleration * Time.deltaTime);
-
-            //jumping
-            if (isGrounded && Input.GetKeyDown(controls.jump))
+            //if (isGrounded && !wasGrounded)
+            //    // fall damage?
+            //    // land audio
+            if (inputHandler.GetCrouchInputDown())
             {
-                characterVelocity = new Vector3(characterVelocity.x, 0f, characterVelocity.z);
-                characterVelocity += Vector3.up * jumpForce;
-
-                //sound for jump
-
-                //track time
-                LastTimeJumped = Time.time;
-                hasJumpedThisFrame = true;
-
-                isGrounded = false;
-                groundNormal = Vector3.up;
+                SetCrouchingState(!IsCrouching, false);
             }
-            //footstep frequency, distance & sound
+
+            UpdateCharacterHeight(false);
+            Movement();
+            Shooting();
         }
-        //air movement
+    }
+
+    void Shooting()
+    {
+        //check for shots
+        if (inputHandler.GetFireInputDown() || inputHandler.GetFireInputHeld())
+            isFiring = true;
         else
-        {
-            characterVelocity += worldMoveInput * airAcceleration * Time.deltaTime;
-
-            float verticalVelocity = characterVelocity.y;
-            Vector3 horizontalVelocity = Vector3.ProjectOnPlane(characterVelocity, Vector3.up);
-            horizontalVelocity = Vector3.ClampMagnitude(horizontalVelocity, maxSpeedAir);
-            characterVelocity = horizontalVelocity + (Vector3.up * verticalVelocity);
-
-            //gravity
-            characterVelocity += Vector3.down * gravityForce * Time.deltaTime;
-        }
-
-        //apply velocity
-        Vector3 capsuleBotBeforeMove = GetCapsuleBot();
-        Vector3 capsuleTopBeforeMove = GetCapsuleTop(controller.height);
-        controller.Move(characterVelocity * Time.deltaTime);
-
-        if (Physics.CapsuleCast(capsuleBotBeforeMove, capsuleTopBeforeMove, controller.radius, characterVelocity.normalized, out RaycastHit hit, characterVelocity.magnitude * Time.deltaTime, -1, QueryTriggerInteraction.Ignore))
-            characterVelocity = Vector3.ProjectOnPlane(characterVelocity, hit.normal);
+            isFiring = false;
+        //check for reload
+        if (inputHandler.GetReloadInputDown())
+            isReloading = true;
+        else
+            isReloading = false;
     }
 
     void GroundCheck()
     {
-        isGrounded = false;
+        float chosenGroundCheckDistance = IsGrounded ? (controller.skinWidth + groundCheckDist) : groundCheckDistAir;
+
+        IsGrounded = false;
         groundNormal = Vector3.up;
 
-        if (Time.time >= LastTimeJumped + JumpPreventionTime)
-            if(Physics.CapsuleCast(GetCapsuleBot(), GetCapsuleTop(controller.height), controller.radius, Vector3.down, out RaycastHit hit, GroundCheckDist, groundCheckLayers, QueryTriggerInteraction.Ignore))
+        if (Time.time >= lastTimeJumped + jumpPreventionTime)
+        {
+            if (Physics.CapsuleCast(GetCapsuleBot(), GetCapsuleTop(controller.height), controller.radius, Vector3.down, out RaycastHit hit, chosenGroundCheckDistance, groundCheckLayers, QueryTriggerInteraction.Ignore))
             {
                 groundNormal = hit.normal;
 
-                if(Vector3.Dot(hit.normal, transform.up) > 0f && IsNormalUnderSlopeLimit(groundNormal))
+                if (Vector3.Dot(hit.normal, transform.up) > 0f &&
+                    IsNormalUnderSlopeLimit(groundNormal))
                 {
-                    isGrounded = true;
-                    if(hit.distance > controller.skinWidth)
+                    IsGrounded = true;
+
+                    if (hit.distance > controller.skinWidth)
+                    {
                         controller.Move(Vector3.down * hit.distance);
+                    }
                 }
             }
+        }
+    }
+
+    void Movement()
+    {
+        // horizontal rotation
+        {
+            transform.Rotate(new Vector3(0f, (inputHandler.GetLookInputsHorizontal() * rotationSpeed * rotationMultiplier), 0f), Space.Self);
+        }
+
+        // vertical camera rotation
+        {
+            cameraVerticalAngle += inputHandler.GetLookInputsVertical() * rotationSpeed * rotationMultiplier;
+            cameraVerticalAngle = Mathf.Clamp(cameraVerticalAngle, -89f, 89f);
+            playerCamera.transform.localEulerAngles = new Vector3(cameraVerticalAngle, 0, 0);
+        }
+
+        float speedModifier = 1f;
+        Vector3 worldMoveInput = transform.TransformVector(inputHandler.GetMoveInput());
+
+        //ground movement
+        if (IsGrounded)
+        {
+            Vector3 targetVelocity = worldMoveInput * maxSpeedGrounded * speedModifier;
+
+            if (IsCrouching)
+                targetVelocity *= maxSpeedCrouchedRatio;
+            targetVelocity = GetDirectionOnSlope(targetVelocity.normalized, groundNormal) * targetVelocity.magnitude;
+
+            // velocity interpolation
+            CharacterVelocity = Vector3.Lerp(CharacterVelocity, targetVelocity, movementAcceleration * Time.deltaTime);
+
+            // jumping
+            if (IsGrounded && inputHandler.GetJumpInputDown())
+            {
+                CharacterVelocity = new Vector3(CharacterVelocity.x, 0f, CharacterVelocity.z);
+                CharacterVelocity += Vector3.up * jumpForce;
+
+                // play sound
+
+                lastTimeJumped = Time.time;
+                HasJumpedThisFrame = true;
+                IsGrounded = false;
+                groundNormal = Vector3.up;
+            }
+        }
+        //air movement
+        else
+        {
+            CharacterVelocity += worldMoveInput * airAcceleration * Time.deltaTime;
+
+            float verticalVelocity = CharacterVelocity.y;
+            Vector3 horizontalVelocity = Vector3.ProjectOnPlane(CharacterVelocity, Vector3.up);
+            horizontalVelocity = Vector3.ClampMagnitude(horizontalVelocity, maxSpeedAir * speedModifier);
+            CharacterVelocity = horizontalVelocity + (Vector3.up * verticalVelocity);
+
+            // apply gravity
+            CharacterVelocity += Vector3.down * gravityDownForce * Time.deltaTime;
+        }
+
+        // apply calculations
+        Vector3 capsuleBottomBeforeMove = GetCapsuleBot();
+        Vector3 capsuleTopBeforeMove = GetCapsuleTop(controller.height);
+        controller.Move(CharacterVelocity * Time.deltaTime);
+
+        // detect obstructions
+        if (Physics.CapsuleCast(capsuleBottomBeforeMove, capsuleTopBeforeMove, controller.radius, CharacterVelocity.normalized, out RaycastHit hit, CharacterVelocity.magnitude * Time.deltaTime, -1, QueryTriggerInteraction.Ignore))
+            CharacterVelocity = Vector3.ProjectOnPlane(CharacterVelocity, hit.normal);
     }
 
     Vector3 GetCapsuleBot()
@@ -164,9 +222,15 @@ public class PlayerControls : MonoBehaviour
         return transform.position + (transform.up * controller.radius);
     }
 
-    Vector3 GetCapsuleTop(float atH)
+    Vector3 GetCapsuleTop(float atHeight)
     {
-        return transform.position + (transform.up * (atH - controller.radius));
+        return transform.position + (transform.up * (atHeight - controller.radius));
+    }
+
+    Vector3 GetDirectionOnSlope(Vector3 direction, Vector3 slopeNormal)
+    {
+        Vector3 directionRight = Vector3.Cross(direction, transform.up);
+        return Vector3.Cross(slopeNormal, directionRight).normalized;
     }
 
     bool IsNormalUnderSlopeLimit(Vector3 normal)
@@ -174,64 +238,51 @@ public class PlayerControls : MonoBehaviour
         return Vector3.Angle(transform.up, normal) <= controller.slopeLimit;
     }
 
-    void GetInputs()
+    void UpdateCharacterHeight(bool force)
     {
-        //if (Input.GetKey(controls.jump))
-        //    inputs.y = 1;
-        //else inputs.y = 0;
-
-
-        if (Input.GetKey(controls.walk))
-            walking = true;
-        else
-            walking = false;
-
-        if (Input.GetKey(controls.forwards))
-            inputs.z = 1;
-       
-        if (Input.GetKey(controls.backwards))
+        // Update height instantly
+        if (force)
         {
-            if (Input.GetKey(controls.forwards))
-                inputs.z = 0;
-            else
-                inputs.z = -1;
+            controller.height = targetCharacterHeight;
+            controller.center = Vector3.up * controller.height * 0.5f;
+            playerCamera.transform.localPosition = Vector3.up * targetCharacterHeight * cameraHeightRatio;
+            //aimPoint.transform.localPosition = controller.center;
         }
-
-        if (!Input.GetKey(controls.forwards) && !Input.GetKey(controls.backwards))
-            inputs.z = 0;
-
-        if (Input.GetKey(controls.right))
-            inputs.x = 1;
-
-        if (Input.GetKey(controls.left))
+        // Update height smoothly
+        else if (controller.height != targetCharacterHeight)
         {
-            if (Input.GetKey(controls.right))
-                inputs.x = 0;
-            else
-                inputs.x = -1;
+            // resize the capsule and adjust camera position
+            controller.height = Mathf.Lerp(controller.height, targetCharacterHeight, crouchingSharpness * Time.deltaTime);
+            controller.center = Vector3.up * controller.height * 0.5f;
+            playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, Vector3.up * targetCharacterHeight * cameraHeightRatio, crouchingSharpness * Time.deltaTime);
+            //aimPoint.transform.localPosition = m_Controller.center;
         }
+    }
 
-        if (!Input.GetKey(controls.left) && !Input.GetKey(controls.right))
-            inputs.x = 0;
-
-        if (Input.GetKey(controls.fire))
-            isFiring = true;
-        else
-            isFiring = false;
-
-        if (Input.GetKey(controls.reload))
+    bool SetCrouchingState(bool crouched, bool ignoreObstructions)
+    {
+        // set appropriate heights
+        if (crouched)
         {
-            isReloading = true;
+            targetCharacterHeight = capsuleHeightCrouching;
         }
         else
         {
-            isReloading = false;
+            // Detect obstructions
+            if (!ignoreObstructions)
+            {
+                Collider[] standingOverlaps = Physics.OverlapCapsule(GetCapsuleBot(), GetCapsuleTop(capsuleHeightStanding), controller.radius, -1, QueryTriggerInteraction.Ignore);
+                foreach (Collider c in standingOverlaps)
+                    if (c != controller)
+                        return false;
+            }
+            targetCharacterHeight = capsuleHeightStanding;
         }
 
-        if (Input.GetKey(controls.use))
-        {
-            interaction.Interact();
-        }
+        if (onStanceChanged != null)
+            onStanceChanged.Invoke(crouched);
 
+        IsCrouching = crouched;
+        return true;
     }
 }
