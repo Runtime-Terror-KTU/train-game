@@ -11,13 +11,11 @@ public class InputHandler : MonoBehaviour
     [Tooltip("Used to flip the horizontal input axis")]
     public bool invertXAxis = false;
 
-    PlayerControls playerControls;
     Controls controls;
     bool fireInputWasHeld;
 
     private void Start()
     {
-        playerControls = GetComponent<PlayerControls>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -36,7 +34,7 @@ public class InputHandler : MonoBehaviour
     {
         if (CanProcessInput())
         {
-            Vector3 move = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
+            Vector3 move = new Vector3(Input.GetAxisRaw(GameConstants.AxisNameHorizontal), 0f, Input.GetAxisRaw(GameConstants.AxisNameVertical));
             move = Vector3.ClampMagnitude(move, 1);
             return move;
         }
@@ -46,22 +44,42 @@ public class InputHandler : MonoBehaviour
     public float GetLookInputsHorizontal()
     {
         if(invertXAxis)
-            return GetMouseLookAxis("Mouse X") * -1;
-        return GetMouseLookAxis("Mouse X");
+            return GetMouseLookAxis(GameConstants.MouseAxisNameHorizontal) * -1;
+        return GetMouseLookAxis(GameConstants.MouseAxisNameHorizontal);
     }
 
     public float GetLookInputsVertical()
     {
         if (invertYAxis)
-            return GetMouseLookAxis("Mouse Y") * -1;
-        return GetMouseLookAxis("Mouse Y");
+            return GetMouseLookAxis(GameConstants.MouseAxisNameVertical) * -1;
+        return GetMouseLookAxis(GameConstants.MouseAxisNameVertical);
     }
 
     public bool GetJumpInputDown()
     {
         if (CanProcessInput())
         {
-            return Input.GetButtonDown(controls.jump.ToString());
+            return Input.GetButtonDown(GameConstants.ButtonNameJump);
+        }
+
+        return false;
+    }
+
+    public bool GetCrouchInputDown()
+    {
+        if (CanProcessInput())
+        {
+            return Input.GetButtonDown(GameConstants.ButtonNameCrouch);
+        }
+
+        return false;
+    }
+
+    public bool GetCrouchInputReleased()
+    {
+        if (CanProcessInput())
+        {
+            return Input.GetButtonUp(GameConstants.ButtonNameCrouch);
         }
 
         return false;
@@ -81,7 +99,7 @@ public class InputHandler : MonoBehaviour
     {
         if (CanProcessInput())
         {
-                return Input.GetButton(controls.fire.ToString());
+                return Input.GetButton(GameConstants.ButtonNameFire);
         }
         return false;
     }

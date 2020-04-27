@@ -37,13 +37,21 @@ public class PlayerControls : MonoBehaviour
     [Range(0.1f, 1f)]
     [Tooltip("Ratio (0-1) of the character height where the camera will be at")]
     public float cameraHeightRatio = 0.9f;
+    [Tooltip("Height of character when standing")]
+    public float capsuleHeightStanding = 1.8f;
+    [Tooltip("Height of character when crouching")]
+    public float capsuleHeightCrouching = 0.9f;
+    [Tooltip("Speed of crouching transitions")]
+    public float crouchingSharpness = 10f;
 
+    public UnityAction<bool> onStanceChanged;
 
-    public Vector3 characterVelocity { get; set; }
-    public bool isGrounded { get; private set; }
-    public bool hasJumpedThisFrame { get; private set; }
-    Vector3 groundNormal;
+    public Vector3 CharacterVelocity { get; set; }
+    public bool IsGrounded { get; private set; }
+    public bool HasJumpedThisFrame { get; private set; }
+    public bool IsCrouching { get; private set; }
     public float rotationMultiplier = 1f;
+    Vector3 groundNormal;
 
 
     CharacterController controller;
@@ -51,7 +59,7 @@ public class PlayerControls : MonoBehaviour
     Player player;
     float lastTimeJumped = 0f;
     float cameraVerticalAngle = 0f;
-    float targetCharacterHeight = 2.5f;
+    float targetCharacterHeight;
 
     const float jumpPreventionTime = 0.2f;
     const float groundCheckDistAir = 0.07f;
@@ -67,7 +75,8 @@ public class PlayerControls : MonoBehaviour
         player = GetComponent<Player>();
 
         controller.enableOverlapRecovery = true;
-        UpdateCharacterHeight();
+        SetCrouchingState(false, true);
+        UpdateCharacterHeight(true);
     }
 
     void Update()
@@ -78,7 +87,7 @@ public class PlayerControls : MonoBehaviour
         }
         else
         {
-            hasJumpedThisFrame = false;
+            HasJumpedThisFrame = false;
 
             //bool wasGrounded = isGrounded;
             GroundCheck();
@@ -86,15 +95,20 @@ public class PlayerControls : MonoBehaviour
             //if (isGrounded && !wasGrounded)
             //    // fall damage?
             //    // land audio
-            UpdateCharacterHeight();
+            if (inputHandler.GetCrouchInputDown())
+            {
+                SetCrouchingState(!IsCrouching, false);
+            }
+
+            UpdateCharacterHeight(false);
             Movement();
         }
     }
     void GroundCheck()
     {
-        float chosenGroundCheckDistance = isGrounded ? (controller.skinWidth + groundCheckDist) : groundCheckDistAir;
+        float chosenGroundCheckDistance = IsGrounded ? (controller.skinWidth + groundCheckDist) : groundCheckDistAir;
 
-        isGrounded = false;
+        IsGrounded = false;
         groundNormal = Vector3.up;
 
         if (Time.time >= lastTimeJumped + jumpPreventionTime)
@@ -106,7 +120,7 @@ public class PlayerControls : MonoBehaviour
                 if (Vector3.Dot(hit.normal, transform.up) > 0f &&
                     IsNormalUnderSlopeLimit(groundNormal))
                 {
-                    isGrounded = true;
+                    IsGrounded = true;
 
                     if (hit.distance > controller.skinWidth)
                     {
@@ -135,7 +149,7 @@ public class PlayerControls : MonoBehaviour
         Vector3 worldMoveInput = transform.TransformVector(inputHandler.GetMoveInput());
 
         //ground movement
-        if (isGrounded)
+        if (IsGrounded)
         {
             // calculate the desired velocity from inputs, max speed, and current slope
             Vector3 targetVelocity = worldMoveInput * maxSpeedGrounded * speedModifier;
@@ -143,44 +157,44 @@ public class PlayerControls : MonoBehaviour
             targetVelocity = GetDirectionOnSlope(targetVelocity.normalized, groundNormal) * targetVelocity.magnitude;
 
             // smoothly interpolate between our current velocity and the target velocity based on acceleration speed
-            characterVelocity = Vector3.Lerp(characterVelocity, targetVelocity, movementAcceleration * Time.deltaTime);
+            CharacterVelocity = Vector3.Lerp(CharacterVelocity, targetVelocity, movementAcceleration * Time.deltaTime);
 
             // jumping
-            if (isGrounded && inputHandler.GetJumpInputDown())
+            if (IsGrounded && inputHandler.GetJumpInputDown())
             {
-                characterVelocity = new Vector3(characterVelocity.x, 0f, characterVelocity.z);
-                characterVelocity += Vector3.up * jumpForce;
+                CharacterVelocity = new Vector3(CharacterVelocity.x, 0f, CharacterVelocity.z);
+                CharacterVelocity += Vector3.up * jumpForce;
 
                 // play sound
 
                 lastTimeJumped = Time.time;
-                hasJumpedThisFrame = true;
-                isGrounded = false;
+                HasJumpedThisFrame = true;
+                IsGrounded = false;
                 groundNormal = Vector3.up;
             }
         }
         //air movement
         else
         {
-            characterVelocity += worldMoveInput * airAcceleration * Time.deltaTime;
+            CharacterVelocity += worldMoveInput * airAcceleration * Time.deltaTime;
 
-            float verticalVelocity = characterVelocity.y;
-            Vector3 horizontalVelocity = Vector3.ProjectOnPlane(characterVelocity, Vector3.up);
+            float verticalVelocity = CharacterVelocity.y;
+            Vector3 horizontalVelocity = Vector3.ProjectOnPlane(CharacterVelocity, Vector3.up);
             horizontalVelocity = Vector3.ClampMagnitude(horizontalVelocity, maxSpeedAir * speedModifier);
-            characterVelocity = horizontalVelocity + (Vector3.up * verticalVelocity);
+            CharacterVelocity = horizontalVelocity + (Vector3.up * verticalVelocity);
 
             // apply gravity
-            characterVelocity += Vector3.down * gravityDownForce * Time.deltaTime;
+            CharacterVelocity += Vector3.down * gravityDownForce * Time.deltaTime;
         }
 
         // apply calculations
         Vector3 capsuleBottomBeforeMove = GetCapsuleBot();
         Vector3 capsuleTopBeforeMove = GetCapsuleTop(controller.height);
-        controller.Move(characterVelocity * Time.deltaTime);
+        controller.Move(CharacterVelocity * Time.deltaTime);
 
         // detect obstructions
-        if (Physics.CapsuleCast(capsuleBottomBeforeMove, capsuleTopBeforeMove, controller.radius, characterVelocity.normalized, out RaycastHit hit, characterVelocity.magnitude * Time.deltaTime, -1, QueryTriggerInteraction.Ignore))
-            characterVelocity = Vector3.ProjectOnPlane(characterVelocity, hit.normal);
+        if (Physics.CapsuleCast(capsuleBottomBeforeMove, capsuleTopBeforeMove, controller.radius, CharacterVelocity.normalized, out RaycastHit hit, CharacterVelocity.magnitude * Time.deltaTime, -1, QueryTriggerInteraction.Ignore))
+            CharacterVelocity = Vector3.ProjectOnPlane(CharacterVelocity, hit.normal);
     }
 
     Vector3 GetCapsuleBot()
@@ -204,11 +218,63 @@ public class PlayerControls : MonoBehaviour
         return Vector3.Angle(transform.up, normal) <= controller.slopeLimit;
     }
 
-    void UpdateCharacterHeight()
+    void UpdateCharacterHeight(bool force)
     {
-        controller.height = targetCharacterHeight;
-        controller.center = Vector3.up * controller.height * 0.5f;
-        playerCamera.transform.localPosition = Vector3.up * targetCharacterHeight * cameraHeightRatio;
-        //ACTOR.aimPoint.transform.localPosition = m_Controller.center;
+        // Update height instantly
+        if (force)
+        {
+            controller.height = targetCharacterHeight;
+            controller.center = Vector3.up * controller.height * 0.5f;
+            playerCamera.transform.localPosition = Vector3.up * targetCharacterHeight * cameraHeightRatio;
+            //aimPoint.transform.localPosition = controller.center;
+        }
+        // Update height smoothly
+        else if (controller.height != targetCharacterHeight)
+        {
+            // resize the capsule and adjust camera position
+            controller.height = Mathf.Lerp(controller.height, targetCharacterHeight, crouchingSharpness * Time.deltaTime);
+            controller.center = Vector3.up * controller.height * 0.5f;
+            playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, Vector3.up * targetCharacterHeight * cameraHeightRatio, crouchingSharpness * Time.deltaTime);
+            //aimPoint.transform.localPosition = m_Controller.center;
+        }
+    }
+
+    bool SetCrouchingState(bool crouched, bool ignoreObstructions)
+    {
+        // set appropriate heights
+        if (crouched)
+        {
+            targetCharacterHeight = capsuleHeightCrouching;
+        }
+        else
+        {
+            // Detect obstructions
+            if (!ignoreObstructions)
+            {
+                Collider[] standingOverlaps = Physics.OverlapCapsule(
+                    GetCapsuleBot(),
+                    GetCapsuleTop(capsuleHeightStanding),
+                    controller.radius,
+                    -1,
+                    QueryTriggerInteraction.Ignore);
+                foreach (Collider c in standingOverlaps)
+                {
+                    if (c != controller)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            targetCharacterHeight = capsuleHeightStanding;
+        }
+
+        if (onStanceChanged != null)
+        {
+            onStanceChanged.Invoke(crouched);
+        }
+
+        IsCrouching = crouched;
+        return true;
     }
 }
