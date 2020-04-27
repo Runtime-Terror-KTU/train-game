@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.20365977, g: 0.40003982, b: 0.88504034, a: 1}
+  m_IndirectSpecularColor: {r: 0.2618508, g: 0.43072352, b: 0.85836613, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -891,15 +891,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4972077589141746, guid: d3882a1d26d11214da76a466ac04da95, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.279
+      value: 0.283
       objectReference: {fileID: 0}
     - target: {fileID: 4972077589141746, guid: d3882a1d26d11214da76a466ac04da95, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.959
+      value: 1.976
       objectReference: {fileID: 0}
     - target: {fileID: 4972077589141746, guid: d3882a1d26d11214da76a466ac04da95, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.668
+      value: 0.454
       objectReference: {fileID: 0}
     - target: {fileID: 4972077589141746, guid: d3882a1d26d11214da76a466ac04da95, type: 3}
       propertyPath: m_LocalRotation.x
@@ -932,6 +932,18 @@ PrefabInstance:
     - target: {fileID: 4972077589141746, guid: d3882a1d26d11214da76a466ac04da95, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.79600006
+      objectReference: {fileID: 0}
+    - target: {fileID: 4972077589141746, guid: d3882a1d26d11214da76a466ac04da95, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4972077589141746, guid: d3882a1d26d11214da76a466ac04da95, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4972077589141746, guid: d3882a1d26d11214da76a466ac04da95, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3882a1d26d11214da76a466ac04da95, type: 3}
@@ -6331,8 +6343,8 @@ MonoBehaviour:
   hitDelay: 1
   hitPoint: {fileID: 2000615332}
   isHitting: 0
-  hitDamage: 55555
-  hitRange: 150
+  hitDamage: 100
+  hitRange: 50
   hitForce: 100
 --- !u!1 &2009537675
 GameObject:
