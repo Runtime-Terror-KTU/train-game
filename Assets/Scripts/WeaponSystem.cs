@@ -5,6 +5,7 @@ using UnityEngine;
 public class WeaponSystem : MonoBehaviour
 {
     public PlayerControls playerControls;
+    public GameObject weaponStash;
     public int selectedWeapon = 0;
 
     public int ak_ammo = 60;
@@ -14,8 +15,13 @@ public class WeaponSystem : MonoBehaviour
     public int currentAmmo = 0;
     public int currentReserve = 0;
 
+    public bool foundPistol = false;
+    public bool foundAK = false;
+    public bool foundSVD = false;
+
     void Start()
     {
+        DisableStash();
         SelectWeapon();
     }
 
@@ -50,6 +56,7 @@ public class WeaponSystem : MonoBehaviour
         int i = 0;
         foreach(Transform weapon in transform)
         {
+          
             if(i == selectedWeapon)
             {
                 weapon.gameObject.SetActive(true);
@@ -62,4 +69,35 @@ public class WeaponSystem : MonoBehaviour
             i++;
         }
     }    
+
+    void DisableStash()
+    {    
+        foreach(Transform weapon in weaponStash.transform)
+        {
+            weapon.gameObject.SetActive(false);
+        }
+    }
+
+
+    public void FoundWeapon()
+    {
+        foreach (Transform weapon in weaponStash.transform)
+        {
+            if (foundPistol == true && weapon.gameObject.name=="Pistol")
+            {
+                weapon.parent = transform;
+                foundPistol = false;
+            }
+            else if (foundAK == true && weapon.gameObject.name == "AK")
+            {
+                weapon.parent = transform;
+                foundAK = false;
+            }
+            else if (foundSVD == true && weapon.gameObject.name == "SVD")
+            {
+                weapon.parent = transform;
+                foundSVD = false;
+            }
+        }
+    }
 }

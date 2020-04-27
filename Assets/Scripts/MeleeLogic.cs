@@ -38,18 +38,19 @@ public class MeleeLogic : MonoBehaviour
             hitTimer = hitDelay;
 
             RaycastHit hit;
-            Physics.Raycast(hitPoint.transform.position, hitPoint.transform.forward, out hit, hitRange);
 
-            Enemy enemy = hit.transform.GetComponent<Enemy>();
-            if (enemy != null)
+            if(Physics.Raycast(hitPoint.transform.position, hitPoint.transform.forward, out hit, hitRange))
             {
-                enemy.TakeDamage(hitDamage);
+                Enemy enemy = hit.transform.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    enemy.TakeDamage(hitDamage);
+                }
+                if (hit.rigidbody != null)
+                {
+                    hit.rigidbody.AddForce(-hit.normal * hitForce);
+                }
             }
-            if (hit.rigidbody != null)
-            {
-                hit.rigidbody.AddForce(-hit.normal * hitForce);
-            }
-
         }
     }
 
