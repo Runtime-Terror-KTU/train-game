@@ -20,6 +20,9 @@ public class PlayerControls : MonoBehaviour
     public float maxSpeedGrounded = 10f;
     [Tooltip("Ground movement acceleration speed")]
     public float movementAcceleration = 15f;
+    [Tooltip("Max movement speed when crouching")]
+    [Range(0, 1)]
+    public float maxSpeedCrouchedRatio = 0.5f;
     [Tooltip("Max movement speed when not grounded")]
     public float maxSpeedAir = 15f;
     [Tooltip("Air movement acceleration speed")]
@@ -167,12 +170,13 @@ public class PlayerControls : MonoBehaviour
         //ground movement
         if (IsGrounded)
         {
-            // calculate the desired velocity from inputs, max speed, and current slope
             Vector3 targetVelocity = worldMoveInput * maxSpeedGrounded * speedModifier;
-            // reduce speed if crouching by crouch speed ratio
+
+            if (IsCrouching)
+                targetVelocity *= maxSpeedCrouchedRatio;
             targetVelocity = GetDirectionOnSlope(targetVelocity.normalized, groundNormal) * targetVelocity.magnitude;
 
-            // smoothly interpolate between our current velocity and the target velocity based on acceleration speed
+            // velocity interpolation
             CharacterVelocity = Vector3.Lerp(CharacterVelocity, targetVelocity, movementAcceleration * Time.deltaTime);
 
             // jumping
@@ -267,28 +271,16 @@ public class PlayerControls : MonoBehaviour
             // Detect obstructions
             if (!ignoreObstructions)
             {
-                Collider[] standingOverlaps = Physics.OverlapCapsule(
-                    GetCapsuleBot(),
-                    GetCapsuleTop(capsuleHeightStanding),
-                    controller.radius,
-                    -1,
-                    QueryTriggerInteraction.Ignore);
+                Collider[] standingOverlaps = Physics.OverlapCapsule(GetCapsuleBot(), GetCapsuleTop(capsuleHeightStanding), controller.radius, -1, QueryTriggerInteraction.Ignore);
                 foreach (Collider c in standingOverlaps)
-                {
                     if (c != controller)
-                    {
                         return false;
-                    }
-                }
             }
-
             targetCharacterHeight = capsuleHeightStanding;
         }
 
         if (onStanceChanged != null)
-        {
             onStanceChanged.Invoke(crouched);
-        }
 
         IsCrouching = crouched;
         return true;

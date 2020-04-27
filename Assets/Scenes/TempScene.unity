@@ -6706,6 +6706,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 1067033760430024783, guid: f9e71bf0371620641b78691f842ed00b,
+        type: 3}
+      propertyPath: maxSpeedGrounded
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1067033760430024783, guid: f9e71bf0371620641b78691f842ed00b,
+        type: 3}
+      propertyPath: movementAcceleration
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1067033760430024783, guid: f9e71bf0371620641b78691f842ed00b,
+        type: 3}
+      propertyPath: maxSpeedAir
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1067033760430024783, guid: f9e71bf0371620641b78691f842ed00b,
+        type: 3}
+      propertyPath: airAcceleration
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1067033760430024783, guid: f9e71bf0371620641b78691f842ed00b,
+        type: 3}
+      propertyPath: jumpForce
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1067033760430024783, guid: f9e71bf0371620641b78691f842ed00b,
+        type: 3}
+      propertyPath: crouchingSharpness
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1067033760430024783, guid: f9e71bf0371620641b78691f842ed00b,
+        type: 3}
+      propertyPath: capsuleHeightCrouching
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1067033760430024783, guid: f9e71bf0371620641b78691f842ed00b,
+        type: 3}
+      propertyPath: maxSpeedCrouchedRatio
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 1067033761066983488, guid: f9e71bf0371620641b78691f842ed00b,
         type: 3}
       propertyPath: PlayerControls
