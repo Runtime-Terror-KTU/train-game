@@ -80,18 +80,19 @@ public class GunLogic : MonoBehaviour
             shotTimer = shootDelay;
 
             RaycastHit hit;
-            Physics.Raycast(firePoint.transform.position, firePoint.transform.forward, out hit, bulletRange);
-
-            Enemy enemy = hit.transform.GetComponent<Enemy>();
-            if (enemy != null)
-            {
-                enemy.TakeDamage(bulletDamage);
+            if(Physics.Raycast(firePoint.transform.position, firePoint.transform.forward, out hit, bulletRange))
+            { 
+                Enemy enemy = hit.transform.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    enemy.TakeDamage(bulletDamage);
+                }
+                if (hit.rigidbody != null)
+                {
+                    hit.rigidbody.AddForce(-hit.normal * bulletForce);
+                }
             }
-            if (hit.rigidbody != null)
-            {
-                hit.rigidbody.AddForce(-hit.normal * bulletForce);
-            }
-
+           
             currentAmmo--;
             UpdateAmmo();
         }       
