@@ -23,7 +23,7 @@ public class WeaponSystem : MonoBehaviour
     {
         int previousSelectedWep = selectedWeapon;
 
-        if(Input.GetAxis("Mouse ScrollWheel") > 0f)
+        if(Input.GetAxis(GameConstants.ButtonNameSwitchWeapon) > 0f)
         {
             if (selectedWeapon >= transform.childCount - 1)
                 selectedWeapon = 0;
@@ -31,7 +31,7 @@ public class WeaponSystem : MonoBehaviour
                 selectedWeapon++;
         }
 
-        if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+        if (Input.GetAxis(GameConstants.ButtonNameSwitchWeapon) < 0f)
         {
             if (selectedWeapon <= 0)
                 selectedWeapon = transform.childCount - 1;
