@@ -6,6 +6,14 @@ public class Interaction : MonoBehaviour
     public GameObject interactableObj;
     public LayerMask LayerInteract;
 
+    private void Update()
+    {
+        if(Input.GetButtonDown(GameConstants.ButtonNameUse))
+        {
+            Interact();
+        }
+    }
+
     public void Interact()
     {
         RaycastHit hit;
@@ -14,14 +22,9 @@ public class Interaction : MonoBehaviour
         {
             if (hit.collider.CompareTag("InteractableObj"))
             {
-                interactableObj = hit.collider.gameObject;
-
-                if (Input.GetKeyDown("e"))
-                {
-                    Debug.Log("Succes");
-                    interactableObj.SetActive(false);
-                }
-
+                interactableObj = hit.collider.gameObject;      
+                Debug.Log("Succes");
+                interactableObj.SetActive(false);
             }
         }
     }

@@ -104,6 +104,15 @@ public class InputHandler : MonoBehaviour
         return false;
     }
 
+    public bool GetUseInputDown()
+    {
+        if(CanProcessInput())
+        {
+            return Input.GetButton(GameConstants.ButtonNameUse);
+        }
+        return false;
+    }
+
     public bool GetReloadInputDown()
     {
         if (CanProcessInput())
