@@ -1,52 +1,75 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerControls : MonoBehaviour
 {
-    Rigidbody rigidbody;
-    CharacterController controller;
-    public Controls controls;
-    public Interaction interaction;
+    [Header("References")]
+    [Tooltip("Main camera used by the player")]
+    public Camera playerCamera;
 
-    [SerializeField]
-    public Vector3 inputs;
-    //walking
-    
-    bool walking, jump;
+    [Header("General")]
+    [Tooltip("Force applied down when in the air")]
+    public float gravityDownForce = 20f;
+    [Tooltip("Physic layers to check if player is grounded")]
+    public LayerMask groundCheckLayers = -1;
+    [Tooltip("Distance from the bottom of the character controller to test if grounded")]
+    public float groundCheckDist = 0.05f;
+
+    [Header("Movement")]
+    [Tooltip("Max movement speed when grounded")]
+    public float maxSpeedGrounded = 10f;
+    [Tooltip("Ground movement acceleration speed")]
+    public float movementAcceleration = 15f;
+    [Tooltip("Max movement speed when not grounded")]
+    public float maxSpeedAir = 15f;
+    [Tooltip("Air movement acceleration speed")]
+    public float airAcceleration = 25f;
+
+    [Header("Rotation")]
+    [Tooltip("Rotation speed for moving the camera")]
+    public float rotationSpeed = 200f;
+
+    [Header("Jump")]
+    [Tooltip("Force applied upward when jumping")]
+    public float jumpForce = 9f;
+
+    [Header("Stance")]
+    [Range(0.1f, 1f)]
+    [Tooltip("Ratio (0-1) of the character height where the camera will be at")]
+    public float cameraHeightRatio = 0.9f;
+
+
+    public Vector3 characterVelocity { get; set; }
     public bool isGrounded { get; private set; }
     public bool hasJumpedThisFrame { get; private set; }
-    bool isJumping;
-    Vector3 jumpDirection;
     Vector3 groundNormal;
-    Vector3 characterVelocity;
+    public float rotationMultiplier = 1f;
 
-    LayerMask groundCheckLayers = -1;
 
-    public Animator animator;
-    public float movSpeed = 6f;
-    public float sideSpeed = 5f;
-    public float backSpeed = 3f;
-    float LastTimeJumped = 0f;
+    CharacterController controller;
+    InputHandler inputHandler;
+    Player player;
+    float lastTimeJumped = 0f;
+    float cameraVerticalAngle = 0f;
+    float targetCharacterHeight = 2.5f;
 
-    public bool isFiring;
-    public bool isReloading;
+    const float jumpPreventionTime = 0.2f;
+    const float groundCheckDistAir = 0.07f;
 
-    public float gravityForce = 20f;
-    public float maxSpeedGrounded = 10f;
-    public float maxSpeedAir = 10f;
-    public float movementAcceleration = 15;
-    public float airAcceleration = 20f;
-    public float jumpForce = 5f;
-    const float JumpPreventionTime = 0.2f;
-    public float GroundCheckDist = 0.07f;
-    // Start is called before the first frame update
+    //TEMPORARY
+    public bool isFiring = false;
+    public bool isReloading = false;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        inputHandler = GetComponent<InputHandler>();
+        player = GetComponent<Player>();
+
+        controller.enableOverlapRecovery = true;
+        UpdateCharacterHeight();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(PauseMenu.OnPause)
@@ -55,67 +78,86 @@ public class PlayerControls : MonoBehaviour
         }
         else
         {
-            GetInputs();
+            hasJumpedThisFrame = false;
+
+            //bool wasGrounded = isGrounded;
+            GroundCheck();
+
+            //if (isGrounded && !wasGrounded)
+            //    // fall damage?
+            //    // land audio
+            UpdateCharacterHeight();
+            Movement();
         }
-        hasJumpedThisFrame = false;
-
-        //bool wasGrounded = isGrounded;
-        GroundCheck();
-
-        //if (isGrounded && !wasGrounded)
-        //    // fall damage?
-        //    // land audio
-
-        Movement();
-
     }
-
-    void FixedUpdate()
+    void GroundCheck()
     {
+        float chosenGroundCheckDistance = isGrounded ? (controller.skinWidth + groundCheckDist) : groundCheckDistAir;
+
+        isGrounded = false;
+        groundNormal = Vector3.up;
+
+        if (Time.time >= lastTimeJumped + jumpPreventionTime)
+        {
+            if (Physics.CapsuleCast(GetCapsuleBot(), GetCapsuleTop(controller.height), controller.radius, Vector3.down, out RaycastHit hit, chosenGroundCheckDistance, groundCheckLayers, QueryTriggerInteraction.Ignore))
+            {
+                groundNormal = hit.normal;
+
+                if (Vector3.Dot(hit.normal, transform.up) > 0f &&
+                    IsNormalUnderSlopeLimit(groundNormal))
+                {
+                    isGrounded = true;
+
+                    if (hit.distance > controller.skinWidth)
+                    {
+                        controller.Move(Vector3.down * hit.distance);
+                    }
+                }
+            }
+        }
     }
 
     void Movement()
     {
-        //if (walking)
-        //    movSpeed = 3f;
-        //    sideSpeed = 3f;
-        //    backSpeed = 3f;
-        //else
-        //    movSpeed = 6;
-        //    sideSpeed = 5f;
-        //    backSpeed = 3f;
+        // horizontal rotation
+        {
+            transform.Rotate(new Vector3(0f, (inputHandler.GetLookInputsHorizontal() * rotationSpeed * rotationMultiplier), 0f), Space.Self);
+        }
 
-        //Vector3 inputsNormalized = new Vector3(inputs.x, inputs.y, inputs.z);
-        Vector3 inputsNormalized = new Vector3(inputs.x, 0f, inputs.z);
-        inputsNormalized.Normalize();
+        // vertical camera rotation
+        {
+            cameraVerticalAngle += inputHandler.GetLookInputsVertical() * rotationSpeed * rotationMultiplier;
+            cameraVerticalAngle = Mathf.Clamp(cameraVerticalAngle, -89f, 89f);
+            playerCamera.transform.localEulerAngles = new Vector3(cameraVerticalAngle, 0, 0);
+        }
 
-        Vector3 worldMoveInput = transform.TransformVector(inputsNormalized);
+        float speedModifier = 1f;
+        Vector3 worldMoveInput = transform.TransformVector(inputHandler.GetMoveInput());
 
         //ground movement
         if (isGrounded)
         {
-            Vector3 targetVelocity = worldMoveInput * maxSpeedGrounded;
+            // calculate the desired velocity from inputs, max speed, and current slope
+            Vector3 targetVelocity = worldMoveInput * maxSpeedGrounded * speedModifier;
+            // reduce speed if crouching by crouch speed ratio
+            targetVelocity = GetDirectionOnSlope(targetVelocity.normalized, groundNormal) * targetVelocity.magnitude;
 
-            //if crouched?
-            //smooth interpolation
+            // smoothly interpolate between our current velocity and the target velocity based on acceleration speed
             characterVelocity = Vector3.Lerp(characterVelocity, targetVelocity, movementAcceleration * Time.deltaTime);
 
-            //jumping
-            if (isGrounded && Input.GetKeyDown(controls.jump))
+            // jumping
+            if (isGrounded && inputHandler.GetJumpInputDown())
             {
                 characterVelocity = new Vector3(characterVelocity.x, 0f, characterVelocity.z);
                 characterVelocity += Vector3.up * jumpForce;
 
-                //sound for jump
+                // play sound
 
-                //track time
-                LastTimeJumped = Time.time;
+                lastTimeJumped = Time.time;
                 hasJumpedThisFrame = true;
-
                 isGrounded = false;
                 groundNormal = Vector3.up;
             }
-            //footstep frequency, distance & sound
         }
         //air movement
         else
@@ -124,39 +166,21 @@ public class PlayerControls : MonoBehaviour
 
             float verticalVelocity = characterVelocity.y;
             Vector3 horizontalVelocity = Vector3.ProjectOnPlane(characterVelocity, Vector3.up);
-            horizontalVelocity = Vector3.ClampMagnitude(horizontalVelocity, maxSpeedAir);
+            horizontalVelocity = Vector3.ClampMagnitude(horizontalVelocity, maxSpeedAir * speedModifier);
             characterVelocity = horizontalVelocity + (Vector3.up * verticalVelocity);
 
-            //gravity
-            characterVelocity += Vector3.down * gravityForce * Time.deltaTime;
+            // apply gravity
+            characterVelocity += Vector3.down * gravityDownForce * Time.deltaTime;
         }
 
-        //apply velocity
-        Vector3 capsuleBotBeforeMove = GetCapsuleBot();
+        // apply calculations
+        Vector3 capsuleBottomBeforeMove = GetCapsuleBot();
         Vector3 capsuleTopBeforeMove = GetCapsuleTop(controller.height);
         controller.Move(characterVelocity * Time.deltaTime);
 
-        if (Physics.CapsuleCast(capsuleBotBeforeMove, capsuleTopBeforeMove, controller.radius, characterVelocity.normalized, out RaycastHit hit, characterVelocity.magnitude * Time.deltaTime, -1, QueryTriggerInteraction.Ignore))
+        // detect obstructions
+        if (Physics.CapsuleCast(capsuleBottomBeforeMove, capsuleTopBeforeMove, controller.radius, characterVelocity.normalized, out RaycastHit hit, characterVelocity.magnitude * Time.deltaTime, -1, QueryTriggerInteraction.Ignore))
             characterVelocity = Vector3.ProjectOnPlane(characterVelocity, hit.normal);
-    }
-
-    void GroundCheck()
-    {
-        isGrounded = false;
-        groundNormal = Vector3.up;
-
-        if (Time.time >= LastTimeJumped + JumpPreventionTime)
-            if(Physics.CapsuleCast(GetCapsuleBot(), GetCapsuleTop(controller.height), controller.radius, Vector3.down, out RaycastHit hit, GroundCheckDist, groundCheckLayers, QueryTriggerInteraction.Ignore))
-            {
-                groundNormal = hit.normal;
-
-                if(Vector3.Dot(hit.normal, transform.up) > 0f && IsNormalUnderSlopeLimit(groundNormal))
-                {
-                    isGrounded = true;
-                    if(hit.distance > controller.skinWidth)
-                        controller.Move(Vector3.down * hit.distance);
-                }
-            }
     }
 
     Vector3 GetCapsuleBot()
@@ -164,9 +188,15 @@ public class PlayerControls : MonoBehaviour
         return transform.position + (transform.up * controller.radius);
     }
 
-    Vector3 GetCapsuleTop(float atH)
+    Vector3 GetCapsuleTop(float atHeight)
     {
-        return transform.position + (transform.up * (atH - controller.radius));
+        return transform.position + (transform.up * (atHeight - controller.radius));
+    }
+
+    Vector3 GetDirectionOnSlope(Vector3 direction, Vector3 slopeNormal)
+    {
+        Vector3 directionRight = Vector3.Cross(direction, transform.up);
+        return Vector3.Cross(slopeNormal, directionRight).normalized;
     }
 
     bool IsNormalUnderSlopeLimit(Vector3 normal)
@@ -174,64 +204,11 @@ public class PlayerControls : MonoBehaviour
         return Vector3.Angle(transform.up, normal) <= controller.slopeLimit;
     }
 
-    void GetInputs()
+    void UpdateCharacterHeight()
     {
-        //if (Input.GetKey(controls.jump))
-        //    inputs.y = 1;
-        //else inputs.y = 0;
-
-
-        if (Input.GetKey(controls.walk))
-            walking = true;
-        else
-            walking = false;
-
-        if (Input.GetKey(controls.forwards))
-            inputs.z = 1;
-       
-        if (Input.GetKey(controls.backwards))
-        {
-            if (Input.GetKey(controls.forwards))
-                inputs.z = 0;
-            else
-                inputs.z = -1;
-        }
-
-        if (!Input.GetKey(controls.forwards) && !Input.GetKey(controls.backwards))
-            inputs.z = 0;
-
-        if (Input.GetKey(controls.right))
-            inputs.x = 1;
-
-        if (Input.GetKey(controls.left))
-        {
-            if (Input.GetKey(controls.right))
-                inputs.x = 0;
-            else
-                inputs.x = -1;
-        }
-
-        if (!Input.GetKey(controls.left) && !Input.GetKey(controls.right))
-            inputs.x = 0;
-
-        if (Input.GetKey(controls.fire))
-            isFiring = true;
-        else
-            isFiring = false;
-
-        if (Input.GetKey(controls.reload))
-        {
-            isReloading = true;
-        }
-        else
-        {
-            isReloading = false;
-        }
-
-        if (Input.GetKey(controls.use))
-        {
-            interaction.Interact();
-        }
-
+        controller.height = targetCharacterHeight;
+        controller.center = Vector3.up * controller.height * 0.5f;
+        playerCamera.transform.localPosition = Vector3.up * targetCharacterHeight * cameraHeightRatio;
+        //ACTOR.aimPoint.transform.localPosition = m_Controller.center;
     }
 }
