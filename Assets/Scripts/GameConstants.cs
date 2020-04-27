@@ -12,6 +12,7 @@ public class GameConstants
     public const string ButtonNameJump = "Jump";
     public const string ButtonNameFire = "Fire";
     public const string ButtonNameCrouch = "Crouch";
+    public const string ButtonNameReload = "Reload";
     public const string ButtonNameSwitchWeapon = "Mouse ScrollWheel";
     public const string ButtonNamePauseMenu = "Pause Menu";
 }

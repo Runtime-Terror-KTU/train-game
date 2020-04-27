@@ -102,8 +102,24 @@ public class PlayerControls : MonoBehaviour
 
             UpdateCharacterHeight(false);
             Movement();
+            Shooting();
         }
     }
+
+    void Shooting()
+    {
+        //check for shots
+        if (inputHandler.GetFireInputDown() || inputHandler.GetFireInputHeld())
+            isFiring = true;
+        else
+            isFiring = false;
+        //check for reload
+        if (inputHandler.GetReloadInputDown())
+            isReloading = true;
+        else
+            isReloading = false;
+    }
+
     void GroundCheck()
     {
         float chosenGroundCheckDistance = IsGrounded ? (controller.skinWidth + groundCheckDist) : groundCheckDistAir;

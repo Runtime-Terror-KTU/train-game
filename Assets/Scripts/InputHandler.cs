@@ -104,6 +104,15 @@ public class InputHandler : MonoBehaviour
         return false;
     }
 
+    public bool GetReloadInputDown()
+    {
+        if (CanProcessInput())
+        {
+            return Input.GetButton(GameConstants.ButtonNameReload);
+        }
+        return false;
+    }
+
     //Justui
     public int GetSelectWeaponInput()
     {
