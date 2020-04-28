@@ -7,47 +7,50 @@ public class Interaction : MonoBehaviour
     public Camera cam;
     public LayerMask LayerInteract;
     public WeaponSystem weaponSystem;
+    public Explanation explanation;
 
     private void Update()
     {
-        if(Input.GetButtonDown(GameConstants.ButtonNameUse))
-        {
-            Interact();
-        }
+       Interact();       
     }
 
     public void Interact()
     {
         RaycastHit hit;
         Vector3 fwd = cam.transform.TransformDirection(Vector3.forward);
+        explanation.Use();
         if (Physics.Raycast(cam.transform.position, fwd, out hit, radius, LayerInteract.value))
         {
-            if (hit.collider.CompareTag("InteractableObj"))
+            explanation.Use(hit);
+            if (Input.GetButtonDown(GameConstants.ButtonNameUse))
             {
-                interactableObj = hit.collider.gameObject;      
-                Debug.Log("Succes");
-                interactableObj.SetActive(false);
-            }
+                if (hit.collider.CompareTag("InteractableObj"))
+                {
+                    interactableObj = hit.collider.gameObject;
+                    //Do something
+                    Debug.Log("Succes");
+                }
 
-            if(hit.collider.CompareTag("Guns"))
-            {
-                if(hit.transform.name=="AK")
+                if (hit.collider.CompareTag("Guns"))
                 {
-                    weaponSystem.foundAK = true;
-                    weaponSystem.FoundWeapon();
-                    Destroy(hit.collider.gameObject);
-                }
-                else if(hit.transform.name=="SVD")
-                {
-                    weaponSystem.foundSVD = true;
-                    weaponSystem.FoundWeapon();
-                    Destroy(hit.collider.gameObject);
-                }
-                else if (hit.transform.name == "Pistol")
-                {
-                    weaponSystem.foundPistol = true;
-                    weaponSystem.FoundWeapon();
-                    Destroy(hit.collider.gameObject);
+                    if (hit.transform.name == "AK")
+                    {
+                        weaponSystem.foundAK = true;
+                        weaponSystem.FoundWeapon();
+                        Destroy(hit.collider.gameObject);
+                    }
+                    else if (hit.transform.name == "SVD")
+                    {
+                        weaponSystem.foundSVD = true;
+                        weaponSystem.FoundWeapon();
+                        Destroy(hit.collider.gameObject);
+                    }
+                    else if (hit.transform.name == "Pistol")
+                    {
+                        weaponSystem.foundPistol = true;
+                        weaponSystem.FoundWeapon();
+                        Destroy(hit.collider.gameObject);
+                    }
                 }
             }
         }
