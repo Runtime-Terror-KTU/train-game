@@ -3141,7 +3141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PauseMen: {fileID: 1804299783}
-  crosshair: {fileID: 0}
+  crosshair: {fileID: 2116107598}
 --- !u!4 &883289588 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 451560, guid: 5578b82f17c954843901e8b68ca21dcc,
@@ -5796,7 +5796,6 @@ GameObject:
   - component: {fileID: 1804299784}
   - component: {fileID: 1804299786}
   - component: {fileID: 1804299785}
-  - component: {fileID: 1804299787}
   m_Layer: 5
   m_Name: PauseMenu
   m_TagString: Untagged
@@ -5862,20 +5861,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1804299783}
   m_CullTransparentMesh: 0
---- !u!114 &1804299787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1804299783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7b0136e051e344799d9184dd32e3ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PauseMen: {fileID: 1804299783}
-  crosshair: {fileID: 2116107598}
 --- !u!1001 &1822064752
 PrefabInstance:
   m_ObjectHideFlags: 0
