@@ -101,6 +101,7 @@ public class GunLogic : MonoBehaviour
     public IEnumerator Reload()
     {
         isReloading = true;
+        weaponSystem.isReloading = true;
         Debug.Log("Reloading...");
 
         yield return new WaitForSeconds(reloadTime);
@@ -118,6 +119,7 @@ public class GunLogic : MonoBehaviour
 
         UpdateReserveAmmo();
         isReloading = false;
+        weaponSystem.isReloading = false;
     }
 
     void GetAmmo()

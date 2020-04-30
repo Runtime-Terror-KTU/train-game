@@ -15,6 +15,8 @@ public class WeaponSystem : MonoBehaviour
     public int currentAmmo = 0;
     public int currentReserve = 0;
 
+    public bool isReloading = false;
+
     public bool foundPistol = false;
     public bool foundAK = false;
     public bool foundSVD = false;
@@ -29,25 +31,28 @@ public class WeaponSystem : MonoBehaviour
     {
         int previousSelectedWep = selectedWeapon;
 
-        if(Input.GetAxis(GameConstants.ButtonNameSwitchWeapon) > 0f)
+        if(!isReloading)
         {
-            if (selectedWeapon >= transform.childCount - 1)
-                selectedWeapon = 0;
-            else
-                selectedWeapon++;
-        }
+            if (Input.GetAxis(GameConstants.ButtonNameSwitchWeapon) > 0f)
+            {
+                if (selectedWeapon >= transform.childCount - 1)
+                    selectedWeapon = 0;
+                else
+                    selectedWeapon++;
+            }
 
-        if (Input.GetAxis(GameConstants.ButtonNameSwitchWeapon) < 0f)
-        {
-            if (selectedWeapon <= 0)
-                selectedWeapon = transform.childCount - 1;
-            else
-                selectedWeapon--;
-        }
+            if (Input.GetAxis(GameConstants.ButtonNameSwitchWeapon) < 0f)
+            {
+                if (selectedWeapon <= 0)
+                    selectedWeapon = transform.childCount - 1;
+                else
+                    selectedWeapon--;
+            }
 
-        if(previousSelectedWep != selectedWeapon)
-        {
-            SelectWeapon();
+            if (previousSelectedWep != selectedWeapon)
+            {
+                SelectWeapon();
+            }
         }
     }
 

@@ -43,18 +43,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFiring: 0
-  bullet: {fileID: 5778172813514934067, guid: 35342d95d46db054fa993bfb33a17d5c, type: 3}
+  isReloading: 0
+  PlayerControls: {fileID: 0}
+  weaponSystem: {fileID: 0}
   shootDelay: 0.25
   firePoint: {fileID: 868822832}
-  bulletSpeed: 40
   bulletDamage: 25
-  bulletLifeTime: 1.1
+  bulletRange: 150
+  bulletForce: 200
   magazineSize: 30
   currentAmmo: 30
   reserveAmmo: 90
   reloadTime: 1
-  isReloading: 0
-  manualReload: 0
+  isPistol: 0
+  isAk: 0
+  isSvd: 0
 --- !u!1001 &590243980763212700
 PrefabInstance:
   m_ObjectHideFlags: 0
