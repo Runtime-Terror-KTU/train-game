@@ -11,6 +11,7 @@ public class GunLogic : MonoBehaviour
     public WeaponSystem weaponSystem;
     public float shootDelay;
     private float shotTimer;
+    private ParticleSystem mzl;
     public Transform firePoint;
 
     public float bulletDamage;
@@ -31,7 +32,7 @@ public class GunLogic : MonoBehaviour
 
     void Start()
     {
-
+        mzl = GetComponentInChildren<ParticleSystem>();
     }
 
     void Update()
@@ -62,10 +63,18 @@ public class GunLogic : MonoBehaviour
             if (PlayerControls.isFiring && currentAmmo != 0)
             {
                 Fire();
+                if(mzl != null)
+                {
+                    mzl.Play();
+                }              
             }
             else
             {
                 shotTimer = 0;
+                if(mzl != null)
+                {
+                    mzl.Stop();
+                }               
             }
         }
 
