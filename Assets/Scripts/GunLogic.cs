@@ -12,6 +12,7 @@ public class GunLogic : MonoBehaviour
     public float shootDelay;
     private float shotTimer;
     private ParticleSystem mzl;
+    public Camera cam;
     public Transform firePoint;
 
     public float bulletDamage;
@@ -89,7 +90,7 @@ public class GunLogic : MonoBehaviour
             shotTimer = shootDelay;
 
             RaycastHit hit;
-            if(Physics.Raycast(firePoint.transform.position, firePoint.transform.forward, out hit, bulletRange))
+            if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, bulletRange))
             { 
                 Enemy enemy = hit.transform.GetComponent<Enemy>();
                 if (enemy != null)

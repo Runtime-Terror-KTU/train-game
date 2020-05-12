@@ -8,6 +8,7 @@ public class MeleeLogic : MonoBehaviour
     public WeaponSystem weaponSystem;
     public float hitDelay;
     private float hitTimer;
+    public Camera cam;
     public Transform hitPoint;
 
     public bool isHitting = false;
@@ -39,7 +40,7 @@ public class MeleeLogic : MonoBehaviour
 
             RaycastHit hit;
 
-            if(Physics.Raycast(hitPoint.transform.position, hitPoint.transform.forward, out hit, hitRange))
+            if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, hitRange))
             {
                 Enemy enemy = hit.transform.GetComponent<Enemy>();
                 if (enemy != null)

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.2618539, g: 0.4306964, b: 0.85791826, a: 1}
+  m_IndirectSpecularColor: {r: 0.2618508, g: 0.43072352, b: 0.85836613, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2201,6 +2201,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4f06407f06d8cf41b643015132cafca, type: 3}
+--- !u!20 &293838464 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 349745941925418657, guid: 535d6b8b666ac4245b921505df67a05b,
+    type: 3}
+  m_PrefabInstance: {fileID: 726295161332546555}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &294027863
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15836,16 +15842,31 @@ PrefabInstance:
       propertyPath: bulletForce
       value: 200
       objectReference: {fileID: 0}
+    - target: {fileID: 349745941298710223, guid: 535d6b8b666ac4245b921505df67a05b,
+        type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 293838464}
     - target: {fileID: 349745941852115340, guid: 535d6b8b666ac4245b921505df67a05b,
         type: 3}
       propertyPath: bulletForce
       value: 500
       objectReference: {fileID: 0}
+    - target: {fileID: 349745941852115340, guid: 535d6b8b666ac4245b921505df67a05b,
+        type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 293838464}
     - target: {fileID: 349745941925418684, guid: 535d6b8b666ac4245b921505df67a05b,
         type: 3}
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 349745942256725656, guid: 535d6b8b666ac4245b921505df67a05b,
+        type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 293838464}
     - target: {fileID: 349745942876278467, guid: 535d6b8b666ac4245b921505df67a05b,
         type: 3}
       propertyPath: m_Name
@@ -15916,6 +15937,11 @@ PrefabInstance:
       propertyPath: explanation
       value: 
       objectReference: {fileID: 271787282}
+    - target: {fileID: 8435138396430060832, guid: 535d6b8b666ac4245b921505df67a05b,
+        type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 293838464}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 535d6b8b666ac4245b921505df67a05b, type: 3}
 --- !u!114 &1067033759855539514 stripped
