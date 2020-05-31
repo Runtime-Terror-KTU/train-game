@@ -137,7 +137,7 @@ public class EnemyAI : MonoBehaviour
     {
         Ray ray = new Ray(checkingObject.position, checkingObject.forward);
 
-        if(Physics.Raycast(ray, out hit, reach))
+        if(Physics.Raycast(ray, out hit, reach, -1, QueryTriggerInteraction.Collide))
         {
             if(hit.collider.tag == "Player")
             {

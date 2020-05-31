@@ -59,7 +59,7 @@ public class PlayerControls : MonoBehaviour
 
     CharacterController controller;
     InputHandler inputHandler;
-    Player player;
+    BoxCollider boxCollider;
     float lastTimeJumped = 0f;
     float cameraVerticalAngle = 0f;
     float targetCharacterHeight;
@@ -75,7 +75,7 @@ public class PlayerControls : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         inputHandler = GetComponent<InputHandler>();
-        player = GetComponent<Player>();
+        boxCollider = GetComponent<BoxCollider>();
 
         controller.enableOverlapRecovery = true;
         SetCrouchingState(false, true);
@@ -246,6 +246,8 @@ public class PlayerControls : MonoBehaviour
             controller.height = targetCharacterHeight;
             controller.center = Vector3.up * controller.height * 0.5f;
             playerCamera.transform.localPosition = Vector3.up * targetCharacterHeight * cameraHeightRatio;
+            boxCollider.center = Vector3.up * controller.height * 0.5f;
+            boxCollider.size = new Vector3(boxCollider.size.x, targetCharacterHeight, boxCollider.size.x);
             //aimPoint.transform.localPosition = controller.center;
         }
         // Update height smoothly
@@ -255,6 +257,8 @@ public class PlayerControls : MonoBehaviour
             controller.height = Mathf.Lerp(controller.height, targetCharacterHeight, crouchingSharpness * Time.deltaTime);
             controller.center = Vector3.up * controller.height * 0.5f;
             playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, Vector3.up * targetCharacterHeight * cameraHeightRatio, crouchingSharpness * Time.deltaTime);
+            boxCollider.center = Vector3.up * controller.height * 0.5f;
+            boxCollider.size = new Vector3(boxCollider.size.x, targetCharacterHeight, boxCollider.size.x);
             //aimPoint.transform.localPosition = m_Controller.center;
         }
     }
