@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.20364541, g: 0.400028, b: 0.8850421, a: 1}
+  m_IndirectSpecularColor: {r: 0.2618539, g: 0.4306964, b: 0.85791826, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -31941,38 +31941,74 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - name: Theme
-    clip: {fileID: 8300000, guid: 25d0abce7e33cd244b7020d45854357c, type: 3}
-    volume: 0
+  - name: Ambient Music
+    clip: {fileID: 8300000, guid: 87fe8f31078f6ef4b958a7adeb296d1f, type: 3}
+    volume: 0.003
     pitch: 1
     source: {fileID: 0}
     loop: 1
-  - name: Pistol
-    clip: {fileID: 8300000, guid: f724f0f8f1cfda346a5e1964e2ccf2e4, type: 3}
-    volume: 0.5
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-  - name: Ak
-    clip: {fileID: 8300000, guid: f724f0f8f1cfda346a5e1964e2ccf2e4, type: 3}
-    volume: 0.5
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-  - name: Svd
-    clip: {fileID: 8300000, guid: f724f0f8f1cfda346a5e1964e2ccf2e4, type: 3}
-    volume: 0.5
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-  - name: Reload
-    clip: {fileID: 8300000, guid: 10ef0cf2097253d4a8306c0305d319b8, type: 3}
-    volume: 0.5
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
   - name: Footsteps
-    clip: {fileID: 8300000, guid: 572b11e48f32e0545b523502a1820286, type: 3}
+    clip: {fileID: 8300000, guid: d4a85c5b7d10a5c40be961947c759c0c, type: 3}
+    volume: 0.02
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: AK Shot
+    clip: {fileID: 8300000, guid: 16df0692e25dc9549b535e5289c344da, type: 3}
+    volume: 0.1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: SVD Shot
+    clip: {fileID: 8300000, guid: 365e3e6ae49ee6442a5da43a96a4ba3f, type: 3}
+    volume: 0.1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Pistol Shot
+    clip: {fileID: 8300000, guid: 2089ec19029616c43911344b3922dcfb, type: 3}
+    volume: 0.05
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: AK Reload
+    clip: {fileID: 8300000, guid: d5fd19711ed493c4a87ff9495f8cddbb, type: 3}
+    volume: 0.1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: SVD Reload
+    clip: {fileID: 8300000, guid: 680c9be73c3747d4a8461369a75a2c74, type: 3}
+    volume: 0.1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Pistol Reload
+    clip: {fileID: 8300000, guid: cb3998c5d333d894cbb9b5a82c806703, type: 3}
+    volume: 0.1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Knife Attack
+    clip: {fileID: 8300000, guid: 7309530adfcb6e4458bb21a674f9d260, type: 3}
+    volume: 0.1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Player Hit
+    clip: {fileID: 8300000, guid: 2cf0092ba0552fd449b6b141c2bfbafe, type: 3}
+    volume: 0.02
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Death
+    clip: {fileID: 8300000, guid: 38288d578344d0d4aa3c3a182fac65bb, type: 3}
+    volume: 0.01
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Body Bullet Impact
+    clip: {fileID: 8300000, guid: 54b12f201ab39bb4f9c7b503f0805e39, type: 3}
     volume: 0.05
     pitch: 1
     source: {fileID: 0}

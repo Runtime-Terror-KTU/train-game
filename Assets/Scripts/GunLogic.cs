@@ -84,23 +84,25 @@ public class GunLogic : MonoBehaviour
 
     void Fire()
     {
-        if (isPistol)
-        {
-            FindObjectOfType<AudioManager>().Play("Pistol");
-        }
-        if (isAk)
-        {
-            FindObjectOfType<AudioManager>().Play("Ak");
-        }
-        if (isSvd)
-        {
-            FindObjectOfType<AudioManager>().Play("Svd");
-        }
+        
 
         shotTimer -= Time.deltaTime;
         if(shotTimer <=0)
         {
             shotTimer = shootDelay;
+
+            if (isPistol)
+            {
+                FindObjectOfType<AudioManager>().Play("Pistol Shot");
+            }
+            if (isAk)
+            {
+                FindObjectOfType<AudioManager>().Play("AK Shot");
+            }
+            if (isSvd)
+            {
+                FindObjectOfType<AudioManager>().Play("SVD Shot");
+            }
 
             RaycastHit hit;
             if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, bulletRange))
@@ -142,15 +144,15 @@ public class GunLogic : MonoBehaviour
 
         if (isPistol)
         {
-            FindObjectOfType<AudioManager>().Play("Reload");
+            FindObjectOfType<AudioManager>().Play("Pistol Reload");
         }
         if (isAk)
         {
-            FindObjectOfType<AudioManager>().Play("Reload");
+            FindObjectOfType<AudioManager>().Play("AK Reload");
         }
         if (isSvd)
         {
-            FindObjectOfType<AudioManager>().Play("Reload");
+            FindObjectOfType<AudioManager>().Play("SVD Reload");
         }
 
         UpdateReserveAmmo();

@@ -16,17 +16,24 @@ public class Player : MonoBehaviour
     {
         if(Health <= 0)
         {
+            FindObjectOfType<AudioManager>().Play("Death");
             Debug.Log("U heff died");
         }
-        if(cc.isGrounded == true && cc.velocity.magnitude > 2f && FindObjectOfType<AudioManager>().isPlaying("Footsteps") == false)
+        if(cc.isGrounded == true && cc.velocity.magnitude > 1f && FindObjectOfType<AudioManager>().isPlaying("Footsteps") == false)
         {
             FindObjectOfType<AudioManager>().Play("Footsteps");
+        }
+        if(cc.velocity.magnitude < 1f && FindObjectOfType<AudioManager>().isPlaying("Footsteps") == true)
+        {
+            FindObjectOfType<AudioManager>().Stop("Footsteps");
         }
     }
 
     public void TakeDamage(float dmg)
     {
         Health -= dmg;
+        //if (FindObjectOfType<AudioManager>().isPlaying("Footsteps") == false)
+            FindObjectOfType<AudioManager>().Play("Player Hit");
     }
 
     public void GiveHealth(float health)
