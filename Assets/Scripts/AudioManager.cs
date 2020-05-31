@@ -35,4 +35,14 @@ public class AudioManager : MonoBehaviour
         }
         s.source.Play();
     }
+
+    public bool isPlaying(string name)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        if(s.source.isPlaying == true)
+        {
+            return true;
+        }
+        return false;
+    }
 }

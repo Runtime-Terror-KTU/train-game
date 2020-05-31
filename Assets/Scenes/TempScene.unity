@@ -11658,14 +11658,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 726295161332546555}
   m_PrefabAsset: {fileID: 0}
---- !u!81 &775398719
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 775398718}
-  m_Enabled: 1
 --- !u!65 &775398722
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31946,7 +31938,7 @@ MonoBehaviour:
   sounds:
   - name: Theme
     clip: {fileID: 8300000, guid: 25d0abce7e33cd244b7020d45854357c, type: 3}
-    volume: 0.1
+    volume: 0
     pitch: 1
     source: {fileID: 0}
     loop: 1
@@ -31974,9 +31966,9 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Walking
+  - name: Footsteps
     clip: {fileID: 8300000, guid: 572b11e48f32e0545b523502a1820286, type: 3}
-    volume: 0.5
+    volume: 0.05
     pitch: 1
     source: {fileID: 0}
     loop: 0
