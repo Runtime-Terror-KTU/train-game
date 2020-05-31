@@ -11,6 +11,8 @@ public class Enemy : MonoBehaviour
     public float MovementSpeed = 4f;
     public float MeleeDamage = 25f;
     public float MeleeSpeed = 0.5f;
+    public float RangeDamage = 25f;
+    public float RangeSpeed = 1f;
     public float DieTime = 3f;
 
 

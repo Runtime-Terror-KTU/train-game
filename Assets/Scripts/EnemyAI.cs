@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
+    public bool isMelee;
+    public bool isRanged;
+
     public Transform player;
     public float maxRadius = 7;
     public float maxFov = 45;
@@ -19,6 +22,9 @@ public class EnemyAI : MonoBehaviour
     float nextCehck;
     private float time;
 
+    // Paskutinė žinoma žaidėjo pozicija
+    Vector3 lastPos;
+
     void Start()
     {
         if (GameObject.FindGameObjectWithTag("Player").activeInHierarchy)
@@ -27,16 +33,32 @@ public class EnemyAI : MonoBehaviour
         myNavMesh = gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>();
         myNavMesh.speed = GetComponent<Enemy>().MovementSpeed;
 
-        time = GetComponent<Enemy>().MeleeSpeed;
+        if(isMelee)
+        {
+            time = GetComponent<Enemy>().MeleeSpeed;
+        }
+        
+        if(isRanged)
+        {
+            time = GetComponent<Enemy>().RangeSpeed;
+            reach = maxRadius-0.5f;
+        }
 
+        lastPos = transform.position;
     }
 
 
     void Update()
     {
+        if(isMelee && isRanged)
+        {
+            isMelee = false;
+        }
+
         if (Mathf.Round(myNavMesh.remainingDistance) <= 0)
         {
             isMoving = false;
+            myNavMesh.isStopped = true;
         }
         else
         {
@@ -50,55 +72,44 @@ public class EnemyAI : MonoBehaviour
         isInFov = inFOV(transform, player, maxFov, maxRadius);
         isInRange = inRange(transform, out hit);
         
-
-        if (isInFov)
+        if(isMelee)
         {
-            isMoving = true;
-
-            if (Time.time > nextCehck)
-            {
-                nextCehck = Time.time + checkRate;
-                if(!isInRange)
-                {
-                    FollowPlayer();
-                }
-                
-                
-            }
-
-            if(isInRange)
-            {
-                StopFollowing();
-                time -= Time.deltaTime;
-                if(time <= 0)
-                {
-                    hit.collider.GetComponent<Player>().TakeDamage(GetComponent<Enemy>().MeleeDamage);
-                    time = GetComponent<Enemy>().MeleeSpeed;
-                }
-
-            }
-            else
-            {
-                time = GetComponent<Enemy>().MeleeSpeed;
-            }
+            MeleeAttack(isInFov,isInRange,hit);
         }
-        else
+
+        if(isRanged)
         {
-            isMoving = false;
+            RangedAttack(isInFov,isInRange,hit);
         }
+
+        
+    }
+
+    void FacePlayer()
+    {
+        myNavMesh.transform.LookAt(player);
+    }
+
+    void GoToPosition(Vector3 position)
+    {
+        FacePlayer();
+        myNavMesh.destination = position;
+        myNavMesh.isStopped = false;
     }
 
     void FollowPlayer()
     {
         myNavMesh.isStopped = false;
-        myNavMesh.transform.LookAt(player);
+        FacePlayer();
         myNavMesh.destination = player.position;
     }
 
     void StopFollowing()
     {
         myNavMesh.isStopped = true;
+        isMoving = false;
     }
+
 
     public static bool inFOV(Transform checkingObject, Transform target, float maxFov, float maxRadius)
     {
@@ -146,6 +157,72 @@ public class EnemyAI : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void MeleeAttack(bool isInFov, bool isInRange, RaycastHit hit)
+    {
+        if (isInFov)
+        {
+            isMoving = true;
+
+            if (Time.time > nextCehck)
+            {
+                nextCehck = Time.time + checkRate;
+                if (!isInRange)
+                {
+                    FollowPlayer();
+                }
+            }
+
+            if (isInRange)
+            {
+                StopFollowing();
+                time -= Time.deltaTime;
+                if (time <= 0)
+                {
+                    hit.collider.GetComponent<Player>().TakeDamage(GetComponent<Enemy>().MeleeDamage);
+                    time = GetComponent<Enemy>().MeleeSpeed;
+                }
+            }
+            else
+            {
+                time = GetComponent<Enemy>().MeleeSpeed;
+            }
+        }
+        else
+        {
+            isMoving = false;
+        }
+    }
+
+    private void RangedAttack(bool isInFov, bool isInRange, RaycastHit hit)
+    {
+        if(isInFov)
+        {
+            if(isInRange)
+            {
+                //Atsisuka į žaidėja
+                FacePlayer();
+                lastPos = player.position;
+
+                time -= Time.deltaTime;
+                if(time <=0 )
+                {
+                    // Nusprendžia ar pataikyti šį šūvį į žaidėja ar ne
+                    if((Random.Range(1,11) % 2) == 0)
+                    {
+                        hit.collider.GetComponent<Player>().TakeDamage(GetComponent<Enemy>().RangeDamage);
+                    }
+
+                    time = GetComponent<Enemy>().RangeSpeed;
+                }
+            }
+            else
+            {
+                GoToPosition(lastPos);
+                time = GetComponent<Enemy>().RangeSpeed;
+            }
+        }
     }
 
     public void OnDrawGizmos()
