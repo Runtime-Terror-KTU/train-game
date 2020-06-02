@@ -103,8 +103,11 @@ public class GunLogic : MonoBehaviour
                 FindObjectOfType<AudioManager>().Play("SVD Shot");
             }
 
+
+            Ray ray = new Ray(cam.transform.position, cam.transform.forward);
+
             RaycastHit hit;
-            if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, bulletRange))
+            if(Physics.Raycast(ray, out hit, bulletRange))
             { 
                 Enemy enemy = hit.transform.GetComponent<Enemy>();
                 if (enemy != null)
@@ -126,6 +129,7 @@ public class GunLogic : MonoBehaviour
             {
                 mzl.Stop();
             }
+
         }       
     }
 
