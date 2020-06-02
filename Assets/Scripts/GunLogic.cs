@@ -64,18 +64,12 @@ public class GunLogic : MonoBehaviour
             if (PlayerControls.isFiring && currentAmmo != 0)
             {
                 Fire();
-                if(mzl != null)
-                {
-                    mzl.Play();
-                }              
+                           
             }
             else
             {
                 shotTimer = 0;
-                if(mzl != null)
-                {
-                    mzl.Stop();
-                }               
+                             
             }
         }
 
@@ -90,6 +84,11 @@ public class GunLogic : MonoBehaviour
         if(shotTimer <=0)
         {
             shotTimer = shootDelay;
+
+            if (mzl != null)
+            {
+                mzl.Play();
+            }
 
             if (isPistol)
             {
@@ -120,6 +119,13 @@ public class GunLogic : MonoBehaviour
 
             currentAmmo--;
             UpdateAmmo();
+        }
+        else
+        {
+            if (mzl != null)
+            {
+                mzl.Stop();
+            }
         }       
     }
 
@@ -128,6 +134,9 @@ public class GunLogic : MonoBehaviour
         isReloading = true;
         weaponSystem.isReloading = true;
         Debug.Log("Reloading...");
+
+        if (mzl != null)
+            mzl.Stop();
 
         yield return new WaitForSeconds(reloadTime);
 

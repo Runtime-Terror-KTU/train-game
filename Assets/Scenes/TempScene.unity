@@ -11613,12 +11613,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 741338349}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &742144564 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 868822832, guid: ff8e8b99f98dcd94b99e35f0fd2a7518,
-    type: 3}
-  m_PrefabInstance: {fileID: 2056804657}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &745433443
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34031,7 +34025,7 @@ MonoBehaviour:
   weaponSystem: {fileID: 1067033760794600231}
   shootDelay: 1
   cam: {fileID: 1067033759986412890}
-  firePoint: {fileID: 742144564}
+  firePoint: {fileID: 318867667500526939}
   bulletDamage: 100
   bulletRange: 150
   bulletForce: 500
@@ -34668,7 +34662,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 317271801734840221}
   m_LocalRotation: {x: -0, y: 1.1368684e-13, z: 2.842171e-14, w: 1}
-  m_LocalPosition: {x: -5.897949e-11, y: -0.9677, z: 1.0067003}
+  m_LocalPosition: {x: -0, y: -0.968, z: 0.968}
   m_LocalScale: {x: 1, y: 1.0000001, z: 1.0000001}
   m_Children: []
   m_Father: {fileID: 320764196066076777}
@@ -36121,7 +36115,7 @@ ParticleSystem:
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
@@ -47752,7 +47746,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3597055038446479487}
   m_LocalRotation: {x: -0, y: 1.1368684e-13, z: 2.842171e-14, w: 1}
-  m_LocalPosition: {x: -0, y: -0.947, z: 0.6864}
+  m_LocalPosition: {x: -0.002, y: -0.947, z: 0.628}
   m_LocalScale: {x: 1, y: 1.0000001, z: 1.0000001}
   m_Children: []
   m_Father: {fileID: 3601811979748792711}
@@ -47940,7 +47934,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3597987610118074741}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.8527, z: 0.7841}
+  m_LocalPosition: {x: 0, y: -0.952, z: 0.638}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3601811979748792711}
@@ -48687,7 +48681,7 @@ MonoBehaviour:
   weaponSystem: {fileID: 1067033760794600231}
   shootDelay: 0.25
   cam: {fileID: 1067033759986412890}
-  firePoint: {fileID: 742144564}
+  firePoint: {fileID: 3594749375702089337}
   bulletDamage: 25
   bulletRange: 150
   bulletForce: 200
@@ -54677,7 +54671,7 @@ ParticleSystem:
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
@@ -54746,8 +54740,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.05
-      minScalar: 0.005
+      scalar: 0.1
+      minScalar: 0.05
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -54879,8 +54873,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.2
-      minScalar: 0.05
+      scalar: 0.3
+      minScalar: 0.15
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -60508,7 +60502,7 @@ MonoBehaviour:
   weaponSystem: {fileID: 1067033760794600231}
   shootDelay: 0.45
   cam: {fileID: 1067033759986412890}
-  firePoint: {fileID: 742144564}
+  firePoint: {fileID: 6970401847379152647}
   bulletDamage: 15
   bulletRange: 150
   bulletForce: 100
@@ -60819,7 +60813,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6966317841219220045}
   m_LocalRotation: {x: -0, y: 1.1368684e-13, z: 2.842171e-14, w: 1}
-  m_LocalPosition: {x: 0, y: -0.9123, z: 0.3105}
+  m_LocalPosition: {x: -0, y: -0.9175, z: 0.2793}
   m_LocalScale: {x: 1, y: 1.0000001, z: 1.0000001}
   m_Children: []
   m_Father: {fileID: 6963895854233772965}
@@ -61034,7 +61028,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6966366220617720841}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -0.9033, z: 0.3602}
+  m_LocalPosition: {x: -0, y: -0.9163, z: 0.2779}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6963895854233772965}
@@ -66894,7 +66888,7 @@ ParticleSystem:
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
