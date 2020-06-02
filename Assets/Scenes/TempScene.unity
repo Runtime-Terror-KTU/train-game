@@ -15,17 +15,17 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.8207547, g: 0.8207547, b: 0.8207547, a: 1}
+  m_FogColor: {r: 0.972549, g: 0.6281281, b: 0.47058824, a: 1}
   m_FogMode: 1
-  m_FogDensity: 0.01
-  m_LinearFogStart: 100
-  m_LinearFogEnd: 300
+  m_FogDensity: 0.005
+  m_LinearFogStart: 5
+  m_LinearFogEnd: 500
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 0.33
+  m_AmbientIntensity: 0.1
   m_AmbientMode: 0
-  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
+  m_SubtractiveShadowColor: {r: 0.60742253, g: 0.6437696, b: 0.735849, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 2bd8959f5fbd3644aa33af1a155fc147, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.2618508, g: 0.43072352, b: 0.85836613, a: 1}
+  m_IndirectSpecularColor: {r: 0.2618345, g: 0.43071172, b: 0.8583718, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -48,7 +48,7 @@ LightmapSettings:
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
-    m_IndirectOutputScale: 1
+    m_IndirectOutputScale: 0.04
     m_AlbedoBoost: 1
     m_EnvironmentLightingMode: 0
     m_EnableBakedLightmaps: 1
@@ -28178,6 +28178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   train: {fileID: 741249104}
+  nextLevel: TempScene
 --- !u!4 &1843548596 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4824485712441076, guid: 8f433f8ce9bb60143bb4c8b9414f4822,
@@ -32179,6 +32180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   train: {fileID: 997784524}
+  nextLevel: TempScene
 --- !u!65 &2082952397
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33712,6 +33714,11 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 293838464}
+    - target: {fileID: 349745941925418657, guid: 535d6b8b666ac4245b921505df67a05b,
+        type: 3}
+      propertyPath: field of view
+      value: 70
+      objectReference: {fileID: 0}
     - target: {fileID: 349745941925418684, guid: 535d6b8b666ac4245b921505df67a05b,
         type: 3}
       propertyPath: m_TagString
@@ -33735,37 +33742,37 @@ PrefabInstance:
     - target: {fileID: 349745942876278468, guid: 535d6b8b666ac4245b921505df67a05b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 182.46
+      value: 205.98
       objectReference: {fileID: 0}
     - target: {fileID: 349745942876278468, guid: 535d6b8b666ac4245b921505df67a05b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.41
+      value: 3.48
       objectReference: {fileID: 0}
     - target: {fileID: 349745942876278468, guid: 535d6b8b666ac4245b921505df67a05b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 92.94
+      value: 215.03
       objectReference: {fileID: 0}
     - target: {fileID: 349745942876278468, guid: 535d6b8b666ac4245b921505df67a05b,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 349745942876278468, guid: 535d6b8b666ac4245b921505df67a05b,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.14718041
       objectReference: {fileID: 0}
     - target: {fileID: 349745942876278468, guid: 535d6b8b666ac4245b921505df67a05b,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 349745942876278468, guid: 535d6b8b666ac4245b921505df67a05b,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.98910964
       objectReference: {fileID: 0}
     - target: {fileID: 349745942876278468, guid: 535d6b8b666ac4245b921505df67a05b,
         type: 3}
@@ -33780,7 +33787,7 @@ PrefabInstance:
     - target: {fileID: 349745942876278468, guid: 535d6b8b666ac4245b921505df67a05b,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -16.927
       objectReference: {fileID: 0}
     - target: {fileID: 349745942876278468, guid: 535d6b8b666ac4245b921505df67a05b,
         type: 3}
