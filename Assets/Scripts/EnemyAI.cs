@@ -49,7 +49,6 @@ public class EnemyAI : MonoBehaviour
             reach = maxRadius-0.5f;
         }
 
-        lastPos = transform.position;
     }
 
 
@@ -151,7 +150,8 @@ public class EnemyAI : MonoBehaviour
 
     public bool inRange(Transform checkingObject, out RaycastHit hit)
     {
-        Ray ray = new Ray(checkingObject.position, checkingObject.forward);
+        Vector3 pullUp = new Vector3(0,1.25f,0);
+        Ray ray = new Ray(checkingObject.position+pullUp, checkingObject.forward);
 
         if(Physics.Raycast(ray, out hit, reach, -1, QueryTriggerInteraction.Collide))
         {
@@ -204,11 +204,20 @@ public class EnemyAI : MonoBehaviour
     {
         if(isInFov)
         {
-            if(isInRange)
+
+            if (Time.time > nextCehck)
+            {
+                nextCehck = Time.time + checkRate;
+                if (!isInRange)
+                {
+                    FollowPlayer();
+                }
+            }
+
+            if (isInRange)
             {
                 //Atsisuka į žaidėja
                 FacePlayer();
-                lastPos = player.position;
 
                 time -= Time.deltaTime;
                 if(time <=0 )
@@ -224,7 +233,6 @@ public class EnemyAI : MonoBehaviour
             }
             else
             {
-                GoToPosition(lastPos);
                 time = GetComponent<Enemy>().RangeSpeed;
             }
         }
@@ -247,7 +255,8 @@ public class EnemyAI : MonoBehaviour
         else
             Gizmos.color = Color.green;
 
-        Gizmos.DrawRay(transform.position, (player.position - transform.position).normalized * maxRadius);
+        Vector3 pullUp = new Vector3(0, 1.25f, 0);
+        Gizmos.DrawRay(transform.position+pullUp, (player.position - transform.position).normalized * maxRadius);
 
         Gizmos.color = Color.black;
         Gizmos.DrawRay(transform.position, transform.forward * maxRadius);
