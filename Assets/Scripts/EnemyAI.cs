@@ -23,7 +23,7 @@ public class EnemyAI : MonoBehaviour
 
     UnityEngine.AI.NavMeshAgent myNavMesh;
 
-    public float checkRate = 0.01f;
+    public float checkRate = 0.5f;
     float nextCehck;
     private float time;
 
@@ -46,7 +46,7 @@ public class EnemyAI : MonoBehaviour
         if(isRanged)
         {
             time = GetComponent<Enemy>().RangeSpeed;
-            reach = maxRadius-0.5f;
+            reach = maxRadius-0.05f;
         }
 
     }

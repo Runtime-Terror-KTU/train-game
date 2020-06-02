@@ -46133,6 +46133,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1159239997, guid: 1e38cc889d5e0e04ba9b13b621780543, type: 3}
+      propertyPath: m_BaseOffset
+      value: -0.11
+      objectReference: {fileID: 0}
     - target: {fileID: 1159239998, guid: 1e38cc889d5e0e04ba9b13b621780543, type: 3}
       propertyPath: player
       value: 
