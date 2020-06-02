@@ -7,13 +7,22 @@ public class Enemy : MonoBehaviour
 {
     public Animator anim;
 
-    public float Health = 100;
-    public float MovementSpeed = 4f;
+    [Header("Stats")]
+    [Tooltip("Enemy health")]
+    public float Health = 100; 
     public float MeleeDamage = 25f;
     public float MeleeSpeed = 0.5f;
     public float RangeDamage = 25f;
     public float RangeSpeed = 1f;
+
+    [Header("Movement stats")]
+    public float MovementSpeed = 4f;
+
+    [Header("Death time")]
+    [Tooltip("How long will it take before despawning")]
     public float DieTime = 3f;
+
+    
 
 
     void Start()

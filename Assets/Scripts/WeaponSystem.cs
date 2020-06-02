@@ -6,15 +6,20 @@ public class WeaponSystem : MonoBehaviour
 {
     public PlayerControls playerControls;
     public GameObject weaponStash;
+
+    [Header("Currently selected weapon")]
     public int selectedWeapon = 0;
 
+    [Header("Current weapon stats")]
+    public int currentAmmo = 0;
+    public int currentReserve = 0;
+
+    [Header("Reserve ammo")]
     public int ak_ammo = 60;
     public int svd_ammo = 15;
     public int pistol_ammo = 25;
 
-    public int currentAmmo = 0;
-    public int currentReserve = 0;
-
+    [Header("State variables")]
     public bool isReloading = false;
 
     public bool foundPistol = false;
@@ -91,17 +96,17 @@ public class WeaponSystem : MonoBehaviour
             if (foundPistol == true && weapon.gameObject.name=="Pistol")
             {
                 weapon.parent = transform;
-                foundPistol = false;
+                //foundPistol = false;
             }
             else if (foundAK == true && weapon.gameObject.name == "AK")
             {
                 weapon.parent = transform;
-                foundAK = false;
+                //foundAK = false;
             }
             else if (foundSVD == true && weapon.gameObject.name == "SVD")
             {
                 weapon.parent = transform;
-                foundSVD = false;
+                //foundSVD = false;
             }
         }
     }

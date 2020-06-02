@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
+    [Header("Players object")]
+    public Transform player;
+
+    [Header("Type of Enemy AI")]
     public bool isMelee;
     public bool isRanged;
 
-    public Transform player;
+    [Header("AI visibility stats")]
     public float maxRadius = 7;
     public float maxFov = 45;
     public float reach = 2;
 
+    [Header("AI States")]
     public bool isMoving = false;
     public bool isInFov = false;
     public bool isInRange = false;
