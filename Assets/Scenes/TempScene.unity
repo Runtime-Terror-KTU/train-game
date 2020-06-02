@@ -32876,6 +32876,24 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
     loop: 0
+  - name: Ammo pickup
+    clip: {fileID: 8300000, guid: c207bcaff525c014cb75376b608305de, type: 3}
+    volume: 0.1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Gun pickup
+    clip: {fileID: 8300000, guid: 5359973b21b6d8147ba954344e940adf, type: 3}
+    volume: 0.1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Health pickup
+    clip: {fileID: 8300000, guid: b5de34963591558448ffa324893b6e37, type: 3}
+    volume: 0.1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
 --- !u!1 &2116107598
 GameObject:
   m_ObjectHideFlags: 0

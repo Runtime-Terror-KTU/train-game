@@ -11,6 +11,7 @@ public class HealthPickup : MonoBehaviour
     {
         if(other.tag == "Player")
         {
+            FindObjectOfType<AudioManager>().Play("Health pickup");
             Destroy(gameObject);
             player = other.gameObject.GetComponent<Player>();
             player.GiveHealth(AddHealth);

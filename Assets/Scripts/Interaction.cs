@@ -35,18 +35,21 @@ public class Interaction : MonoBehaviour
                 {
                     if (hit.transform.name == "AK")
                     {
+                        FindObjectOfType<AudioManager>().Play("Gun pickup");
                         weaponSystem.foundAK = true;
                         weaponSystem.FoundWeapon();
                         Destroy(hit.collider.gameObject);
                     }
                     else if (hit.transform.name == "SVD")
                     {
+                        FindObjectOfType<AudioManager>().Play("Gun pickup");
                         weaponSystem.foundSVD = true;
                         weaponSystem.FoundWeapon();
                         Destroy(hit.collider.gameObject);
                     }
                     else if (hit.transform.name == "Pistol")
                     {
+                        FindObjectOfType<AudioManager>().Play("Gun pickup");
                         weaponSystem.foundPistol = true;
                         weaponSystem.FoundWeapon();
                         Destroy(hit.collider.gameObject);
