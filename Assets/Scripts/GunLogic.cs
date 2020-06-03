@@ -76,6 +76,15 @@ public class GunLogic : MonoBehaviour
             }
         }
 
+        if (PlayerControls.isMoving)
+        {
+            anim.SetBool("Run", true);
+        }
+        if (!PlayerControls.isMoving)
+        {
+            anim.SetBool("Run", false);
+        }
+
         UpdateAmmo();
     }
 
