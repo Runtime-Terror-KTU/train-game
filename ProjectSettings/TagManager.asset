@@ -7,9 +7,10 @@ TagManager:
   - InteractableObj
   - Bullet
   - Enemy
-  - Object
   - Guns
   - Terrain
+  - EnemyLocation
+  - CollectibleLocation
   layers:
   - Default
   - TransparentFX

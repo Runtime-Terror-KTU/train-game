@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: -5447597341196740173}
   m_Layer: 0
   m_Name: SVD
-  m_TagString: Untagged
+  m_TagString: Object
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -209,6 +209,7 @@ MonoBehaviour:
   PlayerControls: {fileID: 0}
   weaponSystem: {fileID: 0}
   shootDelay: 1
+  cam: {fileID: 0}
   firePoint: {fileID: 0}
   bulletDamage: 100
   bulletRange: 150

@@ -47,6 +47,7 @@ MonoBehaviour:
   PlayerControls: {fileID: 0}
   weaponSystem: {fileID: 0}
   shootDelay: 0.25
+  cam: {fileID: 0}
   firePoint: {fileID: 868822832}
   bulletDamage: 25
   bulletRange: 150
@@ -68,6 +69,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 4974c3aa5aa3dca4e847ca65904285a1, type: 3}
       propertyPath: m_Name
       value: AK
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 4974c3aa5aa3dca4e847ca65904285a1, type: 3}
+      propertyPath: m_TagString
+      value: Object
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4974c3aa5aa3dca4e847ca65904285a1, type: 3}
       propertyPath: m_LocalPosition.x
