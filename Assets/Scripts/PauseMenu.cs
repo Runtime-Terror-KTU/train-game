@@ -10,6 +10,7 @@ public class PauseMenu : MonoBehaviour
 
     public GameObject PauseMen;
     public GameObject crosshair;
+    public SaveLoad pauseManager;
 
     // Update is called once per frame
     void Update()
@@ -50,6 +51,18 @@ public class PauseMenu : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    public void Save()
+    {
+        Resume();
+        pauseManager.isSaving = true;
+    }
+
+    public void Load()
+    {
+        Resume();
+        pauseManager.isLoading = true;
     }
 
     public void Menu()

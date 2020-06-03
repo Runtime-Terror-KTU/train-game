@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
-public class TestSave : MonoBehaviour
+public class SaveLoad : MonoBehaviour
 {
     [Header("Manager States")]
     public bool isLoading = false;
@@ -99,6 +100,7 @@ public class TestSave : MonoBehaviour
         SetFoundWeapons(foundWeapons);
         SetReserveAmmo(reserveAmmo);
         SetCurrentAmmo(currentAmmo);
+        SetLiveEnemies(enemyNames, enemyCounts);
 
         PlayerPrefs.SetInt("LoadState", 0);
     }
@@ -274,6 +276,28 @@ public class TestSave : MonoBehaviour
     void SetPlayerRotation(Quaternion rot)
     {
         player.transform.rotation = rot;
+    }
+
+    void SetLiveEnemies(string[] enemyNames, int enemyCount)
+    {
+        List<GameObject> enemy = GameObject.FindGameObjectsWithTag("Enemy").ToList();
+
+        for (int i = 0; i < enemyCount; i++)
+        {
+            for (int j = 0; j < enemy.Count; j++)
+            {
+                if (enemy[j].name == enemyNames[i])
+                {
+                    enemy.RemoveAt(j);
+                }
+            }
+        }
+
+        foreach (var item in enemy)
+        {
+            Destroy(item);
+        }
+
     }
 
     // Conversion functions for getting variables
