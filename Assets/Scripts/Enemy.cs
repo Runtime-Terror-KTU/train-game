@@ -58,6 +58,7 @@ public class Enemy : MonoBehaviour
         GetComponent<EnemyAI>().enabled = false;
         setRigidbodyState(false);
         setColliderState(true);
+        transform.tag = "Untagged";
         Destroy(gameObject, DieTime);
     }
 

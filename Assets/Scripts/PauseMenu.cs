@@ -10,6 +10,7 @@ public class PauseMenu : MonoBehaviour
 
     public GameObject PauseMen;
     public GameObject crosshair;
+    public SaveLoad saveSystem;
 
     // Update is called once per frame
     void Update()
@@ -50,6 +51,16 @@ public class PauseMenu : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    public void Save()
+    {
+        saveSystem.isSaving = true;
+    }
+
+    public void Load()
+    {
+        saveSystem.isLoading = true;
     }
 
     public void Menu()
