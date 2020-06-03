@@ -126,6 +126,11 @@ public class GameManager : MonoBehaviour
 
             collectibleData.position = collectibleObj.transform.position;
             collectibleData.rotation = collectibleObj.transform.rotation;
+            AmmoPickup ammoPickup;
+            if (collectibleObj.TryGetComponent<AmmoPickup>(out ammoPickup))
+                collectibleData.collectibleType = CollectibleType.Ammo;
+            else
+                collectibleData.collectibleType = CollectibleType.Health;
 
             collectibleDatas.Add(collectibleData);
         }
