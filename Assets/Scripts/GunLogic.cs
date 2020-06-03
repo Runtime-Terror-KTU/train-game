@@ -15,6 +15,7 @@ public class GunLogic : MonoBehaviour
     public Camera cam;
     public Transform firePoint;
     public Material material;
+    Animator anim;
 
     public float bulletDamage;
     public float bulletRange = 150f;
@@ -35,6 +36,7 @@ public class GunLogic : MonoBehaviour
     void Start()
     {
         mzl = GetComponentInChildren<ParticleSystem>();
+        anim = this.GetComponent<Animator>();
     }
 
     void Update()
@@ -82,6 +84,7 @@ public class GunLogic : MonoBehaviour
         shotTimer -= Time.deltaTime;
         if (shotTimer <= 0)
         {
+            anim.SetTrigger("Shoot");
             shotTimer = shootDelay;
 
             if (mzl != null)
@@ -119,6 +122,7 @@ public class GunLogic : MonoBehaviour
                 {
                     slimeEnemy.TakeDamage(bulletDamage);
                 }
+
             }
 
             currentAmmo--;
@@ -135,7 +139,8 @@ public class GunLogic : MonoBehaviour
     {
         isReloading = true;
         weaponSystem.isReloading = true;
-        Debug.Log("Reloading...");
+
+        anim.SetTrigger("Reload");
 
         if (mzl != null)
             mzl.Stop();

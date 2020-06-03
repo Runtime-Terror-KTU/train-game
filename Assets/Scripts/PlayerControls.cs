@@ -56,7 +56,6 @@ public class PlayerControls : MonoBehaviour
     public float rotationMultiplier = 1f;
     Vector3 groundNormal;
 
-
     CharacterController controller;
     InputHandler inputHandler;
     BoxCollider boxCollider;
