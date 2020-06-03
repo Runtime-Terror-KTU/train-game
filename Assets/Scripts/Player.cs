@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class Player : MonoBehaviour
         {
             FindObjectOfType<AudioManager>().Play("Death");
             anim.SetTrigger("Fade");
+            StartCoroutine(Koroutina());
+
         }
         if(cc.isGrounded == true && cc.velocity.magnitude > 1f && FindObjectOfType<AudioManager>().isPlaying("Footsteps") == false)
         {
@@ -45,5 +48,11 @@ public class Player : MonoBehaviour
             Health += health;
         //}
         
+    }
+
+    IEnumerator Koroutina()
+    {
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene("TempScene");
     }
 }
