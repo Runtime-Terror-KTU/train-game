@@ -98,12 +98,12 @@ public class WeaponSystem : MonoBehaviour
                 weapon.parent = transform;
                 //foundPistol = false;
             }
-            else if (foundAK == true && weapon.gameObject.name == "AK")
+            if (foundAK == true && weapon.gameObject.name == "AK")
             {
                 weapon.parent = transform;
                 //foundAK = false;
             }
-            else if (foundSVD == true && weapon.gameObject.name == "SVD")
+            if (foundSVD == true && weapon.gameObject.name == "SVD")
             {
                 weapon.parent = transform;
                 //foundSVD = false;
