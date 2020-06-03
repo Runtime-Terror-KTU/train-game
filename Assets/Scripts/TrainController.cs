@@ -8,7 +8,7 @@ public class TrainController : MonoBehaviour
     public Transform targetEnding;
     public Transform trigger;
     public float speed = 10f;
-
+    private int enemyCount;
     public bool endLevel;
 
     private void Start()
@@ -18,15 +18,11 @@ public class TrainController : MonoBehaviour
 
     private void Update()
     {
+        UpdateEnemyCount();
         if (!endLevel)
-        {
             MoveTo(targetBeginning);
-        }
-
-        if (endLevel)
-        {
+        else
             MoveTo(targetEnding);
-        }
     }
 
     //Moves to a target at a certain speed
@@ -43,7 +39,8 @@ public class TrainController : MonoBehaviour
     public void ChangeLevel(string nextScene)
     {
         //Here we will be able to check if we have everything to proceed.
-        StartCoroutine(EndLevel(nextScene));
+        if(enemyCount == 0)
+            StartCoroutine(EndLevel(nextScene));
     }
 
     IEnumerator EndLevel(string nextScene)
@@ -52,5 +49,10 @@ public class TrainController : MonoBehaviour
         endLevel = true;
         yield return new WaitForSeconds(8);
         SceneManager.LoadScene(nextScene);
+    }
+
+    public void UpdateEnemyCount()
+    {
+        enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
     }
 }

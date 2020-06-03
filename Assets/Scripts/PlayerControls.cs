@@ -66,7 +66,6 @@ public class PlayerControls : MonoBehaviour
 
     const float jumpPreventionTime = 0.2f;
     const float groundCheckDistAir = 0.07f;
-
     //For animations
     public bool isMoving = false;
     public bool isFiring = false;
@@ -77,7 +76,6 @@ public class PlayerControls : MonoBehaviour
         controller = GetComponent<CharacterController>();
         inputHandler = GetComponent<InputHandler>();
         boxCollider = GetComponent<BoxCollider>();
-
         controller.enableOverlapRecovery = true;
         SetCrouchingState(false, true);
         UpdateCharacterHeight(true);
@@ -94,12 +92,8 @@ public class PlayerControls : MonoBehaviour
         {
             HasJumpedThisFrame = false;
 
-            //bool wasGrounded = isGrounded;
             GroundCheck();
 
-            //if (isGrounded && !wasGrounded)
-            //    // fall damage?
-            //    // land audio
             if (inputHandler.GetCrouchInputDown())
             {
                 SetCrouchingState(!IsCrouching, false);
