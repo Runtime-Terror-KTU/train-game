@@ -7,13 +7,20 @@ public class TrainController : MonoBehaviour
     public Transform targetBeginning;
     public Transform targetEnding;
     public Transform trigger;
+    public Animator anim;
+    public AudioSource sound;
+
+    GameObject player;
+    public GameObject blocker;
+
     public float speed = 10f;
-    private int enemyCount;
+    public int enemyCount;
     public bool endLevel;
 
     private void Start()
     {
         endLevel = false;
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     private void Update()
@@ -28,6 +35,7 @@ public class TrainController : MonoBehaviour
     //Moves to a target at a certain speed
     public void MoveTo(Transform target)
     {
+
         if (Vector3.Distance(transform.position, target.transform.position) > 0.001f)
         {
             float step = speed * Time.deltaTime;
@@ -39,16 +47,19 @@ public class TrainController : MonoBehaviour
     public void ChangeLevel(string nextScene)
     {
         //Here we will be able to check if we have everything to proceed.
-        if(enemyCount == 0)
-            StartCoroutine(EndLevel(nextScene));
+        if (enemyCount == 0)
+        {
+            StartCoroutine(EndLevel());
+            anim.SetTrigger("Ending");
+            blocker.SetActive(true);
+            sound.Play();
+        }
     }
 
-    IEnumerator EndLevel(string nextScene)
+    IEnumerator EndLevel()
     {
         yield return new WaitForSeconds(1);
         endLevel = true;
-        yield return new WaitForSeconds(8);
-        SceneManager.LoadScene(nextScene);
     }
 
     public void UpdateEnemyCount()
