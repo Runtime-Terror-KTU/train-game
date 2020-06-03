@@ -118,6 +118,12 @@ public class GunLogic : MonoBehaviour
                 {
                     hit.rigidbody.AddForce(-hit.normal * bulletForce);
                 }
+
+                SlimeAttack slimeEnemy = hit.transform.GetComponent<SlimeAttack>();
+                if (slimeEnemy != null)
+                {
+                    slimeEnemy.TakeDamage(bulletDamage);
+                }
             }
 
             currentAmmo--;
