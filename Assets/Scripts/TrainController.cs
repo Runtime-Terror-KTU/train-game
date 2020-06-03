@@ -47,13 +47,14 @@ public class TrainController : MonoBehaviour
     //Makes train drive away and changes to specified level
     public void ChangeLevel(string nextScene)
     {
-        anim.SetTrigger("Ending");
-        blocker.SetActive(true);
-        sound.Play();
 
         //Here we will be able to check if we have everything to proceed.
         if (enemyCount == 0)
         {
+            anim.SetTrigger("Ending");
+            blocker.SetActive(true);
+            sound.Play();
+
             StartCoroutine(EndLevel());
         }
     }
