@@ -14,6 +14,7 @@ public class GunLogic : MonoBehaviour
     private ParticleSystem mzl;
     public Camera cam;
     public Transform firePoint;
+    public Material material;
 
     public float bulletDamage;
     public float bulletRange = 150f;
@@ -78,17 +79,13 @@ public class GunLogic : MonoBehaviour
 
     void Fire()
     {
-        
-
         shotTimer -= Time.deltaTime;
-        if(shotTimer <=0)
+        if (shotTimer <= 0)
         {
             shotTimer = shootDelay;
 
             if (mzl != null)
-            {
                 mzl.Play();
-            }
 
             if (isPistol)
             {
@@ -103,12 +100,10 @@ public class GunLogic : MonoBehaviour
                 FindObjectOfType<AudioManager>().Play("SVD Shot");
             }
 
-
-            Ray ray = new Ray(cam.transform.position, cam.transform.forward);
-
             RaycastHit hit;
-            if(Physics.Raycast(ray, out hit, bulletRange))
-            { 
+            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, bulletRange))
+            {
+                CreateTracer(firePoint.position, hit.point, Color.yellow, 0.1f);
                 Enemy enemy = hit.transform.GetComponent<Enemy>();
                 if (enemy != null)
                 {
@@ -132,11 +127,8 @@ public class GunLogic : MonoBehaviour
         else
         {
             if (mzl != null)
-            {
                 mzl.Stop();
-            }
-
-        }       
+        }    
     }
 
     public IEnumerator Reload()
@@ -207,5 +199,22 @@ public class GunLogic : MonoBehaviour
     {
         weaponSystem.currentAmmo = currentAmmo;
         weaponSystem.currentReserve = reserveAmmo;
+    }
+
+    void CreateTracer(Vector3 fromPos, Vector3 targetPos, Color color, float duration)
+    {
+        GameObject myLine = new GameObject();
+        myLine.transform.position = fromPos;
+        myLine.AddComponent<LineRenderer>();
+        LineRenderer lr = myLine.GetComponent<LineRenderer>();
+        lr.material = material;
+        lr.material.color = color;
+        lr.startColor = color;
+        lr.endColor = color;
+        lr.startWidth = 0.01f;
+        lr.endWidth = 0.01f;
+        lr.SetPosition(0, fromPos);
+        lr.SetPosition(1, targetPos);
+        GameObject.Destroy(myLine, duration);
     }
 }

@@ -11,6 +11,8 @@ TagManager:
   - Terrain
   - EnemyLocation
   - CollectibleLocation
+  - Object
+  - Tracers
   layers:
   - Default
   - TransparentFX
