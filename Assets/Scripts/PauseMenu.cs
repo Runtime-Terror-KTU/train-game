@@ -11,6 +11,8 @@ public class PauseMenu : MonoBehaviour
     public GameObject PauseMen;
     public GameObject crosshair;
     public SaveLoad pauseManager;
+    public GameObject explanation;
+    public GameObject gameEnd;
 
     // Update is called once per frame
     void Update()
@@ -22,6 +24,8 @@ public class PauseMenu : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 crosshair.SetActive(true);
+                explanation.SetActive(true);
+                gameEnd.SetActive(true);
                 Resume();
             }
             else
@@ -29,6 +33,8 @@ public class PauseMenu : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 crosshair.SetActive(false);
+                explanation.SetActive(false);
+                gameEnd.SetActive(false);
                 Pause();
             }
         }
