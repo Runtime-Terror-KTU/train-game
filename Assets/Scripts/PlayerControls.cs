@@ -66,7 +66,8 @@ public class PlayerControls : MonoBehaviour
     const float jumpPreventionTime = 0.2f;
     const float groundCheckDistAir = 0.07f;
 
-    //TEMPORARY
+    //For animations
+    public bool isMoving = false;
     public bool isFiring = false;
     public bool isReloading = false;
 
@@ -85,7 +86,8 @@ public class PlayerControls : MonoBehaviour
     {
         if(PauseMenu.OnPause)
         {
-
+            isMoving = false;
+            isFiring = false;
         }
         else
         {
@@ -104,11 +106,11 @@ public class PlayerControls : MonoBehaviour
 
             UpdateCharacterHeight(false);
             Movement();
-            Shooting();
+            Animations();
         }
     }
 
-    void Shooting()
+    void Animations()
     {
         //check for shots
         if (inputHandler.GetFireInputDown() || inputHandler.GetFireInputHeld())
@@ -120,6 +122,11 @@ public class PlayerControls : MonoBehaviour
             isReloading = true;
         else
             isReloading = false;
+        //check for movement
+        if (inputHandler.GetMoveInput().x != 0 || inputHandler.GetMoveInput().z != 0)
+            isMoving = true;
+        else
+            isMoving = false;
     }
 
     void GroundCheck()
