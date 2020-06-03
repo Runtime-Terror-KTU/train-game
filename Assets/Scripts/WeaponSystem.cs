@@ -100,7 +100,6 @@ public class WeaponSystem : MonoBehaviour
             }
             if (foundAK == true && weapon.gameObject.name == "AK")
             {
-                Debug.Log("Gay Bananas");
                 weapon.parent = transform;
                 //foundAK = false;
             }

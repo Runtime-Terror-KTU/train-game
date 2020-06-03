@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.3666966, g: 0.3300321, b: 0.699542, a: 1}
+  m_IndirectSpecularColor: {r: 0.36669308, g: 0.3300601, b: 0.6999895, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7318,10 +7318,8 @@ Transform:
   - {fileID: 1740319942}
   - {fileID: 1955762549}
   - {fileID: 901012301}
-  - {fileID: 1633552367}
   - {fileID: 798290930}
   - {fileID: 66542128}
-  - {fileID: 1317470395}
   - {fileID: 230476920}
   - {fileID: 1763203696}
   - {fileID: 278642396}
@@ -7343,9 +7341,11 @@ Transform:
   - {fileID: 353317009}
   - {fileID: 1888195631}
   - {fileID: 1348256853}
+  - {fileID: 1317470395}
   - {fileID: 197355071}
   - {fileID: 78722085}
   - {fileID: 1331996405}
+  - {fileID: 1633552367}
   - {fileID: 178060015}
   - {fileID: 1122500970}
   - {fileID: 68409957}
@@ -7356,14 +7356,15 @@ Transform:
   - {fileID: 1596608084}
   - {fileID: 2143624514}
   - {fileID: 630129729}
-  - {fileID: 1224314519}
   - {fileID: 776240994}
-  - {fileID: 115967597}
   - {fileID: 556824619}
   - {fileID: 787490770}
+  - {fileID: 115967597}
+  - {fileID: 1224314519}
+  - {fileID: 22875421}
   - {fileID: 1024219234}
   - {fileID: 2073392241}
-  - {fileID: 22875421}
+  - {fileID: 1030211003}
   - {fileID: 1116955761}
   - {fileID: 135708922}
   - {fileID: 1077654874}
@@ -7371,17 +7372,16 @@ Transform:
   - {fileID: 827081606}
   - {fileID: 1091255103}
   - {fileID: 1056211784}
-  - {fileID: 1030211003}
   - {fileID: 1324481248}
   - {fileID: 1512986501}
   - {fileID: 244483427}
   - {fileID: 1258837461}
+  - {fileID: 1173657640}
   - {fileID: 1182711609}
   - {fileID: 106807875}
-  - {fileID: 1173657640}
-  - {fileID: 1225382890}
   - {fileID: 2117511576}
   - {fileID: 1035461550}
+  - {fileID: 1225382890}
   - {fileID: 564077903}
   - {fileID: 1297341517}
   - {fileID: 1173590717}
@@ -14526,8 +14526,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLoading: 0
   isSaving: 0
+  isAfterLoad: 0
+  showPos: 0
   player: {fileID: 1067033759855539512}
   weaponHolder: {fileID: 1067033760794600229}
+  PauseMenu: {fileID: 877360979}
   saveName: Player
   enemies: []
 --- !u!4 &831936295
@@ -30487,7 +30490,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 31
+  m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1798464043
 MonoBehaviour:
