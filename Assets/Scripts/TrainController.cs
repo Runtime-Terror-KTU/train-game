@@ -35,6 +35,9 @@ public class TrainController : MonoBehaviour
     //Moves to a target at a certain speed
     public void MoveTo(Transform target)
     {
+        anim.SetTrigger("Ending");
+        blocker.SetActive(true);
+        sound.Play();
 
         if (Vector3.Distance(transform.position, target.transform.position) > 0.001f)
         {
@@ -50,9 +53,6 @@ public class TrainController : MonoBehaviour
         if (enemyCount == 0)
         {
             StartCoroutine(EndLevel());
-            anim.SetTrigger("Ending");
-            blocker.SetActive(true);
-            sound.Play();
         }
     }
 
