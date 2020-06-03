@@ -31,6 +31,5 @@ public class SlimeAttack : MonoBehaviour
     public void TakeDamage(float dmg)
     {
         Health -= dmg;
-        Debug.Log(Health);
     }
 }
