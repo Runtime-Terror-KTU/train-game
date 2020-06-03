@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
-public class TestSave : MonoBehaviour
+public class SaveLoad : MonoBehaviour
 {
     [Header("Manager States")]
     public bool isLoading = false;
