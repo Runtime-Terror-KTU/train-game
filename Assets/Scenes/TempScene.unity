@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.36669308, g: 0.3300601, b: 0.6999895, a: 1}
+  m_IndirectSpecularColor: {r: 0.366664, g: 0.33002925, b: 0.69999313, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -13306,6 +13306,7 @@ MonoBehaviour:
   player: {fileID: 1067033759855539512}
   weaponHolder: {fileID: 1067033760794600229}
   saveName: Player
+  enemies: []
 --- !u!4 &831936295
 Transform:
   m_ObjectHideFlags: 0
@@ -34275,13 +34276,14 @@ MonoBehaviour:
   shootDelay: 1
   cam: {fileID: 1067033759986412890}
   firePoint: {fileID: 318867667500526939}
+  material: {fileID: 2100000, guid: 204fd330e68159a41b2788a2d7dcff3e, type: 2}
   bulletDamage: 100
-  bulletRange: 150
-  bulletForce: 500
+  bulletRange: 999998
+  bulletForce: 2000
   magazineSize: 5
   currentAmmo: 5
   reserveAmmo: 20
-  reloadTime: 1
+  reloadTime: 8
   isPistol: 0
   isAk: 0
   isSvd: 1
@@ -50768,16 +50770,17 @@ MonoBehaviour:
   isReloading: 0
   PlayerControls: {fileID: 1067033759855539515}
   weaponSystem: {fileID: 1067033760794600231}
-  shootDelay: 0.25
+  shootDelay: 0.1
   cam: {fileID: 1067033759986412890}
   firePoint: {fileID: 3594749375702089337}
+  material: {fileID: 2100000, guid: 204fd330e68159a41b2788a2d7dcff3e, type: 2}
   bulletDamage: 25
-  bulletRange: 150
+  bulletRange: 400
   bulletForce: 200
   magazineSize: 30
   currentAmmo: 30
   reserveAmmo: 120
-  reloadTime: 1
+  reloadTime: 4
   isPistol: 0
   isAk: 1
   isSvd: 0
@@ -62592,13 +62595,14 @@ MonoBehaviour:
   shootDelay: 0.45
   cam: {fileID: 1067033759986412890}
   firePoint: {fileID: 6970401847379152647}
+  material: {fileID: 2100000, guid: 204fd330e68159a41b2788a2d7dcff3e, type: 2}
   bulletDamage: 15
-  bulletRange: 150
+  bulletRange: 250
   bulletForce: 100
   magazineSize: 10
   currentAmmo: 10
   reserveAmmo: 100
-  reloadTime: 1
+  reloadTime: 3
   isPistol: 1
   isAk: 0
   isSvd: 0
@@ -73753,6 +73757,6 @@ MonoBehaviour:
   cam: {fileID: 1067033759986412890}
   hitPoint: {fileID: 1684010165483472966}
   isHitting: 0
-  hitDamage: 100
-  hitRange: 50
+  hitDamage: 50
+  hitRange: 10
   hitForce: 100
