@@ -61,7 +61,6 @@ public class PauseMenu : MonoBehaviour
 
     public void Save()
     {
-        Resume();
         pauseManager.isSaving = true;
     }
 
