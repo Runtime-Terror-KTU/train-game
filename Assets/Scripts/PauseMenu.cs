@@ -18,11 +18,15 @@ public class PauseMenu : MonoBehaviour
         {
             if(OnPause)
             {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
                 crosshair.SetActive(true);
                 Resume();
             }
             else
             {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
                 crosshair.SetActive(false);
                 Pause();
             }

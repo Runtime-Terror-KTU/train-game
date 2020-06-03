@@ -99,7 +99,7 @@ public class InputHandler : MonoBehaviour
     {
         if (CanProcessInput())
         {
-                return Input.GetButton(GameConstants.ButtonNameFire);
+            return Input.GetButton(GameConstants.ButtonNameFire);
         }
         return false;
     }
