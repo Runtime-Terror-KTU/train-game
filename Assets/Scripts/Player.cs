@@ -36,9 +36,14 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(float dmg)
     {
-        Health -= dmg;
-        //if (FindObjectOfType<AudioManager>().isPlaying("Footsteps") == false)
+        if (Health > 0)
+        {
+            Health -= dmg;
+            if (Health < 0)
+                Health = 0;
+            //if (FindObjectOfType<AudioManager>().isPlaying("Footsteps") == false)
             FindObjectOfType<AudioManager>().Play("Player Hit");
+        }
     }
 
     public void GiveHealth(float health)
