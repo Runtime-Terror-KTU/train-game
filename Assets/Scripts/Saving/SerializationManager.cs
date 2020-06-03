@@ -7,16 +7,15 @@ using UnityEngine;
 
 public class SerializationManager
 {
-    public static bool Save(string saveName, object saveData)
+    public bool Save(string saveName, object saveData)
     {
         BinaryFormatter formatter = GetBinaryFormatter();
 
-        if(!Directory.Exists(Application.persistentDataPath + "/saves"))
+        if(!Directory.Exists(Application.persistentDataPath))
         {
-            Directory.CreateDirectory(Application.persistentDataPath + "/saves");
+            Directory.CreateDirectory(Application.persistentDataPath);
         }
-
-        string path = Application.persistentDataPath + "/saves/" + saveName + ".save";
+        string path = Application.persistentDataPath + "/" + saveName + ".save";
         FileStream file = File.Create(path);
         formatter.Serialize(file, saveData);
         file.Close();
@@ -24,7 +23,7 @@ public class SerializationManager
         return true;
     }
 
-    public static object Load(string path)
+    public object Load(string path)
     {
         if (!File.Exists(path))
             return null;
@@ -47,7 +46,7 @@ public class SerializationManager
         }
     }
 
-    public static BinaryFormatter GetBinaryFormatter()
+    public BinaryFormatter GetBinaryFormatter()
     {
         BinaryFormatter formatter = new BinaryFormatter();
 

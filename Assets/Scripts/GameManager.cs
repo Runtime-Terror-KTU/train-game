@@ -4,31 +4,37 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public SerializationManager serializationManager = new SerializationManager();
     public bool isLoad = false;
+    public bool isSave = false;
     public PlayerData playerData;
     public List<EnemyData> enemyDatas;
+    public List<CollectibleData> collectibleDatas;
     public GameObject[] enemies;
     public GameObject[] collectibles;
     public GameObject[] enemyPrefabs;
     public GameObject[] collectiblePrefabs;
     public SaveData saveData = new SaveData();
+    public SaveData loadData = new SaveData();
+
+    public GameObject playerObj;
     void Start()
     {
         if (isLoad)
-        {
-
-        }
+            CallLoad();
         else
         {
             spawnObjects("EnemyLocation", enemies, enemyPrefabs);
             spawnObjects("CollectibleLocation", collectibles, collectiblePrefabs);
         }
+        playerObj = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdatePlayer();
+        if (isSave)
+            CallSave();
     }
 
     void spawnObjects(string tag, GameObject[] objects, GameObject[] prefabs)
@@ -36,14 +42,20 @@ public class GameManager : MonoBehaviour
         objects = GameObject.FindGameObjectsWithTag(tag);
         foreach (GameObject obj in objects)
         {
-            GameObject igObj = Instantiate(prefabs[Random.Range(0,2)], obj.transform.position, obj.transform.rotation);
+            GameObject igObj = Instantiate(prefabs[Random.Range(0,prefabs.Length)], obj.transform.position, obj.transform.rotation);
             Destroy(obj);
         }
     }
 
-    public void UpdatePlayer()
+    public void UpdateSaveData()
     {
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        saveData.player = playerData;
+        saveData.enemies = enemyDatas;
+        saveData.collectibles = collectibleDatas;
+    }
+
+    public void UpdatePlayerData()
+    {
         playerData.position = playerObj.transform.position;
         playerData.rotation = playerObj.transform.rotation;
 
@@ -86,13 +98,51 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void UpdateEnemies()
+    public void UpdateEnemiesData()
     {
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemyObj in enemies)
+        {
+            
+            EnemyData enemyData = new EnemyData();
+            EnemyAI enemy = enemyObj.GetComponent<EnemyAI>();
+            if (enemy.isRanged)
+                enemyData.enemyType = EnemyType.Shooter;
+            else
+                enemyData.enemyType = EnemyType.Melee;
+            enemyData.position = enemyObj.transform.position;
+            enemyData.rotation = enemyObj.transform.rotation;
 
+            enemyDatas.Add(enemyData);
+        }
     }
 
-    public void UpdateCollectibles()
+    public void UpdateCollectiblesData()
     {
+        collectibles = GameObject.FindGameObjectsWithTag("Object");
+        foreach (GameObject collectibleObj in collectibles)
+        {
+            CollectibleData collectibleData = new CollectibleData();
 
+            collectibleData.position = collectibleObj.transform.position;
+            collectibleData.rotation = collectibleObj.transform.rotation;
+
+            collectibleDatas.Add(collectibleData);
+        }
+    }
+
+    public void CallSave()
+    {
+        UpdatePlayerData();
+        UpdateEnemiesData();
+        UpdateCollectiblesData();
+        UpdateSaveData();
+        serializationManager.Save("SaveTest", saveData);
+    }
+
+    public void CallLoad()
+    {
+        string path = Application.persistentDataPath + "/SaveTest.save";
+        loadData = (SaveData)serializationManager.Load(path);
     }
 }

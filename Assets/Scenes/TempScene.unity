@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.2618345, g: 0.43071172, b: 0.8583718, a: 1}
+  m_IndirectSpecularColor: {r: 0.366664, g: 0.33002925, b: 0.69999313, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4095,6 +4095,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63cdba30d535eb54682e83b05b68bed6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Health: 50
+  DieTime: 1.1
 --- !u!4 &270528890 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 470434, guid: 5037d6ea184d2f640bf78dcf9894a269,
@@ -6643,6 +6645,10 @@ PrefabInstance:
     - target: {fileID: 1090219386143568, guid: a817c29ea6847604bb2c6c51d9a74bf1, type: 3}
       propertyPath: m_Name
       value: Slime
+      objectReference: {fileID: 0}
+    - target: {fileID: 1090219386143568, guid: a817c29ea6847604bb2c6c51d9a74bf1, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 4005167794705762, guid: a817c29ea6847604bb2c6c51d9a74bf1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -27473,6 +27479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isLoad: 0
+  isSave: 0
   playerData:
     health: 0
     ammo: 000000000000000000000000
@@ -27482,6 +27489,7 @@ MonoBehaviour:
     position: {x: 0, y: 0, z: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
   enemyDatas: []
+  collectibleDatas: []
   enemies: []
   collectibles: []
   enemyPrefabs:
@@ -27501,6 +27509,18 @@ MonoBehaviour:
       rotation: {x: 0, y: 0, z: 0, w: 0}
     enemies: []
     collectibles: []
+  loadData:
+    player:
+      health: 0
+      ammo: 000000000000000000000000
+      reserveAmmo: 000000000000000000000000
+      weaponsUnlocked: 000000
+      currentWeapon: 0
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 0}
+    enemies: []
+    collectibles: []
+  playerObj: {fileID: 0}
 --- !u!1001 &1798545047
 PrefabInstance:
   m_ObjectHideFlags: 0

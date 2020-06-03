@@ -6,13 +6,12 @@ using UnityEngine;
 public enum EnemyType
 {
     Melee,
-    Shooter
+    Shooter,
 }
 
 [System.Serializable]
 public class EnemyData
 {
-    public int health;
     public EnemyType enemyType;
     public Vector3 position;
     public Quaternion rotation;
