@@ -20,14 +20,13 @@ public class TestSave : MonoBehaviour
     private WeaponSystem weaponSystem;
     private Player playerSystem;
     private int enemyCount;
-    private GameObject[] enemies;
+    public GameObject[] enemies;
 
     // Start is called before the first frame update
     void Start()
     {
         weaponSystem = weaponHolder.GetComponent<WeaponSystem>();
         playerSystem = player.GetComponent<Player>();
-        
     }
 
     // Update is called once per frame
@@ -37,7 +36,17 @@ public class TestSave : MonoBehaviour
         {
             CallSave();
         }
+
+        if(isLoading)
+        {
+            CallLoad();
+        }
             
+    }
+
+    void CallLoad()
+    {
+
     }
 
     void CallSave()
@@ -60,7 +69,7 @@ public class TestSave : MonoBehaviour
         Debug.Log("Current Ammo: " + "Pistol:" + currentAmmo[0] + " AK:" + currentAmmo[1] + " SVD:" + currentAmmo[2]);
         Debug.Log("Enemy Count: " + enemyCount);
 
-        SaveToFile(playerHealth,playerPos,playerRot,foundWeapons,reserveAmmo, currentAmmo);
+        SaveToFile(playerHealth,playerPos,playerRot,foundWeapons,reserveAmmo, currentAmmo, enemyCount, enemies);
 
 
         isSaving = false;
@@ -206,7 +215,7 @@ public class TestSave : MonoBehaviour
     }
 
     // SaveToFile
-    void SaveToFile(float hp, float[] pos, float[] rot, bool[] weps, int[] reserve, int[] current)
+    void SaveToFile(float hp, float[] pos, float[] rot, bool[] weps, int[] reserve, int[] current, int enemyCount, GameObject[] enemies)
     {
         string path = Application.persistentDataPath + "/" + saveName + ".txt";
 
@@ -231,6 +240,10 @@ public class TestSave : MonoBehaviour
 
             foreach (var item in current)
                 sw.WriteLine(item);
+
+            sw.WriteLine(enemyCount);
+            foreach (var item in enemies)
+                sw.WriteLine(item.name);
 
             sw.Close();
         }
