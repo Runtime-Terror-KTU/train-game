@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
     CharacterController cc;
     public float Health;
 
+    public Animator anim;
+
     void Start()
     {
         cc = GetComponent<CharacterController>();
@@ -17,7 +19,7 @@ public class Player : MonoBehaviour
         if(Health <= 0)
         {
             FindObjectOfType<AudioManager>().Play("Death");
-            Debug.Log("U heff died");
+            anim.SetTrigger("Fade");
         }
         if(cc.isGrounded == true && cc.velocity.magnitude > 1f && FindObjectOfType<AudioManager>().isPlaying("Footsteps") == false)
         {
